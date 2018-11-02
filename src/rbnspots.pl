@@ -84,21 +84,38 @@ while (1) {
 			print "RBN feed died!\n";
 			exit;
 	 	}
-#print STDOUT "Regel is: $line";
 		chop($line);
 		$line = $line."\r\n";
 		next unless ($line =~ /^DX/);
 
+        next if ($line =~ /HA2KSD/);    # wrong freq spots
+
+        $line =~ s/DX de 3V\/KF5EYY/DX de 3V\/KF5/g;
+        $line =~ s/DX de ON5KQ-1-#:/DX de ON5KQ-#: /g;
+        $line =~ s/DX de OH6BG-1-#:/DX de OH6BG-#: /g;
+        $line =~ s/DX de JH7CSU-1-#:/DX de JH7CSU-#: /g;
+        $line =~ s/DX de JF2IWL\/2-#/DX de JF2IWL-#/g;
+
 		my $c = substr($line, 26, 10);   # AR cluster
-#		my $c = substr($line, 28, 10);   # DX spider
+        my $mode = substr($line, 41, 2);
 		$c =~ s#[^A-Z0-9/]##g;
+
+        if ($mode ne "CW") {
+            next;
+        }
 
         if (time - $db_keepalive > 30) {
             $dbh->do("select 1") or die "MySQL server died... ".DBI->errstr;
             $db_keepalive = time;
         }
 
-		if ($callhash{$c}) {
+        # portable stuff?
+        my $stripcall = $c;
+        if ($stripcall =~ /^(\w{1,3}\/)?(\w{3,99})(\/\w{1,3})?$/) {
+                $stripcall = $2;
+        }
+
+		if ($callhash{$stripcall}) {
 			save_spot($line, $callhash{$c});		# SQL insert
 		}
 
@@ -260,15 +277,38 @@ sub save_spot {
         $spot{band} = &freq2band($spot{freq});
 	$spot{cont} = (&dxcc($spot{call}))[3];
 
-	my ($day, $month, $year) = (gmtime(time))[3,4,5];
-	$month = sprintf("%02d", $month+1);
-	$day = sprintf("%02d", $day);
-	$year += 1900;
-	$time = "$year-$month-$day ".substr($spot{utc}, 0, 2).":".substr($spot{utc}, 2, 2).":00";
+        my ($minute, $hour, $day, $month, $year) = (gmtime(time))[1,2,3,4,5];
+        $minute= sprintf("%02d", $minute);
+        $hour = sprintf("%02d", $hour);
+        $month = sprintf("%02d", $month+1);
+        $day = sprintf("%02d", $day);
+        $year += 1900;
+        # this should use strftime, or just use NOW() for the SQL statement,
+        # but whatever... :)
+        $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
+
+        # delete any old spots on the same band from this one
+        my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and
+                band='$spot{band}' and dxcall='$spot{dxcall}'");
+
+        my $dbhret = $dbh->do("delete from spots where 
+                band='$spot{band}' and dxcall='$spot{dxcall}'
+                        and abs(freq - $spot{freq}) > 1.2");
 
 	$dbh->do("INSERT INTO spots 
                  (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`) VALUES 
                  ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}');");
+
+
+
+    # fix freq to average
+    my $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
+    $dbhret->execute();
+    my $nf = 0;
+    $dbhret->bind_columns(\$nf);
+    if ($dbhret->fetch() && $nf != 0) {
+        $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
+    }       
 
 	#$line2=sprintf("%s%-24.24s %2.2s %02X %s", substr($line, 0, 40), $spot{memberof}, $spot{cont}, $flag, substr($line, 71)); # If source is DX spider
 	$line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $flag, substr($line, 70)); # If source is AR cluster

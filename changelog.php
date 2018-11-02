@@ -28,6 +28,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>01-Nov-2018</td><td>Recognize calls with portable indicators (e.g. SP/DJ1YFK); avoid multiple spots per band for one callsign.</td></tr>
 <tr><td>29-Oct-2018</td><td>After running the CW Club Spotter for 5 years,
         Frank/PA4N hands over operations to Fabian/DJ1YFK. The new URL is:
         http://rbn.telegraphy.de/</td></tr>

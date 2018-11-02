@@ -1,0 +1,3 @@
+RewriteEngine On
+Redirect /bandmap.html https://rbn.telegraphy.de/
+Redirect /bandmap2.html https://rbn.telegraphy.de/

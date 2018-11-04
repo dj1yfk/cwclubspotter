@@ -28,6 +28,8 @@ $| =  1;
 my %callhash;
 my %callcount;
 
+my %conts;
+
 my $line;
 
 ################
@@ -275,7 +277,15 @@ sub save_spot {
         $spot{comment} = $dbh->quote($spot{comment});
 
         $spot{band} = &freq2band($spot{freq});
-	$spot{cont} = (&dxcc($spot{call}))[3];
+
+        # cache continent informations (less CPU time)
+        if (defined($conts{$spot{call}})) {
+            $spot{cont} = $conts{$spot{call}};
+        }
+        else {
+    	    $spot{cont} = (&dxcc($spot{call}))[3];
+            $conts{$spot{call}} = $spot{cont};
+        }
 
         my ($minute, $hour, $day, $month, $year) = (gmtime(time))[1,2,3,4,5];
         $minute= sprintf("%02d", $minute);

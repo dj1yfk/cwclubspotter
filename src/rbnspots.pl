@@ -291,7 +291,7 @@ sub save_spot {
         my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and
                 band='$spot{band}' and dxcall='$spot{dxcall}'");
 
-        my $dbhret = $dbh->do("delete from spots where 
+        $dbhret = $dbh->do("delete from spots where 
                 band='$spot{band}' and dxcall='$spot{dxcall}'
                         and abs(freq - $spot{freq}) > 1.2");
 
@@ -302,7 +302,7 @@ sub save_spot {
 
 
     # fix freq to average
-    my $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
+    $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
     $dbhret->execute();
     my $nf = 0;
     $dbhret->bind_columns(\$nf);

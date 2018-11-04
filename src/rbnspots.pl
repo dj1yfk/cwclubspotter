@@ -109,6 +109,26 @@ while (1) {
         if (time - $db_keepalive > 30) {
             $dbh->do("select 1") or die "MySQL server died... ".DBI->errstr;
             $db_keepalive = time;
+
+            # every 30 seconds check for updated member lists
+            if ($cwopsmemberssize != -s "members/cwopsmembers.txt" ||
+                $fistsmemberssize != -s "members/fistsmembers.txt" ||
+                $focmemberssize != -s "members/focmembers.txt" ||
+                $hscmemberssize != -s "members/hscmembers.txt" ||
+                $vhscmemberssize != -s "members/vhscmembers.txt" ||
+                $shscmemberssize != -s "members/shscmembers.txt" ||
+                $ehscmemberssize != -s "members/ehscmembers.txt" ||
+                $skccmemberssize != -s "members/skccmembers.txt") {
+                $cwopsmemberssize = -s "members/cwopsmembers.txt";
+                $fistsmemberssize = -s "members/fistsmembers.txt";
+                $focmemberssize = -s "members/focmembers.txt";
+                $hscmemberssize = -s "members/hscmembers.txt";
+                $vhscmemberssize = -s "members/vhscmembers.txt";
+                $shscmemberssize = -s "members/shscmembers.txt";
+                $ehscmemberssize = -s "members/ehscmembers.txt";
+                $skccmemberssize = -s "members/skccmembers.txt";
+                loadcalls();
+            }
         }
 
         # portable stuff?
@@ -118,26 +138,7 @@ while (1) {
         }
 
 		if ($callhash{$stripcall}) {
-			save_spot($line, $callhash{$c});		# SQL insert
-		}
-
-		if ($cwopsmemberssize != -s "members/cwopsmembers.txt" ||
-		    $fistsmemberssize != -s "members/fistsmembers.txt" ||
-		    $focmemberssize != -s "members/focmembers.txt" ||
-		    $hscmemberssize != -s "members/hscmembers.txt" ||
-		    $vhscmemberssize != -s "members/vhscmembers.txt" ||
-		    $shscmemberssize != -s "members/shscmembers.txt" ||
-		    $ehscmemberssize != -s "members/ehscmembers.txt" ||
-		    $skccmemberssize != -s "members/skccmembers.txt") {
-				$cwopsmemberssize = -s "members/cwopsmembers.txt";
-				$fistsmemberssize = -s "members/fistsmembers.txt";
-				$focmemberssize = -s "members/focmembers.txt";
-				$hscmemberssize = -s "members/hscmembers.txt";
-				$vhscmemberssize = -s "members/vhscmembers.txt";
-				$shscmemberssize = -s "members/shscmembers.txt";
-				$ehscmemberssize = -s "members/ehscmembers.txt";
-				$skccmemberssize = -s "members/skccmembers.txt";
-				loadcalls();
+			save_spot($line, $callhash{$stripcall});		# SQL insert
 		}
 
 }

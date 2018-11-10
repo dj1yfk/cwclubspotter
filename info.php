@@ -52,8 +52,8 @@ As of November 2018, Fabian took over the maintenance, further development and h
 <?php
 # DB config
 $mysql_host   = "localhost";
-$mysql_user   = "rbn";
-$mysql_pass   = "";
+$mysql_user   = "spotfilter";
+$mysql_pass   = "spotfilter";
 $mysql_dbname = "spotfilter";
 
   $con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);

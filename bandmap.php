@@ -13,8 +13,8 @@
 
 # DB config
 $mysql_host   = "localhost";
-$mysql_user   = "rbn";
-$mysql_pass   = "";
+$mysql_user   = "spotfilter";
+$mysql_pass   = "spotfilter";
 $mysql_dbname = "spotfilter";
 
 if (intval(phpversion())>=5) {

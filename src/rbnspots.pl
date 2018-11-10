@@ -53,7 +53,7 @@ use constant {
 };
 
 $dbh =
-DBI->connect("DBI:mysql:spotfilter;host=localhost",'rbn','') or die "Could not connect to MySQL database: " .  DBI->errstr;
+DBI->connect("DBI:mysql:spotfilter;host=localhost",'spotfilter','spotfilter') or die "Could not connect to MySQL database: " .  DBI->errstr;
 
 #loadcalls();
 

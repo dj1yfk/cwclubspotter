@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <!-- RBN / DX Cluster Spotter view                               	-->
 <!--									-->
 <!-- Fabian Kurz, DJ1YFK <fabian@fkurz.net>				-->
@@ -10,7 +12,8 @@
 <!--									-->
 <!-- This code is in the public domain.					-->
 
-<!DOCTYPE html>
+
+
 <html>
 <head>
 <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
@@ -483,7 +486,10 @@ function showFilter(display) {
 
 <hr>
 <a href="/privacy">Privacy / Datenschutz / Impressum</a>
-
+<?
+        if (!$_SERVER['HTTPS']) { ?> - <a rel="nofollow" href="https://rbn.telegraphy.de/">Switch to https</a> <? }
+                    else { ?> - <a rel="nofollow" href="http://rbn.telegraphy.de/">Switch to http</a> <? }
+?>
 
 </body>
 </html>

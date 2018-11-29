@@ -32,10 +32,8 @@ if (!isset($_GET['req']))
 
 $visitor = $_SERVER['REMOTE_ADDR'];
 $ownCall=$_GET['ownCall'];
-if (intval(phpversion())>=5) 
-  mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
-else
-  mysql_query("insert into users values ('$visitor', NOW(), '$ownCall');");
+mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
+mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 
 $allconts = array('EU', 'NA', 'AS', 'SA', 'AF', 'OC');
 $queryconts = array();
@@ -161,7 +159,7 @@ $json_a = array();
 
 if (intval(phpversion())>=5) {
   mysqli_query($con, "set timezone = '+00:00'");
-  if (rand(10) < 1) {
+  if (rand(0,10) < 1) {
      mysqli_query($con, "delete from spots where time < (UTC_TIMESTAMP() - INTERVAL 60 MINUTE) or time > (UTC_TIMESTAMP() + INTERVAL 30 MINUTE);");
   }
     # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future

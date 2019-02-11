@@ -91,6 +91,7 @@ while (1) {
 		next unless ($line =~ /^DX/);
 
         next if ($line =~ /HA2KSD/);    # wrong freq spots
+        next if ($line =~ /DK1DU/);    # blacklist
 
         $line =~ s/DX de 3V\/KF5EYY/DX de 3V\/KF5/g;
         $line =~ s/DX de ON5KQ-1-#:/DX de ON5KQ-#: /g;
@@ -328,9 +329,9 @@ sub save_spot {
 # DX spider:  DX de K8ND-#:       7055.0  W2TAW       (SKCC)                   NA 80 2301Z
 # AR cluster: DX de K1TTT-#:   14050.1  KD8AZO        (FISTS) (SKCC)           NA 82 1632Z
 
-	select SPOTDUMP;
+#	select SPOTDUMP;
 	$| = 1;
-	print SPOTDUMP $line2;
+#	print SPOTDUMP $line2;
 	print STDOUT $line2;
 }
 

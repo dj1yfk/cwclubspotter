@@ -62,7 +62,7 @@ foreach ($clubs as $c) {
 </table>
 <br/>
 <br/>
-<form><input type="button" value="Back" onClick="history.go(-1);return true;"> to info page</form>
+<a href="/">Back to the CW Clubs RBN</a>
 
 </body>
 </html>

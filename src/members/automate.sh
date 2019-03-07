@@ -168,6 +168,8 @@ echo
 ##### EHSC  #####
 #################
 function ehsc() {
+echo Nope, use xhsc!
+return
 echo Processing EHSC
 
 echo Saving the old members file
@@ -195,6 +197,8 @@ echo
 ##### SHSC  #####
 #################
 function shsc() {
+echo Nope, use xhsc!
+return
 echo Processing SHSC
 
 echo Saving the old members file
@@ -222,6 +226,8 @@ echo
 ##### VHSC  #####
 #################
 function vhsc() {
+echo Nope, use xhsc!
+return
 echo Processing VHSC
 
 echo Saving the old members file

@@ -318,6 +318,7 @@ case "$1" in
       hsc
       xhsc
       skcc
+      touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
       echo $"Usage: $0 {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|all}"

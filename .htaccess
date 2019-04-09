@@ -1,3 +1,15 @@
 RewriteEngine On
 Redirect /bandmap.html https://rbn.telegraphy.de/
 Redirect /bandmap2.html https://rbn.telegraphy.de/
+
+RewriteRule ^activity/stats(/)?$ /act/rbnstats.php [L]
+RewriteRule ^activity/rank(/)?$ /act/rank.php [L]
+RewriteRule ^activity/faq(/)?$ /act/faq.php [L]
+RewriteRule ^activity/image/([A-Za-z0-9/+]{1,99})(/)?$ /act/img.php?c=$1 [L]
+RewriteRule ^activity/image/([A-Za-z0-9/+]{1,99})(.png)?$ /act/img.php?c=$1 [L]
+RewriteRule ^activity/([A-Za-z0-9/+]{1,99})(/)?$ /act/active.php?call=$1 [L]
+RewriteRule ^activity(/)?$ /act/active.php?call=DJ1YFK [L]
+RewriteRule ^activity_iframe/([A-Za-z0-9/+]{1,99})(/)?$ /act/active.php?call=$1&iframe=1 [L]
+
+ErrorDocument 404 /404.php
+

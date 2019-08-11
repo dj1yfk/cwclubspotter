@@ -39,7 +39,9 @@
 </p>
 
 <p>Don't you see any spots at all?
-<ul><li>First, please look at the filters you have defined. Maybe they are set too narrow?
+<ul>
+<li>First, please look at the filters you have defined. Maybe they are set too narrow?</li>
+<li>Did you enter a callsign in the "Own Call" box? If you wish to stay anonymous, enter <em>anything</em> here.</li>
 <li>Also, please check at <a href="http://www.reversebeacon.net">www.reversebeacon.net</a> if the RBN site is up and running at all.</li></ul>
 </p>
 

@@ -141,6 +141,9 @@ while (1) {
                 $stripcall = $2;
         }
 
+        # more striptease
+        strip_ukcd_calls($stripcall);
+
 		if ($callhash{$stripcall}) {
 			save_spot($line, $callhash{$stripcall});		# SQL insert
 		}
@@ -153,6 +156,7 @@ sub loadcalls {
 open CALLS, "members/cwopsmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading CWops member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= CWOPS;
@@ -162,6 +166,7 @@ close CALLS;
 open CALLS, "members/fistsmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading FISTS member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= FISTS;
@@ -171,6 +176,7 @@ close CALLS;
 open CALLS, "members/focmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading FOC member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= FOC;
@@ -180,6 +186,7 @@ close CALLS;
 open CALLS, "members/hscmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading HSC member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= HSC;
@@ -189,6 +196,7 @@ close CALLS;
 open CALLS, "members/vhscmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading VHSC member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= VHSC;
@@ -198,6 +206,7 @@ close CALLS;
 open CALLS, "members/shscmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading SHSC member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= SHSC;
@@ -207,6 +216,7 @@ close CALLS;
 open CALLS, "members/ehscmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading EHSC member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= EHSC;
@@ -216,12 +226,26 @@ close CALLS;
 open CALLS, "members/skccmembers.txt";
 while (my $a = <CALLS>) {
 	chomp($a);
+	strip_ukcd_calls($a);
 	print "Reading SKCC member [". $a."]\n";
 	map {s/\r//g;} ($a);
 	$callhash{$a} |= SKCC;
 }
 close CALLS;
 
+}
+
+# strip regional locators from UK&CD calls.
+# i.e. GM3HGE => G3HGE, 2U0ARE = 20ARE
+# these stripped calls are only used to
+# compare spotted calls against the member
+# lists in which they are also stripped.
+# so it doesn't matter that 2-callsigns
+# are mangled...
+sub strip_ukcd_calls {
+    if ($_[0] =~ /^([GM2])[A-Z](\d.*)/) {
+        $_[0] = $1.$2;
+    }
 }
 
 

@@ -41,21 +41,18 @@ my @dxcc;
 &read_cty();
 ##################
 
-use constant {
-        CWOPS => 1,
-        FISTS => 2,
-        FOC   => 4,
-        HSC   => 8,
-        VHSC  => 16,
-        SHSC  => 32,
-        EHSC  => 64,
-        SKCC  => 128
-};
+my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC/;
+my %bm = ();
+# create bit masks from @clubs array
+my $i = 0;
+foreach my $club (@clubs) {
+    $bm{$club} = 1 << $i;
+    $i++;
+}
+my %membersize = ();
 
 $dbh =
 DBI->connect("DBI:mysql:spotfilter;host=localhost",'spotfilter','spotfilter') or die "Could not connect to MySQL database: " .  DBI->errstr;
-
-#loadcalls();
 
 open SPOTDUMP, ">/tmp/spots.txt";
 
@@ -67,15 +64,6 @@ $t->open("foc.dj1yfk.de");
 $t->print("DJ1YFK-9\n");	### Changed
 $t->print("set/raw\n");
 print "rbn: connected... \n";
-
-my $cwopsmemberssize = -s "members/cwopsmembers.txt";
-my $fistsmemberssize = -s "members/fistsmembers.txt";
-my $focmemberssize = -s "members/focmembers.txt";
-my $hscmemberssize = -s "members/hscmembers.txt";
-my $vhscmemberssize = -s "members/vhscmembers.txt";
-my $shscmemberssize = -s "members/shscmembers.txt";
-my $ehscmemberssize = -s "members/ehscmembers.txt";
-my $skccmemberssize = -s "members/skccmembers.txt";
 
 my $db_keepalive = time;
 
@@ -113,26 +101,7 @@ while (1) {
         if (time - $db_keepalive > 30) {
             $dbh->do("select 1") or die "MySQL server died... ".DBI->errstr;
             $db_keepalive = time;
-
-            # every 30 seconds check for updated member lists
-            if ($cwopsmemberssize != -s "members/cwopsmembers.txt" ||
-                $fistsmemberssize != -s "members/fistsmembers.txt" ||
-                $focmemberssize != -s "members/focmembers.txt" ||
-                $hscmemberssize != -s "members/hscmembers.txt" ||
-                $vhscmemberssize != -s "members/vhscmembers.txt" ||
-                $shscmemberssize != -s "members/shscmembers.txt" ||
-                $ehscmemberssize != -s "members/ehscmembers.txt" ||
-                $skccmemberssize != -s "members/skccmembers.txt") {
-                $cwopsmemberssize = -s "members/cwopsmembers.txt";
-                $fistsmemberssize = -s "members/fistsmembers.txt";
-                $focmemberssize = -s "members/focmembers.txt";
-                $hscmemberssize = -s "members/hscmembers.txt";
-                $vhscmemberssize = -s "members/vhscmembers.txt";
-                $shscmemberssize = -s "members/shscmembers.txt";
-                $ehscmemberssize = -s "members/ehscmembers.txt";
-                $skccmemberssize = -s "members/skccmembers.txt";
-                loadcalls();
-            }
+            loadcalls();
         }
 
         # portable stuff?
@@ -152,87 +121,21 @@ while (1) {
 
 
 sub loadcalls {
-# Calls that will pass the spot filter
-open CALLS, "members/cwopsmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading CWops member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= CWOPS;
-}
-close CALLS;
-
-open CALLS, "members/fistsmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading FISTS member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= FISTS;
-}
-close CALLS;
-
-open CALLS, "members/focmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading FOC member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= FOC;
-}
-close CALLS;
-
-open CALLS, "members/hscmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading HSC member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= HSC;
-}
-close CALLS;
-
-open CALLS, "members/vhscmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading VHSC member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= VHSC;
-}
-close CALLS;
-
-open CALLS, "members/shscmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading SHSC member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= SHSC;
-}
-close CALLS;
-
-open CALLS, "members/ehscmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading EHSC member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= EHSC;
-}
-close CALLS;
-
-open CALLS, "members/skccmembers.txt";
-while (my $a = <CALLS>) {
-	chomp($a);
-	strip_ukcd_calls($a);
-	print "Reading SKCC member [". $a."]\n";
-	map {s/\r//g;} ($a);
-	$callhash{$a} |= SKCC;
-}
-close CALLS;
-
+    foreach my $club (@clubs) {
+        my $filename = "members/".lc($club)."members.txt";
+        if ($membersize{$club} != -s $filename) {
+            $membersize{$club} = -s $filename;
+            open CALLS, $filename;
+            while (my $a = <CALLS>) {
+                chomp($a);
+                strip_ukcd_calls($a);
+                print "Reading $club member [". $a."]\n";
+                map {s/\r//g;} ($a);
+                $callhash{$a} |= $bm{$club};
+            }
+            close CALLS;
+        }
+    }
 }
 
 # strip regional locators from UK&CD calls.
@@ -292,15 +195,10 @@ sub save_spot {
   	 return unless ($spot{comment} =~ /^  CW/);
 	}
 
-	$spot{memberof}  = "(CWops) " if ($flag & CWOPS);
-	$spot{memberof} .= "(FISTS) "   if ($flag & FISTS);
-	$spot{memberof} .= "(FOC) "   if ($flag & FOC);
-	$spot{memberof} .= "(HSC) "   if ($flag & HSC);
-	$spot{memberof} .= "(VHSC) "   if ($flag & VHSC);
-	$spot{memberof} .= "(SHSC) "   if ($flag & SHSC);
-	$spot{memberof} .= "(EHSC) "   if ($flag & EHSC);
-	$spot{memberof} .= "(SKCC) "   if ($flag & SKCC);
-
+    $spot{memberof} = "";
+    foreach my $club (@clubs) {
+	    $spot{memberof}  .= "($club) " if ($flag & $bm{$club});
+    }
 
         $spot{comment} =~ s/\s+$//g;
         $spot{comment} = $dbh->quote($spot{comment});

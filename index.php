@@ -376,8 +376,24 @@ foreach ($clubs as $c) {
 				newtable += '<td class="right">' + spots[i].freq+ '&nbsp;</td>';
 				newtable += '<td><a href="http://www.qrz.com/db/' + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
-				newtable += '<td>' + spots[i].memberof.replace(/ /g, '&nbsp;') + '</td>';
-					// We don't want to wrap on spaces between the clubs
+
+                var mo = spots[i].memberof;
+
+                if (mo.length > 10) {
+                    var moa = mo.split(' ');
+                    mo = '';
+                    for (var j = 0; j < moa.length - 1; j++) {
+                        mo += '<abbr title="' + moa[j] + '">' + moa[j].substr(0,1)  + '</abbr> '
+                    }
+                }
+                else {
+                    mo = mo.replace(/ /g, '&nbsp;')
+                }
+
+
+                console.log(mo);
+
+				newtable += '<td>' + mo + '</td>';
 				newtable += '<td class="center">' + spots[i].wpm + '</td>';
 
 				newtable += '<td>';

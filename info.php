@@ -35,7 +35,7 @@
 <ul><li>First, please check at <a href="http://www.reversebeacon.net">www.reversebeacon.net</a> if your signals were at all spotted.</li>
 <li>Second, if you've recently joined a club, your membership may not have been included in the membership list of that club. Please check with the club membership secretary.</li>
 <li>Please note that I do not maintain any membership lists myself; I only import lists that are maintained by the respective club membership secreataries.</li>
-<li>I import the data from the club membership lists once a month; usually a few days after the start of the new month. The <a href="changelog">changelog</a> tells you when I've last imported the membership lists.</li></ul>
+<li>I import the data from the club membership lists once a month; usually a few days after the start of the new month.</li></ul>
 </p>
 
 <p>Don't you see any spots at all?
@@ -47,7 +47,7 @@
 
 <br/>
 <p>This page was created by <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>. It was based on the original version by <a href="http://fkurz.net/">Fabian, DJ1YFK</a>.<br>
-As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter.</p>
+As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>
 
 <p> Current users:
 

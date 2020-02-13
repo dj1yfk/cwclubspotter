@@ -41,7 +41,7 @@ my @dxcc;
 &read_cty();
 ##################
 
-my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC/;
+my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG/;
 my %bm = ();
 # create bit masks from @clubs array
 my $i = 0;

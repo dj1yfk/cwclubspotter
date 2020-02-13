@@ -17,21 +17,17 @@ $mysql_user   = "spotfilter";
 $mysql_pass   = "spotfilter";
 $mysql_dbname = "spotfilter";
 
-if (intval(phpversion())>=5) {
-  $con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
-  if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
-  mysqli_select_db($con, $mysql_dbname);
-  }
-else {
-  mysql_connect($mysql_host,$mysql_user,$mysql_pass) or die("<h1>Sorry: Could not connect to database.</h1>");
-  mysql_select_db($mysql_dbname);
-  }
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC");
+
+$con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
+if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
+mysqli_select_db($con, $mysql_dbname);
 
 if (!isset($_GET['req']))
 	return; # Stop if called w/o arguments (like: called by a robot)
 
 $visitor = $_SERVER['REMOTE_ADDR'];
-$ownCall=$_GET['ownCall'];
+$ownCall=mysqli_real_escape_string($db, $_GET['ownCall']);
 mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 
@@ -42,6 +38,7 @@ foreach ($allconts as $c) {
 		array_push($queryconts, "'".$c."'");
 	}
 }
+
 if (sizeof($queryconts)>0) {
    $queryconts_string = "AND fromcont in (";
    $queryconts_string.= implode(',', $queryconts);
@@ -49,7 +46,6 @@ if (sizeof($queryconts)>0) {
 } else {
    $queryconts_string = "AND (false)";
 }
-#syslog(LOG_ERR, $queryconts_string);
 	
 $allbands = array('160', '80', '60', '40', '30', '20', '17', '15', '12', '10', '6');
 $querybands = array();
@@ -65,33 +61,21 @@ if (sizeof($querybands)>0) {
 } else {
    $querybands_string = "AND (false)";
 }
-	
+
+# Club selection 
 $allclubs = array('CWops', 'FISTS', 'FOC', 'HSC', 'VHSC', 'SHSC', 'EHSC', 'SKCC');
 $queryclub_string = "";
-$first=true;
-foreach ($allclubs as $c) {
-	if ($_GET[$c] == 'true') {
-		if ($first==true) 
-			{ 
-			$queryclub_string.="AND (";
-			$first=false;
-			}
-		else
-			{ 
-			$queryclub_string.=" OR ";
-			}
-		$queryclub_string.="memberof like '%(".$c.")%'";
-	}
+$mask = 0;
+# new club selection
+for  ($i = 0; $i < count($allclubs); $i++) {
+    if ($_GET[$allclubs[$i]] == 'true') {
+        $mask |= 1 << $i;
+    }
 }
-if ($first==false)
-	{ # We had at least one entry. Add closing parentesis
-	$queryclub_string.=")";
-	}
-else
-	{ # We had no entries. We must return empty result set. This makes it so
-	$queryclub_string.="AND (0)";
-	}
-	
+
+$queryclub_string = " AND member & $mask ";
+
+
 $allspeeds = array('<20', '20-24', '25-29', '30-34', '35-39', '>39');
 $queryspeed_string = "";
 $first=true;
@@ -144,7 +128,6 @@ $sort=$_GET['sort'];
 $callFilter=$_GET['callFilter'];
 $callFilter=str_replace("?","_", $callFilter);
 $callFilter=str_replace("*","%", $callFilter);
-#syslog(LOG_ERR, $callFilter);
 
 $time_string="(timestampdiff(minute, time, UTC_TIMESTAMP()) <= $maxAge)";
 
@@ -217,10 +200,8 @@ $memberof = "";
 $spotters = array(); # Hash keys = spotter calls, values = snrs
 $spotters_old = "";
 
-if (intval(phpversion())>=5) 
-  $r = mysqli_fetch_object($q);
-else
-  $r = mysql_fetch_object($q);
+$r = mysqli_fetch_object($q);
+
 while ($r) {
 		if ($r->dxcall != $dxc or abs($r->freq - $freq) > 0.5 or !$aggregateSpotters or (!$aggregateSpeeds and ($r->wpm!=$minwpm or $r->wpm!=$maxwpm))) { # Start new entry
 			if ($dxc != "") { 

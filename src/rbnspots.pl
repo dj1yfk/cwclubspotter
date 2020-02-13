@@ -200,6 +200,8 @@ sub save_spot {
 	    $spot{memberof}  .= "($club) " if ($flag & $bm{$club});
     }
 
+    $spot{member} = $flag;  # bit mask
+
         $spot{comment} =~ s/\s+$//g;
         $spot{comment} = $dbh->quote($spot{comment});
 
@@ -233,8 +235,8 @@ sub save_spot {
                         and abs(freq - $spot{freq}) > 1.2");
 
 	$dbh->do("INSERT INTO spots 
-                 (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`) VALUES 
-                 ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}');");
+                 (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES 
+                 ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
 
 
 

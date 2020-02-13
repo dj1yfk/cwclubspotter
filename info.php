@@ -71,9 +71,15 @@ $mysql_dbname = "spotfilter";
 
 </p>
 <p>
-See <a href="changelog">here</a> for the change log. Comments are welcome via email - 73 de Fabian, DJ1YFK &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;</p>
+Comments are welcome via email - 73 de Fabian, DJ1YFK &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;</p>
 <br/>
 <a href="/">Back to bandmap page</a>
+
+<?
+include("changelog.php");
+?>
+
+
 
 <hr>
 <a href="/privacy">Privacy / Datenschutz / Impressum</a>

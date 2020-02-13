@@ -12,6 +12,9 @@
 <!--									-->
 <!-- This code is in the public domain.					-->
 
+<?php
+include_once("clubs.php");
+?>
 
 
 <html>
@@ -39,23 +42,13 @@ See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
 <button type="button" onclick="set_all('club', true)">all</button>
 </td><td>
 <button type="button" onclick="set_all('club', false)">nil</button>
-</td><td>
-<input onclick="filter_change()" id="cbCWops" type="checkbox" name="cbCWops" value="1" checked>CWops
-</td><td>
-<input onclick="filter_change()" id="cbFISTS" type="checkbox" name="cbFISTS" value="1" checked>FISTS
-</td><td>
-<input onclick="filter_change()" id="cbFOC" type="checkbox" name="cbFOC" value="1" checked>FOC
-</td><td>
-<input onclick="filter_change()" id="cbHSC" type="checkbox" name="cbHSC" value="1" checked>HSC
-</td><td>
-<input onclick="filter_change()" id="cbVHSC" type="checkbox" name="cbVHSC" value="1" checked>VHSC
-</td><td>
-<input onclick="filter_change()" id="cbSHSC" type="checkbox" name="cbSHSC" value="1" checked>SHSC
-</td><td>
-<input onclick="filter_change()" id="cbEHSC" type="checkbox" name="cbEHSC" value="1" checked>EHSC
-</td><td>
-<input onclick="filter_change()" id="cbSKCC" type="checkbox" name="cbSKCC" value="1" checked>SKCC
-</td></tr>
+</td>
+<?php
+foreach ($clubs as $c) {
+    echo "<td><input onclick='filter_change();' id='cb$c' type='checkbox' name='cb$c' value='1' checked><abbr title='".$clubname[$c]."'>".$clubabbr[$c]."</abbr></td>";
+}
+?>
+</tr>
 <tr><th>Bands</th><td> 	
 <button type="button" onclick="set_all('band', true)">all</button>
 </td><td>
@@ -181,7 +174,7 @@ See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
 	var contShow = new Array();
 	var bandName = new Array("160", "80", "60", "40", "30", "20", "17", "15", "12", "10", "6");
 	var bandShow = new Array();
-	var clubName = new Array("CWops", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC");
+    var clubName = new Array("<?php echo join('", "', $clubs); ?>");
 	var clubShow = new Array();
 	var speedName = new Array("<20", "20-24", "25-29", "30-34", "35-39", ">39");
 	var speedShow = new Array();

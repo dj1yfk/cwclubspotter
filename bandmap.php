@@ -17,7 +17,12 @@ $mysql_user   = "spotfilter";
 $mysql_pass   = "spotfilter";
 $mysql_dbname = "spotfilter";
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC");
+include_once("clubs.php");
+
+# XXX temporarily accept both CWOPS and CWops
+if (array_key_exists('CWops', $_GET) and $_GET['CWops'] == 'true') {
+    $_GET['CWOPS'] = 'true';
+}
 
 $con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
 if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
@@ -27,7 +32,7 @@ if (!isset($_GET['req']))
 	return; # Stop if called w/o arguments (like: called by a robot)
 
 $visitor = $_SERVER['REMOTE_ADDR'];
-$ownCall=mysqli_real_escape_string($db, $_GET['ownCall']);
+$ownCall=mysqli_real_escape_string($con, $_GET['ownCall']);
 mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 
@@ -63,12 +68,11 @@ if (sizeof($querybands)>0) {
 }
 
 # Club selection 
-$allclubs = array('CWops', 'FISTS', 'FOC', 'HSC', 'VHSC', 'SHSC', 'EHSC', 'SKCC');
 $queryclub_string = "";
 $mask = 0;
 # new club selection
-for  ($i = 0; $i < count($allclubs); $i++) {
-    if ($_GET[$allclubs[$i]] == 'true') {
+for  ($i = 0; $i < count($clubs); $i++) {
+    if ($_GET[$clubs[$i]] == 'true') {
         $mask |= 1 << $i;
     }
 }

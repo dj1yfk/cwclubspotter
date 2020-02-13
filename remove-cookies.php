@@ -1,4 +1,7 @@
 <?php
+
+include("clubs.php");
+
 $expiry=time()-3600; 
 
 $allconts = array('EU', 'NA', 'AS', 'SA', 'AF', 'OC');
@@ -10,9 +13,8 @@ $allconts = array('160', '80', '40', '30', '20', '17', '15', '12', '10', '6');
 foreach ($allconts as $c) {
 	setcookie($c, 'bla', $expiry);
 }
-	
-$allclubs = array('CWops', 'FISTS', 'FOC', 'HSC', 'VHSC', 'SHSC', 'EHSC', 'SKCC');
-foreach ($allclubs as $c) {
+
+foreach ($clubs as $c) {
 	setcookie($c, 'bla', $expiry);
 }
 

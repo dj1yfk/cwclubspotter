@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -38,5 +38,8 @@ $clubabbr["AGCW"] = "AGCW";
 $clubname["AGCW"] = "Arbeitsgemeinschaft CW (DL)";
 $clubweb["AGCW"] = "https://www.agcw.org/";
 
+$clubabbr["NAQCC"] = "NAQCC";
+$clubname["NAQCC"] = "North American QRP CW Club";
+$clubweb["NAQCC"] = "http://naqcc.info/";
 
 ?>

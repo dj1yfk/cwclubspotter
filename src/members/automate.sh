@@ -280,6 +280,35 @@ echo
 }
 
 #################
+##### NAQCC #####
+#################
+function naqcc() {
+echo Processing NAQCC
+
+echo Saving the old members file
+cp -p naqccmembers.txt old/
+
+echo Getting the NAQCC member list
+curl -s http://naqcc.info/NAQCClistAlpha.txt > temp1
+
+echo Extracting member info 
+awk '{print $1}' temp1 > naqccmembers.new
+
+echo Importing special calls
+cat naqcc.spc >> naqccmembers.new
+
+echo Old file has `wc -l naqccmembers.txt|awk '{print $1}'` members
+echo New file has `wc -l naqccmembers.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv naqccmembers.new naqccmembers.txt
+
+echo
+}
+
+
+
+#################
 ##### Main  #####
 #################
 
@@ -311,6 +340,9 @@ case "$1" in
    skcc)
       skcc
       ;;
+   naqcc)
+      naqcc 
+      ;;
    all)
       cwops
       fists
@@ -318,9 +350,10 @@ case "$1" in
       hsc
       xhsc
       skcc
+      naqcc 
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
-      echo $"Usage: $0 {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|all}"
+      echo $"Usage: $0 {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|all}"
       ;;
 esac

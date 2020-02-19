@@ -81,6 +81,7 @@ while (1) {
         next if ($line =~ /HA2KSD/);    # wrong freq spots
         next if ($line =~ /DK1DU/);    # opt-out
         next if ($line =~ /DK2DO/);    # opt-out
+        next if ($line =~ /R6AF/);    # opt-out
 
         $line =~ s/DX de 3V\/KF5EYY/DX de 3V\/KF5/g;
         $line =~ s/DX de ON5KQ-1-#:/DX de ON5KQ-#: /g;

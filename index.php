@@ -158,6 +158,11 @@ foreach ($clubs as $c) {
 </td><td>
 <input onclick="filter_change();" id="sort6" type="radio" name="sort" value="6">Spotter
 </td></tr>
+<tr>
+<th>Misc.</th>
+<td colspan=10>
+<input onclick="filter_change()" id="cbAC" type="checkbox" name="cbAC" value="1">Abbreviate Club Names
+</td>
 </table>
 </form>
 </div>
@@ -182,7 +187,8 @@ foreach ($clubs as $c) {
 	var sort;
 	var seqNr = seqNr || 1;
 	var callFilter;
-	var ownCall;
+    var ownCall;
+    var abbreviate = false;
 
 	load_cookies(); // Load the cookies. This will also fetch the matching spots for this first time
 
@@ -299,12 +305,14 @@ foreach ($clubs as $c) {
 		   document.getElementById('callmsg').innerHTML = '';
 		}
 
-                setCookie('ownCall', ownCall);
+        setCookie('ownCall', ownCall);
 		document.getElementById('ownCall').value=ownCall; // Displayed uppercase too
-		//console.log(ownCall);
 
 		selfSpots = document.getElementById('selfSpots').checked;
-                setCookie('selfSpots', selfSpots);
+        setCookie('selfSpots', selfSpots);
+
+        abbreviate = document.getElementById('cbAC').checked;
+        setCookie('abbreviate', abbreviate);
 
 		fetch_spots(); // Fetch the spots matching this filter
 	}
@@ -321,12 +329,7 @@ foreach ($clubs as $c) {
 	}
 
 	function fetch_spots () {
-//		if (document.getElementById('ownCall').value.toUpperCase()=="") return; // Don't fetch spots if own call not filled in
-
 			document.getElementById('upd').innerHTML = 'Updating...';
-
-//			_gaq.push(['_set', 'title', 'CW Club RBN Spotter Data Request']);
-//  			_gaq.push(['_trackPageview', '/bandmap80.php']); // For Google Analytics
 
 			var i;
 			var queryurl = baseurl + '?req=' + seqNr++;
@@ -379,7 +382,7 @@ foreach ($clubs as $c) {
 
                 var mo = spots[i].memberof;
 
-                if (mo.length > 10) {
+                if (abbreviate && mo.length > 10) {
                     var moa = mo.split(' ');
                     mo = '';
                     for (var j = 0; j < moa.length - 1; j++) {
@@ -390,37 +393,59 @@ foreach ($clubs as $c) {
                     mo = mo.replace(/ /g, '&nbsp;')
                 }
 
-
-                console.log(mo);
-
 				newtable += '<td>' + mo + '</td>';
 				newtable += '<td class="center">' + spots[i].wpm + '</td>';
 
+                var mobile = false;
+                var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
+                var limit = mobile ? 6 : Math.floor((width - 500) / 40);
+                var moreskimmers = '';
+				var high_contrast = true;
+
 				newtable += '<td>';
 				for (var j = 0; j < spots[i].snr_spotters.length; j++) {
-					newtable += '<span title="' + spots[i].snr_spotters[j].snr +'" class="snr';
-					if (spots[i].snr_spotters[j].snr > 50) {
-							newtable += '50';
+                    if (j < limit) {
+                        newtable += '<span title="' + spots[i].snr_spotters[j].snr +'" class="snr';
+                        if (spots[i].snr_spotters[j].snr > 50) {
+                                newtable += '50';
+                        }
+                        else if (spots[i].snr_spotters[j].snr > 40) {
+                                newtable += '40';
+                        }
+                        else if (spots[i].snr_spotters[j].snr > 30) {
+                                newtable += '30';
+                        }
+                        else if (spots[i].snr_spotters[j].snr > 20) {
+                                newtable += '20';
+                        }
+                        else if (spots[i].snr_spotters[j].snr > 10) {
+                                newtable += '10';
+                        }
+                        else {
+                                newtable += '00';
+                        }
+                        newtable += '">';
+                        newtable += spots[i].snr_spotters[j].call;
+                        newtable += '</span> ';
+                    }
+                    else {
+                        moreskimmers += spots[i].snr_spotters[j].call + ' (' +
+                            + spots[i].snr_spotters[j].snr + ' dB) ';
+                    }
+                }
+
+				if (moreskimmers != '') {
+					newtable += ' <span title="' + moreskimmers + '" class="snr00';
+					if (high_contrast == 'true' || high_contrast == true) {
+						newtable += 'hc';
 					}
-					else if (spots[i].snr_spotters[j].snr > 40) {
-							newtable += '40';
+					newtable += '">(+ ' + (spots[i].snr_spotters.length-limit);
+					if (!mobile) {
+						newtable += ' more';
 					}
-					else if (spots[i].snr_spotters[j].snr > 30) {
-							newtable += '30';
-					}
-					else if (spots[i].snr_spotters[j].snr > 20) {
-							newtable += '20';
-					}
-					else if (spots[i].snr_spotters[j].snr > 10) {
-							newtable += '10';
-					}
-					else {
-							newtable += '00';
-					}
-					newtable += '">';
-					newtable += spots[i].snr_spotters[j].call;
-					newtable += '</span> ';
+					newtable += ')</span>';
 				}
+
 				newtable += '</td>';
 				newtable += '</tr>';
 					

@@ -32,6 +32,8 @@ if (!isset($_GET['req']))
 	return; # Stop if called w/o arguments (like: called by a robot)
 
 $visitor = $_SERVER['REMOTE_ADDR'];
+$visitor = preg_replace('/\d+$/', '?', $visitor);   # anonymize
+
 $ownCall=mysqli_real_escape_string($con, $_GET['ownCall']);
 mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
@@ -132,6 +134,7 @@ $sort=$_GET['sort'];
 $callFilter=$_GET['callFilter'];
 $callFilter=str_replace("?","_", $callFilter);
 $callFilter=str_replace("*","%", $callFilter);
+$callFilter = mysqli_real_escape_string($con, $callFilter);
 
 $time_string="(timestampdiff(minute, time, UTC_TIMESTAMP()) <= $maxAge)";
 
@@ -139,8 +142,6 @@ $time_string="(timestampdiff(minute, time, UTC_TIMESTAMP()) <= $maxAge)";
 $ownCall=$_GET['ownCall'];
 $selfSpotStr=($_GET['selfSpots']==="true" ? "OR ($time_string $querybands_string AND (dxcall like '$ownCall'))" : "");
 #syslog(LOG_ERR, $selfSpotStr);
-
-$blacklistStr="AND (dxcall not like 'R6AF')";
 
 $json_a = array();
 
@@ -158,7 +159,7 @@ else {
   }
 
 #$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, substring(`comment`, 9,2) as snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string ) $selfSpotStr order by ";
-$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string $blacklistStr) $selfSpotStr order by ";
+$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr order by ";
 
 $aggregateSpotters=true; # Merge spots for 1 dxcall and ~1 frequency by different spotters into one row
 $aggregateSpeeds=true; # Merge spots for 1 dxcall and ~1 frequency with different speeds into one row

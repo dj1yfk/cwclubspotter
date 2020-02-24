@@ -11,6 +11,10 @@
 #
 # This code is in the public domain.
 
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379);
+
+
 # DB config
 $mysql_host   = "localhost";
 $mysql_user   = "spotfilter";
@@ -78,6 +82,9 @@ for  ($i = 0; $i < count($clubs); $i++) {
         $mask |= 1 << $i;
     }
 }
+
+$redis->hset("rbnprefs", $ownCall, $mask);
+
 
 $queryclub_string = " AND member & $mask ";
 

@@ -18,10 +18,12 @@
 # This code is in the public domain.
 
 use warnings;
+use strict;
 use DBI;
 use Date::Format qw( );
 use POSIX qw( strftime );
 use Net::Telnet ();
+use Redis;
 
 $| =  1;
 
@@ -45,14 +47,14 @@ my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG/;
 my %bm = ();
 # create bit masks from @clubs array
 my $i = 0;
+my %membersize = ();
 foreach my $club (@clubs) {
     $bm{$club} = 1 << $i;
+    $membersize{$club} = 0;
     $i++;
 }
-my %membersize = ();
 
-$dbh =
-DBI->connect("DBI:mysql:spotfilter;host=localhost",'spotfilter','spotfilter') or die "Could not connect to MySQL database: " .  DBI->errstr;
+my $dbh = DBI->connect("DBI:mysql:spotfilter;host=localhost",'spotfilter','spotfilter') or die "Could not connect to MySQL database: " .  DBI->errstr;
 
 open SPOTDUMP, ">/tmp/spots.txt";
 
@@ -157,7 +159,7 @@ sub strip_ukcd_calls {
 sub save_spot {
    	my $flag = $_[1]; # Indicates member list(s) applicable for this spot
 
-	%spot = ();
+	my %spot = ();
 	return unless ($line =~ /^DX/);
 
 #	my $cluster = 'DX';		# DX spider... set to AR for AR cluster.
@@ -225,7 +227,7 @@ sub save_spot {
         $year += 1900;
         # this should use strftime, or just use NOW() for the SQL statement,
         # but whatever... :)
-        $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
+        my $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
 
         # delete any old spots on the same band from this one
         my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and
@@ -251,7 +253,7 @@ sub save_spot {
     }       
 
 	#$line2=sprintf("%s%-24.24s %2.2s %02X %s", substr($line, 0, 40), $spot{memberof}, $spot{cont}, $flag, substr($line, 71)); # If source is DX spider
-	$line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $flag, substr($line, 70)); # If source is AR cluster
+	my $line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $flag, substr($line, 70)); # If source is AR cluster
 
 # Let op: door de move van DX spider naar AR cluster, zijn de frequentie en de dxcall 2 posities naar links geschoven. Zie onder:
 # DX spider:  DX de K8ND-#:       7055.0  W2TAW       (SKCC)                   NA 80 2301Z

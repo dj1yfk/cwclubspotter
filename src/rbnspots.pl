@@ -205,7 +205,6 @@ sub save_spot {
     # but whatever... :)
     my $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
 
-    if (0) {
     # delete any old spots on the same band from this one
     my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
     $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
@@ -221,8 +220,6 @@ sub save_spot {
     if ($dbhret->fetch() && $nf != 0) {
         $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
     }       
-
-    }
 
     my $line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $spot{member}, substr($line, 70)); 
     $| = 1;

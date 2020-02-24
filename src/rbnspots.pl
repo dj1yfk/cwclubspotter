@@ -34,14 +34,19 @@ my %conts;
 
 my $line;
 
+
+my $r = Redis->new();
+
 ################
 # for dxcc stuff
-my %prefixes;			# hash of arrays  main prefix -> (all, prefixes,..)
-my %dxcc;				# hash of arrays  main prefix -> (CQZ, ITUZ, ...)
+my %prefixes;            # hash of arrays  main prefix -> (all, prefixes,..)
+my %dxcc;                # hash of arrays  main prefix -> (CQZ, ITUZ, ...)
 my $mainprefix;
 my @dxcc;
 &read_cty();
 ##################
+
+my %bm_conts = ( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
 
 my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG/;
 my %bm = ();
@@ -63,7 +68,7 @@ my @lines;
 print "rbn: trying to connect....\n";
 my $t = new Net::Telnet (Timeout => 10, Port => 7300, Prompt => '/./');
 $t->open("foc.dj1yfk.de");
-$t->print("DJ1YFK-9\n");	### Changed
+$t->print("DJ1YFK-9\n");    ### Changed
 $t->print("set/raw\n");
 print "rbn: connected... \n";
 
@@ -71,34 +76,24 @@ my $db_keepalive = time;
 
 loadcalls();
 while (1) {
-		$line = $t->getline(Timeout => 60);
-		if (!$line) {
-			print "RBN feed died!\n";
-			exit;
-	 	}
-		chop($line);
-		$line = $line."\r\n";
-		next unless ($line =~ /^DX/);
+        $line = $t->getline(Timeout => 60);
+        if (!$line) {
+            print "RBN feed died!\n";
+            exit;
+         }
+        chop($line);
+        $line = $line."\r\n";
+        next unless ($line =~ /^DX/);
 
-        next if ($line =~ /HA2KSD/);    # wrong freq spots
         next if ($line =~ /DK1DU/);    # opt-out
         next if ($line =~ /DK2DO/);    # opt-out
         next if ($line =~ /R6AF/);    # opt-out
 
-        $line =~ s/DX de 3V\/KF5EYY/DX de 3V\/KF5/g;
-        $line =~ s/DX de ON5KQ-1-#:/DX de ON5KQ-#: /g;
-        $line =~ s/DX de OH6BG-1-#:/DX de OH6BG-#: /g;
-        $line =~ s/DX de JH7CSU-1-#:/DX de JH7CSU-#: /g;
-        $line =~ s/DX de JF2IWL\/2-#/DX de JF2IWL-#/g;
+        my %spot = &parse_line($line);
 
-		my $c = substr($line, 26, 10);   # AR cluster
-        my $mode = substr($line, 41, 2);
-		$c =~ s#[^A-Z0-9/]##g;
-
-        if ($mode ne "CW") {
+        if ($spot{mode} ne "CW") {
             next;
         }
-
         next if ($line =~ /BEACON/);
 
         if (time - $db_keepalive > 30) {
@@ -107,21 +102,54 @@ while (1) {
             loadcalls();
         }
 
-        # portable stuff?
-        my $stripcall = $c;
+        # remove portable indicators for checking
+        # against member databases. e.g. PA/DJ1YFK/P => DJ1YFK
+        my $stripcall = $spot{dxcall};
         if ($stripcall =~ /^(\w{1,3}\/)?(\w{3,99})(\/\w{1,3})?$/) {
                 $stripcall = $2;
         }
 
-        # more striptease
-        strip_ukcd_calls($stripcall);
+        # more striptease (to recognize e.g. GW4XYZ as G4XYZ)
+        &strip_ukcd_calls($stripcall);
 
-		if ($callhash{$stripcall}) {
-			save_spot($line, $callhash{$stripcall});		# SQL insert
-		}
+        if ($callhash{$stripcall}) {
+            $spot{member} = $callhash{$stripcall};    # save bitmask for club membership in spot hahs
+            &save_spot(\%spot);                        # save to SQL database
+        }
 
 }
 
+sub parse_line {
+    my $line = shift;
+    $line =~ s/[\r\n]+$//;
+
+    my @a = split(/\s+/, $line, 6);
+
+    my %spot = ();
+    $spot{line} = $line; # save original line
+    $spot{call} = $a[2];
+    $spot{call} =~ s/[^a-z0-9\/]//gi;
+    $spot{freq} = $a[3];
+    $spot{dxcall} = $a[4];
+    $spot{dxcall} =~ s/[^a-z0-9\/]//gi;
+    $spot{comment} = $a[5];
+    $spot{snr} = substr($spot{comment}, 6, 2);
+    $spot{wpm} = substr($spot{comment}, 13, 2);
+    $spot{utc} = substr($spot{comment}, -5, 4);
+    $spot{mode} = substr($spot{comment}, 0, 2);
+    $spot{band} = &freq2band($spot{freq});
+
+    # cache continent informations (less CPU time)
+    if (defined($conts{$spot{call}})) {
+        $spot{cont} = $conts{$spot{call}};
+    }
+    else {
+        $spot{cont} = (&dxcc($spot{call}))[3];
+        $conts{$spot{call}} = $spot{cont};
+    }
+
+    return %spot;
+}
 
 sub loadcalls {
     foreach my $club (@clubs) {
@@ -157,112 +185,60 @@ sub strip_ukcd_calls {
 
 # Insert into database...
 sub save_spot {
-   	my $flag = $_[1]; # Indicates member list(s) applicable for this spot
-
-	my %spot = ();
-	return unless ($line =~ /^DX/);
-
-#	my $cluster = 'DX';		# DX spider... set to AR for AR cluster.
-	my $cluster = 'AR';		# AR cluster
-
-	if ($cluster eq 'AR') {
-       	 $spot{call} = substr($line, 6, 10);
-       	 $spot{call} =~ s/[^a-z0-9\/]//gi;
-       	 $spot{freq} = substr($line, 16, 8);
-       	 $spot{freq} =~ s/[^0-9\.]//g;
-       	 $spot{dxcall} = substr($line, 26, 12);
-       	 $spot{dxcall} =~ s/[^a-z0-9\/]//gi;
-
-      	 #$spot{comment} = substr($line, 39, 30); # telnet.reversebeacon.net
-      	 #$spot{snr} = substr($spot{comment}, 3, 2);
-      	 #$spot{wpm} = substr($spot{comment}, 9, 2);
-	 # Nowadays, use below offsets for both telnet.reversebeacon.net and arcluster.reversebeacon.net
-       	 $spot{comment} = substr($line, 41, 28); # arcluster.reversebeacon.net
-       	 $spot{snr} = substr($spot{comment}, 6, 2);
-       	 $spot{wpm} = substr($spot{comment}, 13, 2);
-
-       	 $spot{utc} = substr($line, 70, 4);
-	 return unless ($spot{comment} =~ /^CW/);
-	}
-	else {		# dx spider
-       	 $spot{call} = substr($line, 6, 10);
-       	 $spot{call} =~ s/[^a-z0-9\/]//gi;
-       	 $spot{freq} = substr($line, 19, 8);
-       	 $spot{freq} =~ s/[^0-9\.]//g;
-       	 $spot{dxcall} = substr($line, 28, 12);
-       	 $spot{dxcall} =~ s/[^a-z0-9\/]//gi;
-       	 $spot{comment} = substr($line, 39, 30);
-       	 $spot{snr} = substr($spot{comment}, 8, 2);
-       	 $spot{wpm} = substr($spot{comment}, 15, 2);
-       	 $spot{utc} = substr($line, 71, 4);
-  	 return unless ($spot{comment} =~ /^  CW/);
-	}
+    my %spot = %{$_[0]};
 
     $spot{memberof} = "";
     foreach my $club (@clubs) {
-	    $spot{memberof}  .= "($club) " if ($flag & $bm{$club});
+        $spot{memberof}  .= "($club) " if ($spot{member} & $bm{$club});
     }
 
-    $spot{member} = $flag;  # bit mask
+    $spot{comment} =~ s/\s+$//g;
+    $spot{comment} = $dbh->quote($spot{comment});
 
-        $spot{comment} =~ s/\s+$//g;
-        $spot{comment} = $dbh->quote($spot{comment});
+    my ($minute, $hour, $day, $month, $year) = (gmtime(time))[1,2,3,4,5];
+    $minute= sprintf("%02d", $minute);
+    $hour = sprintf("%02d", $hour);
+    $month = sprintf("%02d", $month+1);
+    $day = sprintf("%02d", $day);
+    $year += 1900;
+    # this should use strftime, or just use NOW() for the SQL statement,
+    # but whatever... :)
+    my $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
 
-        $spot{band} = &freq2band($spot{freq});
+    if (0) {
+    # delete any old spots on the same band from this one
+    my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
+    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
 
-        # cache continent informations (less CPU time)
-        if (defined($conts{$spot{call}})) {
-            $spot{cont} = $conts{$spot{call}};
-        }
-        else {
-    	    $spot{cont} = (&dxcc($spot{call}))[3];
-            $conts{$spot{call}} = $spot{cont};
-        }
-
-        my ($minute, $hour, $day, $month, $year) = (gmtime(time))[1,2,3,4,5];
-        $minute= sprintf("%02d", $minute);
-        $hour = sprintf("%02d", $hour);
-        $month = sprintf("%02d", $month+1);
-        $day = sprintf("%02d", $day);
-        $year += 1900;
-        # this should use strftime, or just use NOW() for the SQL statement,
-        # but whatever... :)
-        my $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
-
-        # delete any old spots on the same band from this one
-        my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and
-                band='$spot{band}' and dxcall='$spot{dxcall}'");
-
-        $dbhret = $dbh->do("delete from spots where 
-                band='$spot{band}' and dxcall='$spot{dxcall}'
-                        and abs(freq - $spot{freq}) > 1.2");
-
-	$dbh->do("INSERT INTO spots 
-                 (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES 
-                 ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
-
-
+    $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
 
     # fix freq to average
     $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
     $dbhret->execute();
+    
     my $nf = 0;
     $dbhret->bind_columns(\$nf);
     if ($dbhret->fetch() && $nf != 0) {
         $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
     }       
 
-	#$line2=sprintf("%s%-24.24s %2.2s %02X %s", substr($line, 0, 40), $spot{memberof}, $spot{cont}, $flag, substr($line, 71)); # If source is DX spider
-	my $line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $flag, substr($line, 70)); # If source is AR cluster
+    }
 
-# Let op: door de move van DX spider naar AR cluster, zijn de frequentie en de dxcall 2 posities naar links geschoven. Zie onder:
-# DX spider:  DX de K8ND-#:       7055.0  W2TAW       (SKCC)                   NA 80 2301Z
-# AR cluster: DX de K1TTT-#:   14050.1  KD8AZO        (FISTS) (SKCC)           NA 82 1632Z
+    my $line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $spot{member}, substr($line, 70)); 
+    $| = 1;
+    print STDOUT $line2;
 
-#	select SPOTDUMP;
-	$| = 1;
-#	print SPOTDUMP $line2;
-	print STDOUT $line2;
+    # for Redis, we publish:
+    # 1 byte continent info
+    # 8 byte member info
+    # original line
+
+    my $line3 = pack("C", $bm_conts{$spot{cont}});
+    $line3 .= pack("Q", $spot{member});
+    $line3 .= $spot{line};
+
+    $r->publish('rbn', $line3);
+
 }
 
 
@@ -314,7 +290,7 @@ sub wpx {
   # as used by RDA-DXpeditions....
     
 if ($_[0] =~ 
-	/^((\d|[A-Z])+\/)?((\d|[A-Z]){3,})(\/(\d|[A-Z])+)?(\/(\d|[A-Z])+)?$/) {
+    /^((\d|[A-Z])+\/)?((\d|[A-Z]){3,})(\/(\d|[A-Z])+)?(\/(\d|[A-Z])+)?$/) {
    
     # Now $1 holds A (incl /), $3 holds the callsign B and $5 has C
     # We save them to $a, $b and $c respectively to ensure they won't get 
@@ -342,13 +318,13 @@ if (!$c && $a && $b) {                  # $a and $b exist, no $c
         }
 }    
 
-	# *** Added later ***  The check didn't make sure that the callsign
-	# contains a letter. there are letter-only callsigns like RAEM, but not
-	# figure-only calls. 
+    # *** Added later ***  The check didn't make sure that the callsign
+    # contains a letter. there are letter-only callsigns like RAEM, but not
+    # figure-only calls. 
 
-	if ($b =~ /^[0-9]+$/) {			# Callsign only consists of numbers. Bad!
-			return undef;			# exit, undef
-	}
+    if ($b =~ /^[0-9]+$/) {            # Callsign only consists of numbers. Bad!
+            return undef;            # exit, undef
+    }
 
     # Depending on these values we have to determine the prefix.
     # Following cases are possible:
@@ -392,11 +368,11 @@ if (!$c && $a && $b) {                  # $a and $b exist, no $c
                 $b =~ /(.+\d)[A-Z]*/;       # Known attachment -> like Case 1.1
                 $prefix = $1;
             }
-            elsif ($c =~ /^\d\d+$/) {		# more than 2 numbers -> ignore
+            elsif ($c =~ /^\d\d+$/) {        # more than 2 numbers -> ignore
                 $b =~ /(.+\d)[A-Z]*/;       # see above
                 $prefix = $1;
-			}
-			else {                          # Must be a Prefix!
+            }
+            else {                          # Must be a Prefix!
                     if ($c =~ /\d$/) {      # ends in number -> good prefix
                             $prefix = $c;
                     }
@@ -460,13 +436,13 @@ else { return ''; }    # no proper callsign received.
 ###############################################################################
 
 sub dxcc {
-	my $testcall = shift;
-	my $matchchars=0;
-	my $matchprefix='';
-	my $test;
-	my $zones = '';                 # annoying zone exceptions
-	my $goodzone;
-	my $letter='';
+    my $testcall = shift;
+    my $matchchars=0;
+    my $matchprefix='';
+    my $test;
+    my $zones = '';                 # annoying zone exceptions
+    my $goodzone;
+    my $letter='';
 
 
 if ($testcall =~ /(^OH\/)|(\/OH[1-9]?$)/) {    # non-Aland prefix!
@@ -479,7 +455,7 @@ elsif ($testcall =~ /^3D2C/) {               # seems to be from Conway Reef
     $testcall = "3D2CR";                 # will match with Conway
 }
 elsif ($testcall =~ /\w\/\w/) {             # check if the callsign has a "/"
-    $testcall = &wpx($testcall,1)."AA";		# use the wpx prefix instead, which may
+    $testcall = &wpx($testcall,1)."AA";        # use the wpx prefix instead, which may
                                          # intentionally be wrong, see &wpx!
 }
 
@@ -487,49 +463,49 @@ $letter = substr($testcall, 0,1);
 
 foreach $mainprefix (keys %prefixes) {
 
-	foreach $test (@{$prefixes{$mainprefix}}) {
-		my $len = length($test);
+    foreach $test (@{$prefixes{$mainprefix}}) {
+        my $len = length($test);
 
-		if ($letter ne substr($test,0,1)) {			# gains 20% speed
-			next;
-		}
+        if ($letter ne substr($test,0,1)) {            # gains 20% speed
+            next;
+        }
 
-		$zones = '';
+        $zones = '';
 
-		if (($len > 5) && ((index($test, '(') > -1)			# extra zones
-						|| (index($test, '[') > -1))) {
-				$test =~ /^([A-Z0-9\/]+)([\[\(].+)/;
-				$zones .= $2 if defined $2;
-				$len = length($1);
-		}
+        if (($len > 5) && ((index($test, '(') > -1)            # extra zones
+                        || (index($test, '[') > -1))) {
+                $test =~ /^([A-Z0-9\/]+)([\[\(].+)/;
+                $zones .= $2 if defined $2;
+                $len = length($1);
+        }
 
-		if ((substr($testcall, 0, $len) eq substr($test,0,$len)) &&
-								($matchchars <= $len))	{
-			$matchchars = $len;
-			$matchprefix = $mainprefix;
-			$goodzone = $zones;
-		}
-	}
+        if ((substr($testcall, 0, $len) eq substr($test,0,$len)) &&
+                                ($matchchars <= $len))    {
+            $matchchars = $len;
+            $matchprefix = $mainprefix;
+            $goodzone = $zones;
+        }
+    }
 }
 
-my @mydxcc;										# save typing work
+my @mydxcc;                                        # save typing work
 
 if (defined($dxcc{$matchprefix})) {
-	@mydxcc = @{$dxcc{$matchprefix}};
+    @mydxcc = @{$dxcc{$matchprefix}};
 }
 else {
-	@mydxcc = qw/Unknown 0 0 0 0 0 0 ?/;
+    @mydxcc = qw/Unknown 0 0 0 0 0 0 ?/;
 }
 
 # Different zones?
 
 if ($goodzone) {
-	if ($goodzone =~ /\((\d+)\)/) {				# CQ-Zone in ()
-		$mydxcc[1] = $1;
-	}
-	if ($goodzone =~ /\[(\d+)\]/) {				# ITU-Zone in []
-		$mydxcc[2] = $1;
-	}
+    if ($goodzone =~ /\((\d+)\)/) {                # CQ-Zone in ()
+        $mydxcc[1] = $1;
+    }
+    if ($goodzone =~ /\[(\d+)\]/) {                # ITU-Zone in []
+        $mydxcc[2] = $1;
+    }
 }
 
 # cty.dat has special entries for WAE countries which are not separate DXCC
@@ -537,13 +513,13 @@ if ($goodzone) {
 # to the proper DXCC. Since there are opnly a few of them, it is hardcoded in
 # here.
 
-if ($mydxcc[7] =~ /^\*/) {							# WAE country!
-	if ($mydxcc[7] eq '*TA1') { $mydxcc[7] = "TA" }		# Turkey
-	if ($mydxcc[7] eq '*4U1V') { $mydxcc[7] = "OE" }	# 4U1VIC is in OE..
-	if ($mydxcc[7] eq '*GM/s') { $mydxcc[7] = "GM" }	# Shetlands
-	if ($mydxcc[7] eq '*IG9') { $mydxcc[7] = "I" }		# African Italy
-	if ($mydxcc[7] eq '*IT9') { $mydxcc[7] = "I" }		# Sicily
-	if ($mydxcc[7] eq '*JW/b') { $mydxcc[7] = "JW" }	# Bear Island
+if ($mydxcc[7] =~ /^\*/) {                            # WAE country!
+    if ($mydxcc[7] eq '*TA1') { $mydxcc[7] = "TA" }        # Turkey
+    if ($mydxcc[7] eq '*4U1V') { $mydxcc[7] = "OE" }    # 4U1VIC is in OE..
+    if ($mydxcc[7] eq '*GM/s') { $mydxcc[7] = "GM" }    # Shetlands
+    if ($mydxcc[7] eq '*IG9') { $mydxcc[7] = "I" }        # African Italy
+    if ($mydxcc[7] eq '*IT9') { $mydxcc[7] = "I" }        # Sicily
+    if ($mydxcc[7] eq '*JW/b') { $mydxcc[7] = "JW" }    # Bear Island
 
 }
 
@@ -558,54 +534,54 @@ return @mydxcc;
 
 
 sub read_cty {
-	# Read cty.dat from AD1C, or this program itself (contains cty.dat)
-	my $self=0;
-	my $filename;
+    # Read cty.dat from AD1C, or this program itself (contains cty.dat)
+    my $self=0;
+    my $filename;
 
-	if (-e "/usr/share/dxcc/cty.dat") {
-		$filename = "/usr/share/dxcc/cty.dat";
-	}
-	elsif (-e "/usr/local/share/dxcc/cty.dat") {
-		$filename = "/usr/local/share/dxcc/cty.dat";
-	}
-	else {
-		$filename = $0;
-		$self = 1;
-	}
+    if (-e "/usr/share/dxcc/cty.dat") {
+        $filename = "/usr/share/dxcc/cty.dat";
+    }
+    elsif (-e "/usr/local/share/dxcc/cty.dat") {
+        $filename = "/usr/local/share/dxcc/cty.dat";
+    }
+    else {
+        $filename = $0;
+        $self = 1;
+    }
 
-	open CTY, $filename;
+    open CTY, $filename;
 
-	while (my $line = <CTY>) {
-		# When opening itself, skip all lines before "CTY".
-		if ($self) {
-			if ($line =~ /^#CTY/) {
-				$self = 0
-			}
-			next;
-		}
+    while (my $line = <CTY>) {
+        # When opening itself, skip all lines before "CTY".
+        if ($self) {
+            if ($line =~ /^#CTY/) {
+                $self = 0
+            }
+            next;
+        }
 
-		# In case we're reading this file, remove #s
-		if (substr($line, 0, 1) eq '#') {
-			substr($line, 0, 1) = '';
-		}
+        # In case we're reading this file, remove #s
+        if (substr($line, 0, 1) eq '#') {
+            substr($line, 0, 1) = '';
+        }
 
-		if (substr($line, 0, 1) ne ' ') {			# New DXCC
-			$line =~ /\s+([*A-Za-z0-9\/]+):\s+$/;
-			$mainprefix = $1;
-			$line =~ s/\s{2,}//g;
-			@{$dxcc{$mainprefix}} = split(/:/, $line);
-		}
-		else {										# prefix-line
-			$line =~ s/\s+//g;
-			unless (defined($prefixes{$mainprefix}[0])) {
-				@{$prefixes{$mainprefix}} = split(/,|;/, $line);
-			}
-			else {
-				push(@{$prefixes{$mainprefix}}, split(/,|;/, $line));
-			}
-		}
-	}
-	close CTY;
+        if (substr($line, 0, 1) ne ' ') {            # New DXCC
+            $line =~ /\s+([*A-Za-z0-9\/]+):\s+$/;
+            $mainprefix = $1;
+            $line =~ s/\s{2,}//g;
+            @{$dxcc{$mainprefix}} = split(/:/, $line);
+        }
+        else {                                        # prefix-line
+            $line =~ s/\s+//g;
+            unless (defined($prefixes{$mainprefix}[0])) {
+                @{$prefixes{$mainprefix}} = split(/,|;/, $line);
+            }
+            else {
+                push(@{$prefixes{$mainprefix}}, split(/,|;/, $line));
+            }
+        }
+    }
+    close CTY;
 
 } # read_cty
 

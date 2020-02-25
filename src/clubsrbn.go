@@ -283,6 +283,11 @@ func loadUserfilter(login string) {
         defer c.Close()
         ret, _ := c.Do("HGET","rbnprefs", login)
 
+        if ret == nil {
+            ufilter_last[login] = now
+            return
+        }
+
         ret2 := []byte(ret.([]uint8))
 
         ufilter_cont[login] = ret2[0]

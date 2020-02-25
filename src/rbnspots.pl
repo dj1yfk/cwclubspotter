@@ -48,7 +48,7 @@ my @dxcc;
 
 my %bm_conts = ( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
 
-my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG/;
+my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC/;
 my %bm = ();
 # create bit masks from @clubs array
 my $i = 0;
@@ -208,6 +208,8 @@ sub save_spot {
     # delete any old spots on the same band from this one
     my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
     $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
+
+    $spot{'memberof'} = substr($spot{'memberof'}, 0, 63);
 
     $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
 

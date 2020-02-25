@@ -306,6 +306,33 @@ mv naqccmembers.new naqccmembers.txt
 echo
 }
 
+#################
+##### RCWC  #####
+#################
+
+function rcwc() {
+echo Processing RCWC
+
+echo Saving the old members file
+cp -p rcwcmembers.txt old/
+
+echo Getting the RCWC member list
+curl -s "http://rcwc.ru/?do=members&getlist=3" > temp1
+
+echo Extracting member info 
+awk '//{print $1}' < temp1 > rcwcmembers.new
+
+echo Importing special calls
+cat rcwc.spc >> rcwcmembers.new
+
+echo Old file has `wc -l rcwcmembers.txt|awk '{print $1}'` members
+echo New file has `wc -l rcwcmembers.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv rcwcmembers.new rcwcmembers.txt
+
+echo
+}
 
 
 #################
@@ -343,6 +370,9 @@ case "$1" in
    naqcc)
       naqcc 
       ;;
+   rcwc)
+      rcwc 
+      ;;
    all)
       cwops
       fists
@@ -351,6 +381,7 @@ case "$1" in
       xhsc
       skcc
       naqcc 
+      rcwc
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)

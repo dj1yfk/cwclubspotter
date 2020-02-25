@@ -160,8 +160,17 @@ foreach ($clubs as $c) {
 </td></tr>
 <tr>
 <th>Misc.</th>
-<td colspan=10>
+<td colspan=12>
 <input onclick="filter_change()" id="cbAC" type="checkbox" name="cbAC" value="1">Abbreviate Club Names
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+Click on call links to: <select onChange="filter_change();" id="linktarget" size="1">
+<option value="qrz">QRZ.com</option>
+<option value="rbn">RBN Activity Report</option>
+<option value="hamqth">hamqth.com</option>
+</select>
 </td>
 </table>
 </form>
@@ -189,12 +198,16 @@ foreach ($clubs as $c) {
 	var callFilter;
     var ownCall;
     var abbreviate = false;
+    var linktarget = 'qrz';
+
+    var linktargets = { "qrz": "https://www.qrz.com/db/", "hamqth": "https://hamqth.com/", "rbn": "https://foc.dj1yfk.de/activity/" };
 
 	load_cookies(); // Load the cookies. This will also fetch the matching spots for this first time
 
 	window.setInterval('fetch_spots()', 30000);
 
-	function load_cookies () {
+    function load_cookies () {
+        console.log("load_cookies");
 		var i;
 		for (i = 0; i < contName.length; i++) {
 			document.getElementById('cb' + contName[i]).checked = (getCookie(contName[i])==null || getCookie(contName[i])=='true');
@@ -223,13 +236,16 @@ foreach ($clubs as $c) {
 		document.getElementById('ownCall').value=k;
 
 		document.getElementById('selfSpots').checked = getCookie('selfSpots')=='true';
+        
+        document.getElementById('cbAC').checked = getCookie('abbreviate')=='true';
+        
+        document.getElementById('linktarget').value = (getCookie('linktarget') == null) ? 'qrz' : getCookie('linktarget');
 
 		filter_change(); // Update the internal arrays to represent the actual values of the checkboxes
 
 		var l = (getCookie('showFilter')==null || getCookie('showFilter')=='true');
-			// Retrieve showFilter setting. If non-existant (first time), default to showing filter
-		//console.log('getCookie returned ' + l + ' as value');
-		showFilter(l); // Show or hide the filter section, depending on the cookie value
+
+        showFilter(l); // Show or hide the filter section, depending on the cookie value
 	}
 
 	function set_all (what, mode) {
@@ -314,6 +330,9 @@ foreach ($clubs as $c) {
         abbreviate = document.getElementById('cbAC').checked;
         setCookie('abbreviate', abbreviate);
 
+        linktarget = document.getElementById('linktarget').value;
+        setCookie('linktarget', linktarget);
+
 		fetch_spots(); // Fetch the spots matching this filter
 	}
 
@@ -376,8 +395,8 @@ foreach ($clubs as $c) {
 				else if (spots[i].age < 10) { tabclass = 'midspot'; }
 				else { tabclass = 'oldspot'; }
 				newtable += '<tr class="' + tabclass + '">';
-				newtable += '<td class="right">' + spots[i].freq+ '&nbsp;</td>';
-				newtable += '<td><a href="http://www.qrz.com/db/' + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
+                newtable += '<td class="right">' + spots[i].freq+ '&nbsp;</td>';
+                newtable += '<td><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
 
                 var mo = spots[i].memberof;

@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
-<meta http-equiv="cache-control" content="max-age=0" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="0" />
-<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-<meta http-equiv="pragma" content="no-cache" />
-<link rel="shortcut icon" type="image/x-icon" href="/pa4n.ico">
-<link rel="stylesheet" type="text/css" href="/bandmap.css">
-<title>CW Club RBN Spotter changelog</title>
-</head>
-<h1>CW Club RBN Spotter changelog</h1>
-
 <h2>Last updates of member lists:</h2>
 <table>
 <tr><th>Club</th><th>Website</th><th>Date</th></tr>
@@ -28,7 +13,9 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
-<tr><td>12-Feb-2020</td><td>Added new club: AGCW, NAQCC, BUG - new clubs can now easily be added!</td></tr>
+<tr><td>25-Feb-2020</td><td>Enable telnet port (<code>rbn.telegraphy.de:7000</code>)</td></tr>
+<tr><td>17-Feb-2020</td><td>Make hiding/abbreviating club names optional.</td></tr>
+<tr><td>12-Feb-2020</td><td>Added new clubs: AGCW, NAQCC, BUG - new clubs can now easily be added!</td></tr>
 <tr><td>01-Nov-2018</td><td>Recognize calls with portable indicators (e.g. SP/DJ1YFK); avoid multiple spots per band for one callsign.</td></tr>
 <tr><td>29-Oct-2018</td><td>After running the CW Club Spotter for 5 years,
         Frank/PA4N hands over operations to Fabian/DJ1YFK. The new URL is:
@@ -65,5 +52,3 @@ foreach ($clubs as $c) {
 <br/>
 <a href="/">Back to the CW Clubs RBN</a>
 
-</body>
-</html>

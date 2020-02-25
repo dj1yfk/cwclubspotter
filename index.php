@@ -32,7 +32,7 @@ include_once("clubs.php");
 
 <p>The table shows recent RBN spots of CW club members in a dynamically updated
 bandmap table.
-See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
+<span style="color:red">Telnet port now available!</span> See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
 
 <a id="filterChoice" href="javascript:toggleFilter();">hide filter</a>
 <div id="filter" style="display: block">

@@ -31,26 +31,26 @@
 <li>If you enter your own call and check the 'Include self-spots' box, your self-spots will be shown along with the other spots, with a <span class="selfspot">green background</span>. In order for this feature to work, you must be a member of at least one of the CW clubs. For your self-spots only, all your filter settings - except 'Bands' and 'Max spot age' - will be ignored. This means you will see your self-spots regardless of which filtering you've selected for clubs, speeds, call filter, and skimmer continents.</li>
 </ul></p>
 
-<p>Do <b>spots of your station not occur</b> in this RBN application? 
-<ul><li>First, please check at <a href="http://www.reversebeacon.net">www.reversebeacon.net</a> if your signals were at all spotted.</li>
+<p>Do <b>spots of your station not appear</b> in this RBN application? 
+<ul><li>First, please check at <a href="http://www.reversebeacon.net">www.reversebeacon.net</a> if your signals were spotted at all.</li>
 <li>Second, if you've recently joined a club, your membership may not have been included in the membership list of that club. Please check with the club membership secretary.</li>
-<li>Please note that I do not maintain any membership lists myself; I only import lists that are maintained by the respective club membership secreataries.</li>
-<li>I import the data from the club membership lists once a month; usually a few days after the start of the new month.</li></ul>
+<li>Please note that I do not maintain any membership lists myself; I only import lists that are maintained by the respective club membership secreataries at regular intervals (see list of updates below).</li>
+</ul>
 </p>
 
 <p>Don't you see any spots at all?
 <ul>
 <li>First, please look at the filters you have defined. Maybe they are set too narrow?</li>
-<li>Did you enter a callsign in the "Own Call" box? If you wish to stay anonymous, enter <em>anything</em> here.</li>
+<li>Did you enter a callsign in the "Own Call" box? If you wish to stay anonymous, just enter <em>anything</em> here.</li>
 <li>Also, please check at <a href="http://www.reversebeacon.net">www.reversebeacon.net</a> if the RBN site is up and running at all.</li></ul>
 </p>
 
-<br/>
-<p>This page was created by <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>. It was based on the original version by <a href="http://fkurz.net/">Fabian, DJ1YFK</a>.<br>
+<p><b style="color:red">NEW</b> <b>Connect via telnet:</b> You can receive the spots via Telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Currently filtering by club and continent is implemented for the telnet port. Any changes you make to your filters here on the website automaticallyapplies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ1YFK-1, DJ1YFK-2 to set the and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
+
+<p><b>About:</b> This page was created by <a href="http://fkurz.net/">Fabian, DJ1YFK</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
 As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>
 
 <p> Current users:
-
 <?php
 # DB config
 $mysql_host   = "localhost";
@@ -62,13 +62,12 @@ $mysql_dbname = "spotfilter";
   if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
   mysqli_select_db($con, $mysql_dbname);
   $q=mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 1 DAY);");
-
   $q=mysqli_query($con, "select count(distinct(ipaddress)) from users where time > (NOW() - INTERVAL 1 MINUTE);");
   mysqli_data_seek($q, 0);
   $resrow = mysqli_fetch_row($q);
   echo $resrow[0];
 ?>
-
+    (web), <?php system("netstat -tn |  grep -e ':70[70]0' | grep ESTAB | wc -l"); ?> (telnet)
 </p>
 <p>
 Comments are welcome via email - 73 de Fabian, DJ1YFK &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;</p>

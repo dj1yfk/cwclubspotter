@@ -42,11 +42,14 @@ $ownCall=mysqli_real_escape_string($con, $_GET['ownCall']);
 mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 
+$bm_conts_a = array( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
+$bm_conts = 0;
 $allconts = array('EU', 'NA', 'AS', 'SA', 'AF', 'OC');
 $queryconts = array();
 foreach ($allconts as $c) {
 	if ($_GET[$c] == 'true') {
-		array_push($queryconts, "'".$c."'");
+        array_push($queryconts, "'".$c."'");
+        $bm_conts |= $bm_conts_a[$c];
 	}
 }
 
@@ -83,7 +86,7 @@ for  ($i = 0; $i < count($clubs); $i++) {
     }
 }
 
-$redis->hset("rbnprefs", $ownCall, pack('Q', $mask));
+$redis->hset("rbnprefs", $ownCall, pack('C', $bm_conts).pack('Q', $mask));
 
 
 $queryclub_string = " AND member & $mask ";

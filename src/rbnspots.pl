@@ -234,7 +234,7 @@ sub save_spot {
     $line3 .= pack("Q", $spot{member});
     $line3 .= $spot{line};
 
-    $r->publish('rbn', $line3);
+    $r->publish('rbn', $line3."\r\n");
 
 }
 

@@ -2,6 +2,9 @@ RewriteEngine On
 Redirect /bandmap.html https://rbn.telegraphy.de/
 Redirect /bandmap2.html https://rbn.telegraphy.de/
 
+Redirect /changelog https://rbn.telegraphy.de/info
+Redirect /changelog.php https://rbn.telegraphy.de/info
+
 RewriteRule ^activity/stats(/)?$ /act/rbnstats.php [L]
 RewriteRule ^activity/rank(/)?$ /act/rank.php [L]
 RewriteRule ^activity/faq(/)?$ /act/faq.php [L]

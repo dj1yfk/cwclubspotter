@@ -284,8 +284,22 @@ func loadUserfilter(login string) {
         ret, _ := c.Do("HGET","rbnprefs", login)
 
         if ret == nil {
-            ufilter_last[login] = now
-            return
+            // no preferences found. if it is a callsign with a SSID, try without
+            l := strings.LastIndex(login, "-")
+            if l == -1 {
+                ufilter_last[login] = now
+                return
+            }
+
+            retstrip, _ := c.Do("HGET","rbnprefs", login[0:l])
+
+            // no success either
+            if retstrip == nil {
+                ufilter_last[login] = now
+                return
+            } else {
+                ret = retstrip
+            }
         }
 
         ret2 := []byte(ret.([]uint8))

@@ -83,7 +83,7 @@ for  ($i = 0; $i < count($clubs); $i++) {
     }
 }
 
-$redis->hset("rbnprefs", $ownCall, $mask);
+$redis->hset("rbnprefs", $ownCall, pack('Q', $mask));
 
 
 $queryclub_string = " AND member & $mask ";

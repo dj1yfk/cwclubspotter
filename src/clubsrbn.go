@@ -31,6 +31,9 @@ import (
 var helptext = "\r\n- set/clubs       Show filtered spots\r\n- set/raw         Show all unfiltered RBN spots\r\n\r\nNo spots? Set your filter preferences at https://rbn.telegraphy.de/\r\n"
 var filter_names = map[string]string{"clubs": "Clubs (filtered)", "raw": "Raw unfiltered spots"}
 
+// build info should be set by Makefile or build process
+var build = "<unknown>"
+
 // map from connection (IP:Port) -> callsign
 var users map[net.Addr]string
 
@@ -63,12 +66,12 @@ func main() {
 
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
-		log.Infof("Clubs RBN Server Production Mode\n")
+		log.Infof("Clubs RBN Server Production Mode, build: %s\n", build)
 		go listenerStart(":7000", "clubs")
 		go listenerStart(":7070", "raw")
 		prod = true
 	} else {
-		log.Infof("RBN Server Debug Mode\n")
+		log.Infof("RBN Server Debug Mode, build: %s\n", build)
 		go listenerStart(":8000", "clubs")
 		go listenerStart(":8070", "raw")
 		prod = false
@@ -201,7 +204,7 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 		return ""
 	}
 
-	conn.Write([]byte("Welcome to the CW Clubs RBN (Ver. 2020-02-26)\r\nPlease enter your callsign: "))
+	conn.Write([]byte("Welcome to the CW Clubs RBN (Ver. " + build + ")\r\nPlease enter your callsign: "))
 
 	// early login already sent?
 	if login_before_prompt == false {

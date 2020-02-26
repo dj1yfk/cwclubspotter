@@ -14,7 +14,7 @@ package main
 import (
 	"bufio"
 	"bytes"
-    "encoding/binary"
+	"encoding/binary"
 	"fmt"
 	"github.com/garyburd/redigo/redis"
 	"github.com/op/go-logging"
@@ -28,7 +28,7 @@ import (
 )
 
 // Globals
-var helptext = "\r\n- set/clubs       Show filtered spots\r\n- set/raw         Show all unfiltered RBN spots\r\n\r\nSet your filter preferences at https://rbn.telegraphy.de/\r\n"
+var helptext = "\r\n- set/clubs       Show filtered spots\r\n- set/raw         Show all unfiltered RBN spots\r\n\r\nNo spots? Set your filter preferences at https://rbn.telegraphy.de/\r\n"
 var filter_names = map[string]string{"clubs": "Clubs (filtered)", "raw": "Raw unfiltered spots"}
 
 // map from connection (IP:Port) -> callsign
@@ -40,7 +40,6 @@ var prefs map[string]string
 // filters per user, as set by web interface
 var ufilter_club map[string]uint64
 var ufilter_cont map[string]byte
-var ufilter_last map[string]int64
 
 // if set to true, the TCP listeners will stop
 // so we can deploy a new version without killing
@@ -49,36 +48,40 @@ var stop_listeners bool
 
 var log = logging.MustGetLogger("clubsrbn.go")
 
+var prod bool
+
 func main() {
 	go handleSignals()
+	go loadUserfilters()
 
 	setupLogging()
 	users = make(map[net.Addr]string)
 	prefs = make(map[string]string)
 
-    ufilter_club = make(map[string]uint64)
-    ufilter_cont = make(map[string]byte)
-    ufilter_last = make(map[string]int64)
-
-	readPrefs() // read prefs from file
+	ufilter_club = make(map[string]uint64)
+	ufilter_cont = make(map[string]byte)
 
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
 		log.Infof("Clubs RBN Server Production Mode\n")
 		go listenerStart(":7000", "clubs")
 		go listenerStart(":7070", "raw")
+		prod = true
 	} else {
 		log.Infof("RBN Server Debug Mode\n")
 		go listenerStart(":8000", "clubs")
 		go listenerStart(":8070", "raw")
+		prod = false
 	}
+
+	readPrefs() // read prefs from file
 
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		text, _ := reader.ReadString('\n')
 		if strings.Contains(text, "stoplisten") {
 			log.Debug("Stopping listeners after next connection.")
-			stop_listeners = true;
+			stop_listeners = true
 		}
 
 		log.Debug(printAllUsers(true))
@@ -151,13 +154,13 @@ func handleClient(conn net.Conn, filter string) {
 		case strings.Contains(cmd, "sh/u"):
 			log.Debugf("%s: sh/u\n", login)
 			conn.Write([]byte(printAllUsers(false)))
-        case strings.Contains(cmd, "set/clubs"):
-            log.Debugf("%s: clubs: %s\n", login, cmd)
-            prefs[login] = "clubs"
-            control <- "end"
-            go outputClient(conn, control, "clubs", login)
-            conn.Write([]byte("New filter: Club members (as set in web interface)\r\n"))
-        case strings.Contains(cmd, "set/raw"):
+		case strings.Contains(cmd, "set/clubs"):
+			log.Debugf("%s: clubs: %s\n", login, cmd)
+			prefs[login] = "clubs"
+			control <- "end"
+			go outputClient(conn, control, "clubs", login)
+			conn.Write([]byte("New filter: Club members (as set in web interface)\r\n"))
+		case strings.Contains(cmd, "set/raw"):
 			log.Debugf("%s: switch to raw: %s\n", login, cmd)
 			prefs[login] = "raw"
 			control <- "end"
@@ -182,14 +185,14 @@ func prompt(user string) string {
 
 func promptLogin(conn net.Conn, filter string) (login string) {
 
-	login_before_prompt := true;
+	login_before_prompt := true
 	// Before we send anything, check for possible HTTP request...
 	conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 
 	login, err := readFullLine(conn, false, false)
 	if err != nil {
 		log.Warningf("Nothing received within 100ms, probably a real client.\n")
-		login_before_prompt = false;
+		login_before_prompt = false
 	}
 
 	if strings.Contains(login, "GET/HTTP") {
@@ -198,7 +201,7 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 		return ""
 	}
 
-    conn.Write([]byte("Welcome to the CW Clubs RBN (Ver. 2020-02-24)\r\nPlease enter your callsign: "))
+	conn.Write([]byte("Welcome to the CW Clubs RBN (Ver. 2020-02-26)\r\nPlease enter your callsign: "))
 
 	// early login already sent?
 	if login_before_prompt == false {
@@ -212,7 +215,7 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 	}
 
 	// "Valid" call?
-	if (len(login) < 3 || len(login) > 10) {
+	if len(login) < 3 || len(login) > 10 {
 		log.Warningf("Invalid login: %s\n", login)
 		conn.Write([]byte("Invalid call. Bye.\r\n"))
 		return ""
@@ -221,6 +224,12 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 	var zero time.Time
 	conn.SetReadDeadline(zero)
 	login = strings.ToUpper(login)
+
+	// On first login automatically asign whatever the filter
+	// variable yields; it depends on the port of the connection
+	if prefs[login] == "" {
+		prefs[login] = filter
+	}
 
 	ra := conn.RemoteAddr()
 	users[ra] = login // save in map
@@ -232,120 +241,121 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 }
 
 func outputClient(conn net.Conn, control <-chan string, filter string, login string) {
-    defer log.Debug("outputClient => close\n")
+	defer log.Debug("outputClient => close\n")
 
-    spots := make(chan string)
-    rediscontrol := make(chan string)
+	spots := make(chan string)
+	rediscontrol := make(chan string)
 
-    go subscribeSpots(filter, spots, rediscontrol)
+	go subscribeSpots(filter, spots, rediscontrol)
 
-    for {
-        select {
-        case cs := <-control:
-            log.Debugf("Control signal: >%s<\n", cs)
-            if cs == "end" {
-                rediscontrol <- "die"
-                return
-            }
-        case spot := <-spots:
+	for {
+		select {
+		case cs := <-control:
+			log.Debugf("Control signal: >%s<\n", cs)
+			if cs == "end" {
+				rediscontrol <- "die"
+				return
+			}
+		case spot := <-spots:
 
-            if filter == "clubs" {
-                loadUserfilter(login)
+			if filter == "clubs" {
+				// spot contains:
+				// 1 byte  continent
+				// 8 bytes clubs
+				// n bytes spot (plain ascii), no newline
 
-                // spot contains:
-                // 1 byte  continent
-                // 8 bytes clubs
-                // n bytes spot (plain ascii), no newline
+				b := []byte(spot)
 
-                b := []byte(spot)
+				cont := b[0]
+				clubs := binary.LittleEndian.Uint64(b[1:9])
+				s := b[9:]
 
-                cont  := b[0]
-                clubs := binary.LittleEndian.Uint64(b[1:9])
-                s := b[9:]
-
-                if (cont & ufilter_cont[login] != 0 && clubs & ufilter_club[login] != 0) {
-                    conn.Write(s)
-                }
-            } else {  // raw
-                conn.Write([]byte(spot))
-            }
-        }
-    }
+				if cont&ufilter_cont[login] != 0 && clubs&ufilter_club[login] != 0 {
+					conn.Write(s)
+				}
+			} else { // raw
+				conn.Write([]byte(spot))
+			}
+		}
+	}
 }
 
+// go routine loads all user filters once every 5 seconds from Redis
 
-func loadUserfilter(login string) {
-    now := time.Now().Unix()
-    if now - ufilter_last[login] > 10 {
-        log.Debugf("Reloading user filters for %s", login)
+func loadUserfilters() {
+	c, _ := redis.Dial("tcp", "localhost:6379")
+	defer c.Close()
 
-        c, _ := redis.Dial("tcp", "localhost:6379")
-        defer c.Close()
-        ret, _ := c.Do("HGET","rbnprefs", login)
+	for {
+		for _, login := range users {
+			loadUserfilter(login, c)
+		}
+		time.Sleep(5 * time.Second)
+	}
+}
 
-        if ret == nil {
-            // no preferences found. if it is a callsign with a SSID, try without
-            l := strings.LastIndex(login, "-")
-            if l == -1 {
-                ufilter_last[login] = now
-                return
-            }
+func loadUserfilter(login string, c redis.Conn) {
 
-            retstrip, _ := c.Do("HGET","rbnprefs", login[0:l])
+	ret, _ := c.Do("HGET", "rbnprefs", login)
 
-            // no success either
-            if retstrip == nil {
-                ufilter_last[login] = now
-                return
-            } else {
-                ret = retstrip
-            }
-        }
+	if ret == nil {
+		// no preferences found. if it is a callsign with a SSID, try without
+		l := strings.LastIndex(login, "-")
+		if l == -1 {
+			return
+		}
 
-        ret2 := []byte(ret.([]uint8))
+		retstrip, _ := c.Do("HGET", "rbnprefs", login[0:l])
 
-        ufilter_cont[login] = ret2[0]
-        ufilter_club[login] = binary.LittleEndian.Uint64(ret2[1:9])
-        ufilter_last[login] = now
-    }
+		// no success either
+		if retstrip == nil {
+			return
+		} else {
+			ret = retstrip
+		}
+	}
+
+	ret2 := []byte(ret.([]uint8))
+
+	ufilter_cont[login] = ret2[0]
+	ufilter_club[login] = binary.LittleEndian.Uint64(ret2[1:9])
 }
 
 // Retrieves spots from Redis and returns them into spots chan
 func subscribeSpots(filter string, spots chan string, control chan string) {
-    defer log.Debug("subscribeSpots => close\n")
+	defer log.Debug("subscribeSpots => close\n")
 
-    pattern := "rbn"
+	pattern := "rbn"
 
-    if filter == "raw" {
-        pattern = "raw"
-    }
+	if filter == "raw" {
+		pattern = "raw"
+	}
 
-    c, _ := redis.Dial("tcp", "localhost:6379")
-    defer c.Close()
-    psc := redis.PubSubConn{c}
-    psc.Subscribe(pattern)
+	c, _ := redis.Dial("tcp", "localhost:6379")
+	defer c.Close()
+	psc := redis.PubSubConn{c}
+	psc.Subscribe(pattern)
 
-    for {
-        // select with only one case + default: non-blocking
-        select {
-        case msg := <-control:
-            log.Debugf("Control message received: %s\n", msg)
-            return
-        default:
-        }
-        switch v := psc.Receive().(type) {
-        case redis.Message:
-            // select with only one case + default: non-blocking
-            select {
-            case spots <- string(v.Data):
-            default:
-            }
+	for {
+		// select with only one case + default: non-blocking
+		select {
+		case msg := <-control:
+			log.Debugf("Control message received: %s\n", msg)
+			return
+		default:
+		}
+		switch v := psc.Receive().(type) {
+		case redis.Message:
+			// select with only one case + default: non-blocking
+			select {
+			case spots <- string(v.Data):
+			default:
+			}
 
-        }
-    }
+		}
+	}
 
 }
-
 
 func checkError(err error) {
 	if err != nil {
@@ -378,11 +388,11 @@ func printAllUsers(ip bool) string {
 func readFullLine(conn net.Conn, allowspace bool, reporterror bool) (string, error) {
 	var buf [512]byte
 
-    defer func() {
-        if r := recover(); r != nil {
-            log.Warningf("readFullLine: PANIC! ", r);
-        }
-    }()
+	defer func() {
+		if r := recover(); r != nil {
+			log.Warningf("readFullLine: PANIC! ", r)
+		}
+	}()
 
 	rxlen := 0
 
@@ -472,8 +482,15 @@ func handleSignals() {
 }
 
 func readPrefs() {
-	log.Info("Loading user prefs...\n")
-	f, _ := os.Open("userprefs_rbngo")
+
+	var prefs_file = "userprefs_rbngo"
+	if prod == false {
+		prefs_file = "userprefs_rbngo_dev"
+	}
+
+	log.Infof("Loading user prefs (%s)...\n", prefs_file)
+
+	f, _ := os.Open(prefs_file)
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
@@ -495,9 +512,12 @@ func savePrefs() {
 		buf.WriteString(fmt.Sprintf("%s;%s\n", k, v))
 	}
 
-	ioutil.WriteFile("userprefs_rbngo", buf.Bytes(), 0666)
+	if prod {
+		ioutil.WriteFile("userprefs_rbngo", buf.Bytes(), 0666)
+	} else {
+		ioutil.WriteFile("userprefs_rbngo_dev", buf.Bytes(), 0666)
+	}
 }
-
 
 func setupLogging() {
 	var format = logging.MustStringFormatter(

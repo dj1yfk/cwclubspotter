@@ -13,6 +13,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>07-Mar-2020</td><td>Added a new club: LIDS</td></tr>
 <tr><td>25-Feb-2020</td><td>Callsigns now either link to QRZ.com, HamQTH.com or RBN Activity Reports.</td></tr>
 <tr><td>25-Feb-2020</td><td>New club: RCWC added.</td></tr>
 <tr><td>25-Feb-2020</td><td>Enable telnet port (<code>rbn.telegraphy.de:7000</code>)</td></tr>

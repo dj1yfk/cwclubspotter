@@ -336,6 +336,37 @@ echo
 
 
 #################
+##### LIDS ######
+#################
+
+function lids() {
+N=lids
+echo Processing $N
+
+echo Saving the old members file
+cp -p ${N}members.txt old/
+
+echo Getting the $N member list
+curl -s "http://lidscw.org/members" > temp1
+
+echo Extracting member info 
+perl lids.pl temp1 > ${N}members.new
+
+echo Importing special calls
+cat lids.spc >> ${N}members.new
+
+echo Old file has `wc -l ${N}members.txt|awk '{print $1}'` members
+echo New file has `wc -l ${N}members.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv ${N}members.new ${N}members.txt
+
+echo
+}
+
+
+
+#################
 ##### Main  #####
 #################
 
@@ -373,6 +404,9 @@ case "$1" in
    rcwc)
       rcwc 
       ;;
+  lids)
+      lids
+      ;;
    all)
       cwops
       fists
@@ -382,9 +416,10 @@ case "$1" in
       skcc
       naqcc 
       rcwc
+      lids
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
-      echo $"Usage: $0 {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|all}"
+      echo $"Usage: $0 {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|all}"
       ;;
 esac

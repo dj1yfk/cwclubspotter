@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -49,5 +49,9 @@ $clubweb["BUG"] = "https://groups.io/g/BUG";
 $clubabbr["RCWC"] = "RCWC";
 $clubname["RCWC"] = "Russian CW Club";
 $clubweb["RCWC"] = "http://rcwc.ru/";
+
+$clubabbr["LIDS"] = "LIDS";
+$clubname["LIDS"] = "The Less Involved Data Society";
+$clubweb["LIDS"] = "http://lidscw.org/";
 
 ?>

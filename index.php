@@ -417,7 +417,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 
                 var mobile = false;
                 var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; 
-                var limit = mobile ? 6 : Math.floor((width - 500) / 40);
+                var limit = mobile ? 6 : Math.floor((width - 600) / 40);
                 var moreskimmers = '';
 				var high_contrast = true;
 

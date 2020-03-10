@@ -33,7 +33,7 @@ include_once("clubs.php");
 
 <p>The table shows recent RBN spots of CW club members in a dynamically updated
 bandmap table.
-<span style="color:red">Telnet port now available!</span> See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
+<span style="color:red">Telnet port now available!</span>. See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
 
 <a id="filterChoice" href="javascript:toggleFilter();">hide filter</a>
 <div id="filter" style="display: block">
@@ -259,6 +259,8 @@ include("js/bm_alerts.js");
         document.getElementById('cbAlertVisual').checked = getCookie('alertVisual')=='true';
         document.getElementById('cbAlertAudio').checked = getCookie('alertAudio')=='true';
 
+		var al = getCookie('alerts') || "";
+		document.getElementById('alerts').value=al;
 		filter_change(); // Update the internal arrays to represent the actual values of the checkboxes
 
 		var l = (getCookie('showFilter')==null || getCookie('showFilter')=='true');

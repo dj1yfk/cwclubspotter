@@ -274,6 +274,7 @@ echo Getting the SKCC member list
 curl -s https://www.skccgroup.com/membership_data/membership_search.php > temp1
 
 awk '/tr/{split($0, a, "<tr>"); for (line in a) { print a[line]; } }' temp1 | \
+    grep -v "\[SK\]" | \
     sed 's/<\/td>/;/g' | sed 's/<td>/;/g' | awk -F";" '{print $4" "$16}' | \
     sed 's/,//g' | fmt -1 | sort | uniq > skccmembers.new
 

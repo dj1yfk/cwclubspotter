@@ -24,10 +24,11 @@ include_once("clubs.php");
 <link rel="shortcut icon" type="image/x-icon" href="/pa4n.ico">
 <link rel="stylesheet" type="text/css" href="/bandmap.css">
 <title>CW Club RBN Spotter</title>
-
+<script src="js/cookies.js"></script>
 
 </head>
-<body>
+<body onload="init_rbn();">
+<audio id="cwplayer"></audio>
 <h1>CW Club RBN Spotter</h1>
 
 <p>The table shows recent RBN spots of CW club members in a dynamically updated
@@ -172,6 +173,15 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <option value="hamqth">hamqth.com</option>
 </select>
 </td>
+</tr>
+<tr>
+<th>Alerts</th>
+<td colspan=12>
+<input onblur="filter_change()" id="alerts" type="text" size="80" name="alerts" value="">
+<input onclick="filter_change()" id="cbAlertVisual" type="checkbox" name="cbAlertVisual" value="1" checked> Visual alert &nbsp; &nbsp;
+<input onclick="filter_change()" id="cbAlertAudio" type="checkbox" name="cbAlertAudio" value="1" checked> Audio alert (CW) &nbsp; &nbsp; <a href="/info#alerts">Alert help</a>
+</td>
+</tr>
 </table>
 </form>
 </div>
@@ -199,6 +209,11 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
     var ownCall;
     var abbreviate = false;
     var linktarget = 'qrz';
+
+<?php
+include("js/bm_alerts.js");
+?>
+
 
     var linktargets = { "qrz": "https://www.qrz.com/db/", "hamqth": "https://hamqth.com/", "rbn": "https://foc.dj1yfk.de/activity/" };
 
@@ -240,6 +255,9 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
         document.getElementById('cbAC').checked = getCookie('abbreviate')=='true';
         
         document.getElementById('linktarget').value = (getCookie('linktarget') == null) ? 'qrz' : getCookie('linktarget');
+
+        document.getElementById('cbAlertVisual').checked = getCookie('alertVisual')=='true';
+        document.getElementById('cbAlertAudio').checked = getCookie('alertAudio')=='true';
 
 		filter_change(); // Update the internal arrays to represent the actual values of the checkboxes
 
@@ -333,6 +351,16 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
         linktarget = document.getElementById('linktarget').value;
         setCookie('linktarget', linktarget);
 
+        alertVisual = document.getElementById('cbAlertVisual').checked;
+        setCookie('alertVisual', alertVisual);
+        
+        alertAudio = document.getElementById('cbAlertAudio').checked;
+        setCookie('alertAudio', alertAudio);
+
+        alert_text = document.getElementById('alerts').value.toUpperCase();
+        document.getElementById('alerts').value = alert_text;
+        setCookie('alerts', alert_text);
+
 		fetch_spots(); // Fetch the spots matching this filter
 	}
 
@@ -386,6 +414,11 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 
 	function update_table () {
 			var d = document.getElementById('tab');
+            var alert_list = document.getElementById('alerts').value.toUpperCase().split(/[^A-Z0-9\/()\-\,]+/);
+            var alert_calls = [];
+            createCookie('alerts', alert_list.join(" "), 365);
+            
+
 			var newtable;
 			newtable = '<table id="spots">' + '<tr><th>Frequency</th><th>Call</th><th>Age</th><th>Member of</th><th style="width:45px">WPM</th><th>Spotted by (and signal strength)</th></tr>';
 
@@ -393,10 +426,18 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 				if (selfSpots==true && spots[i].dxcall==ownCall) { tabclass = 'selfspot'; }
 				else if (spots[i].age < 2) { tabclass = 'newspot'; }
 				else if (spots[i].age < 10) { tabclass = 'midspot'; }
-				else { tabclass = 'oldspot'; }
+                else { tabclass = 'oldspot'; }
+
+                var scall = stripcall(spots[i].dxcall);
+                var alert_this = '';
+                if (match_alert(scall, spots[i].freq, alert_list, alert_calls)) {
+                    alert_calls.push(scall);
+                    alert_this = 'style="color:red;"';
+                }
+
 				newtable += '<tr class="' + tabclass + '">';
                 newtable += '<td class="right">' + spots[i].freq+ '&nbsp;</td>';
-                newtable += '<td><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
+                newtable += '<td><a ' + alert_this + 'href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
 
                 var mo = spots[i].memberof;
@@ -471,39 +512,18 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 			}
 			newtable += '</table>';
 
+            //try {
+                check_alert(alert_calls);
+            /* }
+            catch (e) {
+                console.log("check_alert failed.");
+            }
+*/
+
 			d.innerHTML = newtable;
 			document.getElementById('upd').innerHTML = '';
 			
 	}
-
-function getCookieVal (offset) {
-	var endstr = document.cookie.indexOf (";", offset);
-	if (endstr == -1) { endstr = document.cookie.length; }
-	return unescape(document.cookie.substring(offset, endstr));
-}
-
-function getCookie (name) {
-	var arg = name + "=";
-	var alen = arg.length;
-  	var clen = document.cookie.length;
-  	var i = 0;
-  	while (i < clen) {
-    		var j = i + alen;
-    		if (document.cookie.substring(i, j) == arg) {
-      			return getCookieVal (j);
-      		}
-    		i = document.cookie.indexOf(" ", i) + 1;
-    		if (i == 0) break; 
-    	}
-  	return null;
-}
-
-function setCookie(name, value) {
-	var exdate = new Date();
-	exdate.setDate(exdate.getDate()+4*7); // Expire in 4 weeks time
-	var val=escape(value) + "; expires=" + exdate.toUTCString();
-	document.cookie=name + "=" + val;
-}
 
 function toggleFilter() {
 	var ele = document.getElementById("filter");
@@ -532,6 +552,11 @@ function showFilter(display) {
 		text.innerHTML = "show filter";
 		//console.log('Hiding filter')
 	}
+}
+
+function init_rbn () {
+    load_alerts();
+    fetch_spots();
 }
 
 </script>

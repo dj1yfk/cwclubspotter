@@ -38,12 +38,28 @@
 </ul>
 </p>
 
-<p>Don't you see any spots at all?
+<p><b>Don't you see any spots at all?</b>
 <ul>
 <li>First, please look at the filters you have defined. Maybe they are set too narrow?</li>
 <li>Did you enter a callsign in the "Own Call" box? If you wish to stay anonymous, just enter <em>anything</em> here.</li>
 <li>Also, please check at <a href="http://www.reversebeacon.net">www.reversebeacon.net</a> if the RBN site is up and running at all.</li></ul>
 </p>
+
+
+<p id="alerts"><b>Alerting</b>
+<ul>
+<li>You can enter any number of callsigns, separated by spaces, in the <em>Alert</em> field. If one of these calls is spotted, it will be marked in red on the bandmap.</li>
+<li>It is possible to limit the alerts by frequency by adding the range in parenthesis behind the call (without a space). Examples:
+<ul>
+<li><code>DJ1YFK(3500-10150)</code> - will only raise an alert for DJ1YFK on 80m through 30m</li>
+<li><code>SO5CW(1810-1840,7000-7040,18068-18168)</code> - will only raise an alert for SO5CW on 160m, 40m and 17m in the specified ranges</li>
+</ul>
+</li>
+<li>By checking the "Visual alert" box, you will receive a browser notification and the title of the site will flash for a few seconds to indicate there's an alert</li>
+<li>By checking the "Audio alert" box, you will receive an alert in Morse code, announcing the call(s) that were spotted</li>
+</ul>
+</p>
+
 
 <p><b style="color:red">NEW</b> <b>Connect via telnet:</b> You can receive the spots via Telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Currently filtering by club and continent is implemented for the telnet port. Any changes you make to your filters here on the website automaticallyapplies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ1YFK-1, DJ1YFK-2 to set the and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
 

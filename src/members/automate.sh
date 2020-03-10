@@ -20,10 +20,20 @@ echo Removing HTML formatting
 awk '/</ {gsub(/<tr[^>]*>/,"\n"); gsub(/<[^>]*>/," "); print } '<temp1 >temp2
 
 echo Extracting member info 
-awk -f cwops.awk <temp2 >cwopsmembers.new
+awk -f cwops.awk <temp2 > temp3
 
 echo Importing special calls
-cat cwops.spc >> cwopsmembers.new
+cat cwops.spc >> temp3
+
+echo Removing opt-out calls
+C=0
+cp temp3 temp3-$C
+for a in `cat cwops.exc`  ; do
+    D=$(( C + 1 ))
+    grep -v "$a" temp3-$C > temp3-$D 
+    C=$D
+done
+mv temp3-$D cwopsmembers.new 
 
 echo Old file has `wc -l cwopsmembers.txt|awk '{print $1}'` members
 echo New file has `wc -l cwopsmembers.new|awk '{print $1}'` members

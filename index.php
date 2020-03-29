@@ -32,8 +32,8 @@ include_once("clubs.php");
 <h1>CW Club RBN Spotter</h1>
 
 <p>The table shows recent RBN spots of CW club members in a dynamically updated
-bandmap table.
-<span style="color:red">Telnet port now available!</span>. See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
+bandmap (also available via telnet).
+See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
 
 <a id="filterChoice" href="javascript:toggleFilter();">hide filter</a>
 <div id="filter" style="display: block">
@@ -176,7 +176,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 </tr>
 <tr>
 <th>Alerts</th>
-<td colspan=12>
+<td colspan=15>
 <input onblur="filter_change()" id="alerts" type="text" size="80" name="alerts" value="">
 <input onclick="filter_change()" id="cbAlertVisual" type="checkbox" name="cbAlertVisual" value="1" checked> Visual alert &nbsp; &nbsp;
 <input onclick="filter_change()" id="cbAlertAudio" type="checkbox" name="cbAlertAudio" value="1" checked> Audio alert (CW) &nbsp; &nbsp; <a href="/info#alerts">Alert help</a>
@@ -434,12 +434,12 @@ include("js/bm_alerts.js");
                 var alert_this = '';
                 if (match_alert(scall, spots[i].freq, alert_list, alert_calls)) {
                     alert_calls.push(scall);
-                    alert_this = 'style="color:red;"';
+                    tabclass='alert';
                 }
 
 				newtable += '<tr class="' + tabclass + '">';
                 newtable += '<td class="right">' + spots[i].freq+ '&nbsp;</td>';
-                newtable += '<td><a ' + alert_this + 'href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
+                newtable += '<td><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
 
                 var mo = spots[i].memberof;

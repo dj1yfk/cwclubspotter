@@ -9,10 +9,13 @@ foreach ($clubs as $c) {
 ?>
 </table>
 
+<p>Missing your favorite club? Get in touch!</p>
+
 <h2>Site changes</h2>
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>29-Mar-2020</td><td>Show alerted rows in yellow to make them stand out better.</td></tr>
 <tr><td>10-Mar-2020</td><td>Added "Alerts". Enter calls you like to be alerted about, visually or with a Morse alert!</td></tr>
 <tr><td>07-Mar-2020</td><td>Added a new club: LIDS</td></tr>
 <tr><td>25-Feb-2020</td><td>Callsigns now either link to QRZ.com, HamQTH.com or RBN Activity Reports.</td></tr>

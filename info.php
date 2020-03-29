@@ -29,6 +29,7 @@
 <span class="snr10">SNR &gt; 10 dB</span>,
 <span class="snr00">SNR &gt; 0 dB</span>. Hover your mouse over a spotter call to see the exact value.</li>
 <li>If you enter your own call and check the 'Include self-spots' box, your self-spots will be shown along with the other spots, with a <span class="selfspot">green background</span>. In order for this feature to work, you must be a member of at least one of the CW clubs. For your self-spots only, all your filter settings - except 'Bands' and 'Max spot age' - will be ignored. This means you will see your self-spots regardless of which filtering you've selected for clubs, speeds, call filter, and skimmer continents.</li>
+<li>Alerts (see below) are shown with a <span class="alert">yellow background</span></li>
 </ul></p>
 
 <p>Do <b>spots of your station not appear</b> in this RBN application? 
@@ -48,7 +49,7 @@
 
 <p id="alerts"><b>Alerting</b>
 <ul>
-<li>You can enter any number of callsigns, separated by spaces, in the <em>Alert</em> field. If one of these calls is spotted, it will be marked in red on the bandmap.</li>
+<li>You can enter any number of callsigns, separated by spaces, in the <em>Alert</em> field. If one of these calls is spotted, it will be <span class="alert">marked in yellow</span> on the bandmap.</li>
 <li>It is possible to limit the alerts by frequency by adding the range in parenthesis behind the call (without a space). Examples:
 <ul>
 <li><code>DJ1YFK(3500-10150)</code> - will only raise an alert for DJ1YFK on 80m through 30m</li>

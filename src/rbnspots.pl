@@ -46,9 +46,12 @@ my @dxcc;
 &read_cty();
 ##################
 
+# additionally, the lowest bit in bm_conts is used as an indicator of a
+# "verified" spot. rules for verified spots: at least 3 spots near this
+# freq and max one spot per call on this freq in 5 minutes.
 my %bm_conts = ( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
 
-my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS/;
+my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS NRR/;
 my %bm = ();
 # create bit masks from @clubs array
 my $i = 0;
@@ -228,18 +231,24 @@ sub save_spot {
     print STDOUT $line2;
 
     # for Redis, we publish:
-    # 1 byte continent info
+    # 1 byte continent info + lowest bit = "verified" spot 
     # 8 byte member info
     # original line
 
-    my $line3 = pack("C", $bm_conts{$spot{cont}});
+    my $line3 = pack("C", $bm_conts{$spot{cont}} | &is_verified(%spot));
     $line3 .= pack("Q", $spot{member});
     $line3 .= $spot{line};
 
     $r->publish('rbn', $line3."\r\n");
-
 }
 
+# filter for "verified" spots. a "verified" spot means:
+# - at least 3 spots in this frequency (+/-)
+# - max one spot per freq (+/-) every 5 minutes
+sub is_verified {
+    #   my %spot = %{$_[0]};
+    return 0;
+}
 
 sub freq2band {
                 my $freq = shift;

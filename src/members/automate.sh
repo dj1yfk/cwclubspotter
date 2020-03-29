@@ -375,6 +375,47 @@ mv ${N}members.new ${N}members.txt
 echo
 }
 
+##############################
+##### Novice Rig Roundup #####
+##############################
+
+function nrr () {
+N=nrr
+echo Processing $N
+
+echo Saving the old members file
+cp -p ${N}members.txt old/
+
+echo Getting the $N member list
+curl -s "https://docs.google.com/spreadsheets/d/e/2PACX-1vTjNA35XfXGHvn4q55Ll8AOutTqWjwcYFfBJezFBP6OfVAcUDc94eohKj9gSnakTDfqz3VmfgHgWSzK/pubhtml/sheet?headers=false&gid=997027111"  > temp1 
+
+echo Removing HTML formatting
+perl nrr.pl temp1 > temp3
+
+echo Importing special calls
+cat ${N}.spc >> temp3
+
+echo Removing opt-out calls
+C=0
+D=0
+cp temp3 temp3-$C
+for a in `cat ${N}.exc`  ; do
+    D=$(( C + 1 ))
+    grep -v "$a" temp3-$C > temp3-$D 
+    C=$D
+done
+mv temp3-$D ${N}members.new 
+
+echo Old file has `wc -l ${N}members.txt|awk '{print $1}'` members
+echo New file has `wc -l ${N}members.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv ${N}members.new ${N}members.txt
+
+echo
+}
+
+
 
 
 #################
@@ -418,6 +459,9 @@ case "$1" in
   lids)
       lids
       ;;
+  nrr)
+      nrr
+      ;;
    all)
       cwops
       fists
@@ -428,9 +472,11 @@ case "$1" in
       naqcc 
       rcwc
       lids
+      nrr
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
-      echo $"Usage: $0 {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|all}"
+      echo $"Usage: $0
+      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|all}"
       ;;
 esac

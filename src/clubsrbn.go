@@ -421,6 +421,11 @@ func readFullLine(conn net.Conn, allowspace bool, reporterror bool) (string, err
 
 		rxlen += n
 
+		if rxlen >= 256 {
+			log.Warningf("readFullLine: Overflow. Flushing input.")
+			return "", nil
+		}
+
 		var cleanbuf []byte
 
 		// do we have \r\n (cut 2 bytes) or only \n (cut 1 byte)?

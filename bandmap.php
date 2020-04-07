@@ -38,7 +38,9 @@ if (!isset($_GET['req']))
 $visitor = $_SERVER['REMOTE_ADDR'];
 $visitor = preg_replace('/\d+$/', '?', $visitor);   # anonymize
 
-$ownCall=mysqli_real_escape_string($con, $_GET['ownCall']);
+$ownCall = $_GET['ownCall'];
+$ownCall = preg_replace("/[^A-Z0-9\/\-]/", "", $ownCall);
+$ownCall=mysqli_real_escape_string($con, $ownCall);
 mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 

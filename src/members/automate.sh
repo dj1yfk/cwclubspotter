@@ -415,6 +415,40 @@ mv ${N}members.new ${N}members.txt
 echo
 }
 
+####################
+##### QRPARCI ######
+####################
+
+function qrparci() {
+N=qrparci
+echo Processing $N
+
+echo Saving the old members file
+cp -p ${N}members.txt old/
+
+echo Getting the $N member list
+# they don't like Curl :)
+curl "http://www.g4bki.com/call_history/qrparci_call_history.txt" \
+    -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0" \
+    -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+    -H "Accept-Language: de-DE,de;q=0.8,en-US;q=0.5,en;q=0.3" --compressed -H "DNT: 1" -H "Connection: keep-alive" \
+    -H "Upgrade-Insecure-Requests: 1" -H "Cache-Control: max-age=0" > temp1
+
+echo Extracting member info 
+awk -F\, '//{print $1}' temp1 > ${N}members.new
+
+echo Importing special calls
+cat ${N}.spc >> ${N}members.new
+
+echo Old file has `wc -l ${N}members.txt|awk '{print $1}'` members
+echo New file has `wc -l ${N}members.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv ${N}members.new ${N}members.txt
+
+echo
+}
+
 
 
 
@@ -462,6 +496,9 @@ case "$1" in
   nrr)
       nrr
       ;;
+  qrparci)
+      qrparci
+      ;;
    all)
       cwops
       fists
@@ -473,10 +510,11 @@ case "$1" in
       rcwc
       lids
       nrr
+      qrparci
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
       echo $"Usage: $0
-      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|all}"
+      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|qrparci|all}"
       ;;
 esac

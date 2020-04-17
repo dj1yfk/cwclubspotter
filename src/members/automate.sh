@@ -449,6 +449,35 @@ mv ${N}members.new ${N}members.txt
 echo
 }
 
+####################
+##### CWJF    ######
+####################
+
+function cwjf() {
+N=cwjf
+echo Processing $N
+
+echo Saving the old members file
+cp -p ${N}members.txt old/
+
+echo Getting the $N member list
+curl -s http://www.cwjf.com.br/eng2.php > temp1
+
+echo Extracting member info 
+awk '/<td><b>/{print $0}' temp1 | sed 's/.*<td><b>//g' | sed 's/<\/b>.*//g' | sed 's/ //g' > ${N}members.new
+
+echo Importing special calls
+cat ${N}.spc >> ${N}members.new
+
+echo Old file has `wc -l ${N}members.txt|awk '{print $1}'` members
+echo New file has `wc -l ${N}members.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv ${N}members.new ${N}members.txt
+
+echo
+}
+
 
 
 
@@ -499,6 +528,9 @@ case "$1" in
   qrparci)
       qrparci
       ;;
+  cwjf)
+      cwjf
+      ;;
    all)
       cwops
       fists
@@ -511,10 +543,11 @@ case "$1" in
       lids
       nrr
       qrparci
+      cwjf
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
       echo $"Usage: $0
-      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|qrparci|all}"
+      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|qrparci|cwjf|all}"
       ;;
 esac

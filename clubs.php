@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -62,5 +62,8 @@ $clubabbr["QRPARCI"] = "QRPARCI";
 $clubname["QRPARCI"] = "QRP Amateur Radio Club International";
 $clubweb["QRPARCI"] = "http://qrparci.org/";
 
+$clubabbr["CWJF"] = "CWJF";
+$clubname["CWJF"] = "Grupo Juizforano de CW";
+$clubweb["CWJF"] = "http://www.cwjf.com.br/";
 
 ?>

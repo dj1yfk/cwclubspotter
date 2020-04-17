@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>17-Apr-2020</td><td>Added CWJF</td></tr>
 <tr><td>09-Apr-2020</td><td>Added QRP ARCI</td></tr>
 <tr><td>29-Mar-2020</td><td>Added NRR (Novice Rig Round-Up).</td></tr>
 <tr><td>29-Mar-2020</td><td>Show alerted rows in yellow to make them stand out better.</td></tr>

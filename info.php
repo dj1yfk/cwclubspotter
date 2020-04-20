@@ -62,7 +62,7 @@
 </p>
 
 
-<p><b style="color:red">NEW</b> <b>Connect via telnet:</b> You can receive the spots via Telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Currently filtering by club and continent is implemented for the telnet port. Any changes you make to your filters here on the website automaticallyapplies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ1YFK-1, DJ1YFK-2 to set the and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
+<p><b style="color:red">NEW</b> <b>Connect via telnet:</b> You can receive the spots via Telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Currently filtering by club and continent is implemented for the telnet port. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ1YFK-1, DJ1YFK-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
 
 <p><b>About:</b> This page was created by <a href="http://fkurz.net/">Fabian, DJ1YFK</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
 As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>

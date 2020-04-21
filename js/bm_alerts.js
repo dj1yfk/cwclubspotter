@@ -137,8 +137,8 @@ function visual_alert (c) {
 
 function sound_alert (c) {
     var p = document.getElementById('cwplayer');
-    console.log(p);
-    p.src = "/cgi-bin/cw.mp3?s=35&e=35&f=600&t=alert " + c.join(" ");
+    var text = c.join(" ").replace(/\(.*\)/g, "");
+    p.src = "/cgi-bin/cw.mp3?s=35&e=35&f=600&t=alert " + text
     p.play();
 }
 

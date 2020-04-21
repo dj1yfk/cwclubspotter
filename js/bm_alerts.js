@@ -31,13 +31,8 @@ function stripcall (c) {
 
 
 // in: c(all), f(req), al (alert list; calls and optionally freq
-// ranges), ac (alert calls, for which an alert was already saved)
-function match_alert(c, f, al, ac) {
-    if (ac.indexOf(c) != -1) {
-        console.log("Dupe: " + c);
-        return false; // duplicate
-    }
-
+// ranges)
+function match_alert(c, f, al) {
     for (var i = 0; i < al.length; i++) {
         var a = al[i];  // can either be a call ("DJ1YFK") or a call with freq filter ("DJ1YFK(3565-3575,7024-7026)")
         if (a.indexOf("(") == -1) {  // normal call
@@ -62,10 +57,10 @@ function match_alert(c, f, al, ac) {
 }
 
 
-// in: list of calls to alert
+// in: list of calls to alert, a hash with frequencies for each call
 // out: call generate_alert with list of calls that were not alerted
 // within last 300 seconds
-function check_alert (c) {
+function check_alert (c, f) {
     var now = (new Date).getTime(); 
     var o = [];
 
@@ -82,7 +77,7 @@ function check_alert (c) {
 
         if  (now - last_alert[c[i]] > 300000) {     // five minutes between alerts
             console.log("Alert! " + c[i]);
-            o.push(c[i]);
+            o.push(c[i] + " (" + f[c[i]].join(", ") + ")");
             last_alert[c[i]] = now;
         }
         else {

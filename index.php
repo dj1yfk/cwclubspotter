@@ -418,6 +418,7 @@ include("js/bm_alerts.js");
 			var d = document.getElementById('tab');
             var alert_list = document.getElementById('alerts').value.toUpperCase().split(/[^A-Z0-9\/()\-\,]+/);
             var alert_calls = [];
+            var alert_freqs = {};
             createCookie('alerts', alert_list.join(" "), 365);
             
 
@@ -432,8 +433,14 @@ include("js/bm_alerts.js");
 
                 var scall = stripcall(spots[i].dxcall);
                 var alert_this = '';
-                if (match_alert(scall, spots[i].freq, alert_list, alert_calls)) {
+                if (match_alert(scall, spots[i].freq, alert_list)) {
                     alert_calls.push(scall);
+                    if (alert_freqs[scall] == null) {
+                        alert_freqs[scall] = [ spots[i].freq ];
+                    }
+                    else {
+                        alert_freqs[scall].push(spots[i].freq);
+                    }
                     tabclass='alert';
                 }
 
@@ -515,7 +522,7 @@ include("js/bm_alerts.js");
 			newtable += '</table>';
 
             //try {
-                check_alert(alert_calls);
+                check_alert(alert_calls, alert_freqs);
             /* }
             catch (e) {
                 console.log("check_alert failed.");

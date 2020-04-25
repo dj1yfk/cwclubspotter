@@ -19,7 +19,6 @@ include_once("clubs.php");
 
 <html>
 <head>
-<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="shortcut icon" type="image/x-icon" href="/pa4n.ico">
 <link rel="stylesheet" type="text/css" href="/bandmap.css">
@@ -82,7 +81,7 @@ foreach ($clubs as $c) {
 </td><td>
 <button type="button" onclick="set_all('speed', false)">nil</button>
 </td><td>
-<input onclick="filter_change()" id="cb<20" type="checkbox" name="cb<20" value="1" checked><20
+<input onclick="filter_change()" id="cb<20" type="checkbox" name="cb<20" value="1" checked>&lt;20
 </td><td>
 <input onclick="filter_change()" id="cb20-24" type="checkbox" name="cb20-24" value="1" checked>20-24
 </td><td>
@@ -92,7 +91,7 @@ foreach ($clubs as $c) {
 </td><td>
 <input onclick="filter_change()" id="cb35-39" type="checkbox" name="cb35-39" value="1" checked>35-39
 </td><td>
-<input onclick="filter_change()" id="cb>39" type="checkbox" name="cb>39" value="1" checked>>39
+<input onclick="filter_change()" id="cb>39" type="checkbox" name="cb>39" value="1" checked>&gt;39
 </td></tr>
 <tr><th>Call filter</th><td colspan="2">
 <input onblur="filter_change()" id="callFilter" type="text" size="6" name="callFilter" value="*">

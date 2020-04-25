@@ -9,18 +9,8 @@ echo Processing CWOPS
 echo Saving the old members file
 cp -p cwopsmembers.txt old/
 
-echo Extracting the Google Docs URL from the first HTML page
-#CWOPS_URL=`curl -s http://www.cwops.org/roster.html | awk '/src/ { sub(/.*src="/,""); sub(/"><\/iframe.*/,""); print}' `
-CWOPS_URL=`curl -s http://www.cwops.org/old/roster.html | awk '/src/ { sub(/.*src="/,""); sub(/"><\/iframe.*/,""); print}' `
-
-echo Getting the CWOPS member list
-curl -s $CWOPS_URL > temp1
-
-echo Removing HTML formatting
-awk '/</ {gsub(/<tr[^>]*>/,"\n"); gsub(/<[^>]*>/," "); print } '<temp1 >temp2
-
-echo Extracting member info 
-awk -f cwops.awk <temp2 > temp3
+echo Getting the CWOPS member list from cwops.telegraphy.de
+echo "select distinct(\`callsign\`) from cwops_members"  |  mysql -ucwops -pcwops CWops > temp3
 
 echo Importing special calls
 cat cwops.spc >> temp3

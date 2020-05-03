@@ -131,7 +131,7 @@ func handleClient(conn net.Conn, filter string) {
 		handleClientClose(conn, control)
 	}
 
-	conn.Write([]byte(fmt.Sprintf("User: %s, Current filter: %s\n%s\n",
+	conn.Write([]byte(fmt.Sprintf("User: %s, Current filter: %s\r\n%s\r\n",
 		login, filter_names[prefs[login]], helptext)))
 	conn.Write([]byte(prompt(login)))
 
@@ -183,7 +183,7 @@ func handleClient(conn net.Conn, filter string) {
 
 func prompt(user string) string {
 	t := time.Now().UTC()
-	return fmt.Sprintf("%s de DJ1YFK-2 %sZ rbn >\r\n", user, t.Format("_2-Jan-2006 1504"))
+	return fmt.Sprintf("%s de DJ1YFK-2 %sZ dxspider >\r\n", user, t.Format("_2-Jan-2006 1504"))
 }
 
 func promptLogin(conn net.Conn, filter string) (login string) {

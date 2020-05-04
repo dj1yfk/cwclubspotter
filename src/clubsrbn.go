@@ -40,6 +40,9 @@ var users map[net.Addr]string
 // user prefs (set/raw or set/clubs) per user
 var prefs map[string]string
 
+// output format (normal/ve7cc) per user (volatile)
+var format map[string]string
+
 // filters per user, as set by web interface
 var ufilter_club map[string]uint64
 var ufilter_cont map[string]byte
@@ -60,6 +63,7 @@ func main() {
 	setupLogging()
 	users = make(map[net.Addr]string)
 	prefs = make(map[string]string)
+	format = make(map[string]string)
 
 	ufilter_club = make(map[string]uint64)
 	ufilter_cont = make(map[string]byte)
@@ -67,13 +71,11 @@ func main() {
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
 		log.Infof("Clubs RBN Server Production Mode, build: %s\n", build)
-		go listenerStart(":7000", "clubs")
-		go listenerStart(":7070", "raw")
+		go listenerStart(":7000")
 		prod = true
 	} else {
 		log.Infof("RBN Server Debug Mode, build: %s\n", build)
-		go listenerStart(":8000", "clubs")
-		go listenerStart(":8070", "raw")
+		go listenerStart(":8000")
 		prod = false
 	}
 
@@ -92,13 +94,13 @@ func main() {
 
 } // main
 
-func listenerStart(service string, filter string) {
+func listenerStart(service string) {
 	listener, err := net.Listen("tcp", service)
 	checkError(err)
 
 	for {
 		if stop_listeners == true {
-			log.Debugf("Listener %s / %s stopping\n", service, filter)
+			log.Debugf("Listener %s stopping\n", service)
 			listener.Close()
 			return
 		}
@@ -106,7 +108,7 @@ func listenerStart(service string, filter string) {
 		if err != nil {
 			continue
 		}
-		go handleClient(conn, filter)
+		go handleClient(conn)
 	}
 }
 
@@ -118,14 +120,14 @@ func handleClientClose(conn net.Conn, ch chan string) {
 	ch <- "end"
 }
 
-func handleClient(conn net.Conn, filter string) {
+func handleClient(conn net.Conn) {
 
 	var login string
 
 	// control channel from client input handling to outputClient
 	control := make(chan string)
 
-	login = promptLogin(conn, filter)
+	login = promptLogin(conn)
 
 	if login == "" {
 		handleClientClose(conn, control)
@@ -138,7 +140,7 @@ func handleClient(conn net.Conn, filter string) {
 	defer handleClientClose(conn, control)
 
 	// This goroutine will take care of spot output
-	go outputClient(conn, control, filter, login)
+	go outputClient(conn, control, login)
 
 	// Main user input processing loop
 	for {
@@ -161,17 +163,29 @@ func handleClient(conn net.Conn, filter string) {
 			log.Debugf("%s: clubs: %s\n", login, cmd)
 			prefs[login] = "clubs"
 			control <- "end"
-			go outputClient(conn, control, "clubs", login)
+			go outputClient(conn, control, login)
 			conn.Write([]byte("New filter: Club members (as set in web interface)\r\n"))
 		case strings.Contains(cmd, "set/raw"):
 			log.Debugf("%s: switch to raw: %s\n", login, cmd)
 			prefs[login] = "raw"
 			control <- "end"
-			go outputClient(conn, control, "raw", login)
+			go outputClient(conn, control, login)
 			conn.Write([]byte("New filter: Raw RBN spots\r\n"))
 		case strings.Contains(cmd, "help"):
 			log.Debugf("%s: help\n", login)
 			conn.Write([]byte(helptext))
+		case strings.Contains(cmd, "set/ve7cc"):
+			log.Debugf("%s: switch to VE7CC format\n", login)
+			format[login] = "ve7cc"
+			control <- "end"
+			go outputClient(conn, control, login)
+			conn.Write([]byte("New format: VE7CC\r\n"))
+		case strings.Contains(cmd, "set/normal"):
+			log.Debugf("%s: switch to normal DX cluster format\n", login)
+			format[login] = "normal"
+			control <- "end"
+			go outputClient(conn, control, login)
+			conn.Write([]byte("New format: Normal\r\n"))
 		default:
 			log.Debugf("%s: Unknown command >%s< (ignored)\n", login, cmd)
 		}
@@ -186,7 +200,7 @@ func prompt(user string) string {
 	return fmt.Sprintf("%s de DJ1YFK-2 %sZ dxspider >\r\n", user, t.Format("_2-Jan-2006 1504"))
 }
 
-func promptLogin(conn net.Conn, filter string) (login string) {
+func promptLogin(conn net.Conn) (login string) {
 
 	login_before_prompt := true
 	// Before we send anything, check for possible HTTP request...
@@ -228,10 +242,8 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 	conn.SetReadDeadline(zero)
 	login = strings.ToUpper(login)
 
-	// On first login automatically asign whatever the filter
-	// variable yields; it depends on the port of the connection
 	if prefs[login] == "" {
-		prefs[login] = filter
+		prefs[login] = "clubs"
 	}
 
 	ra := conn.RemoteAddr()
@@ -243,11 +255,12 @@ func promptLogin(conn net.Conn, filter string) (login string) {
 	return login
 }
 
-func outputClient(conn net.Conn, control <-chan string, filter string, login string) {
+func outputClient(conn net.Conn, control <-chan string, login string) {
 	defer log.Debug("outputClient => close\n")
 
 	spots := make(chan string)
 	rediscontrol := make(chan string)
+	filter := prefs[login]
 
 	go subscribeSpots(filter, spots, rediscontrol)
 
@@ -271,20 +284,42 @@ func outputClient(conn net.Conn, control <-chan string, filter string, login str
 
 				cont := b[0]
 				clubs := binary.LittleEndian.Uint64(b[1:9])
-				s := b[9:]
+				spot = string(b[9:]) // spot w/o the bit fields
 
-				if cont&ufilter_cont[login] != 0 && clubs&ufilter_club[login] != 0 {
-					conn.Write(s)
+				if !(cont&ufilter_cont[login] != 0 && clubs&ufilter_club[login] != 0) {
+					continue // spot does not match the filter
 				}
-			} else { // raw
-				conn.Write([]byte(spot))
 			}
+
+			if format[login] == "ve7cc" {
+				spot = formatVe7cc(spot)
+			}
+
+			conn.Write([]byte(spot))
+
 		}
 	}
 }
 
-// go routine loads all user filters once every 5 seconds from Redis
+// generate CC11 format strings:
+// in: DX de GM6DX-#:    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
+// out:
+// CC11^7021.4^DL2IAD^ 4-May-2020^1352Z^CW    12 dB  23 WPM  CQ^GM6DX^^^DJ1YFK^^^^^^^^^^
+//       freq    dxc     date       utc   rem    spotter   dxcc etc. optional
+func formatVe7cc(spot string) string {
+	//    DX de GM6DX-#:    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
+	spot = strings.Replace(spot, "-#:", " ", -1)
+	spot = strings.Replace(spot, "DX de ", "", -1)
+	//    GM6DX    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
+	s := strings.Fields(spot)
+	out := ""
+	if len(s) >= 10 && len(spot) > 33+28 {
+		out = "CC11^" + s[1] + "^" + s[2] + "^ 4-May-2020^" + s[9] + "^" + spot[33:32+28] + "^" + s[0] + "^^^DJ1YFK^^^^^^^^^^\r\n"
+	}
+	return out
+}
 
+// go routine loads all user filters once every 5 seconds from Redis
 func loadUserfilters() {
 	c, _ := redis.Dial("tcp", "localhost:6379")
 	defer c.Close()

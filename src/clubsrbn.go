@@ -314,7 +314,8 @@ func formatVe7cc(spot string) string {
 	s := strings.Fields(spot)
 	out := ""
 	if len(s) >= 10 && len(spot) > 33+28 {
-		out = "CC11^" + s[1] + "^" + s[2] + "^ 4-May-2020^" + s[9] + "^" + spot[33:32+28] + "^" + s[0] + "^^^DJ1YFK^^^^^^^^^^\r\n"
+		t := time.Now().UTC()
+		out = "CC11^" + s[1] + "^" + s[2] + "^" + t.Format("_2-Jan-2006") + "^" + s[9] + "^" + spot[33:33+28] + "^" + s[0] + "^^^DJ1YFK^^^^^^^^^^\r\n"
 	}
 	return out
 }

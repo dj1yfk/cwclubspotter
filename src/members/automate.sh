@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /home/fabian/sites/rbn.telegraphy.de/src/members/
+
 #################
 ##### CWOPS #####
 #################
@@ -10,7 +12,7 @@ echo Saving the old members file
 cp -p cwopsmembers.txt old/
 
 echo Getting the CWOPS member list from cwops.telegraphy.de
-echo "select distinct(\`callsign\`) from cwops_members"  |  mysql -ucwops -pcwops CWops > temp3
+echo "select distinct(\`callsign\`) from cwops_members where \`left\` = '2099-01-01';"  |  mysql -ucwops -pcwops CWops > temp3
 
 echo Importing special calls
 cat cwops.spc >> temp3

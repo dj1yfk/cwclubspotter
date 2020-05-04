@@ -41,7 +41,7 @@ $visitor = preg_replace('/\d+$/', '?', $visitor);   # anonymize
 $ownCall = $_GET['ownCall'];
 $ownCall = preg_replace("/[^A-Z0-9\/\-]/", "", $ownCall);
 $ownCall=mysqli_real_escape_string($con, $ownCall);
-mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 2 MINUTE);");
+mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 20 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 
 $bm_conts_a = array( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
@@ -263,6 +263,7 @@ while ($r) {
 array_push($json_a, build_json($dxc, $freq, $age, ($minwpm<$maxwpm ? "$minwpm-$maxwpm" : "$minwpm"), $memberof, $spotters, $spotters_old));
 
 echo "[".implode(",", $json_a)."]";
+#error_log(1000*(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]));
 if (intval(phpversion())>=5)
   mysqli_close($con);
 else

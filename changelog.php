@@ -1,10 +1,10 @@
 <h2>Last updates of member lists:</h2>
 <table>
-<tr><th>Club</th><th>Website</th><th>Date</th></tr>
+<tr><th>Club</th><th>Website</th><th>Date</th><th>Calls (approx.)</th></tr>
 <?
 include_once("clubs.php");
 foreach ($clubs as $c) {
-    echo "<tr><td>".strtoupper($c)."</td><td><a href='".$clubweb[$c]."'>".$clubname[$c]."</a></td><td>".date ("d-F-Y",  filemtime("src/members/".strtolower($c)."members.txt"))."</td></tr>\n";
+    echo "<tr><td>".strtoupper($c)."</td><td><a href='".$clubweb[$c]."'>".$clubname[$c]."</a></td><td>".date ("d-F-Y",  filemtime("src/members/".strtolower($c)."members.txt"))."</td><td>".count(file("src/members/".strtolower($c)."members.txt"))."</td></tr>\n";
 }
 ?>
 </table>

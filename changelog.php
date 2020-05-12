@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>11-May-2020</td><td>Added TORCW (Tortugas CW Club)</td></tr>
 <tr><td>21-Apr-2020</td><td>Alerts now shown all bands (not just first). Visual alert includes frequencies.</td></tr>
 <tr><td>17-Apr-2020</td><td>Added CWJF</td></tr>
 <tr><td>09-Apr-2020</td><td>Added QRP ARCI</td></tr>

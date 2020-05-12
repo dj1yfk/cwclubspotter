@@ -470,6 +470,36 @@ mv ${N}members.new ${N}members.txt
 echo
 }
 
+####################
+##### TORCW   ######
+####################
+
+function torcw() {
+N=torcw
+echo Processing $N
+
+echo Saving the old members file
+cp -p ${N}members.txt old/
+
+echo Getting the $N member list
+FN=tortugas.xlsx
+libreoffice --headless --convert-to csv $FN
+
+echo Extracting member info 
+awk -F\, '{if ($2 == "BAJAS TEMPORALES") { exit; }; print $2}' tortugas.csv | sed 's/ //g'  > ${N}members.new
+
+echo Importing special calls
+cat ${N}.spc >> ${N}members.new
+
+echo Old file has `wc -l ${N}members.txt|awk '{print $1}'` members
+echo New file has `wc -l ${N}members.new|awk '{print $1}'` members
+
+echo Copying new members file into place
+mv ${N}members.new ${N}members.txt
+
+echo
+}
+
 
 
 
@@ -523,6 +553,9 @@ case "$1" in
   cwjf)
       cwjf
       ;;
+  torcw)
+     torcw 
+      ;;
    all)
       cwops
       fists
@@ -536,10 +569,11 @@ case "$1" in
       nrr
       qrparci
       cwjf
+      torcw
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)
       echo $"Usage: $0
-      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|qrparci|cwjf|all}"
+      {cwops|fists|foc|hsc|ehsc|shsc|vhsc|xhsc|skcc|naqcc|rcwc|lids|nrr|qrparci|cwjf|torcw|all}"
       ;;
 esac

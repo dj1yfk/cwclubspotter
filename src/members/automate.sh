@@ -569,7 +569,7 @@ case "$1" in
       nrr
       qrparci
       cwjf
-      torcw
+      #torcw
       touch /home/fabian/sites/foc.dj1yfk.de/members.txt # :D:D:D
       ;;
    *)

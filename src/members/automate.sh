@@ -46,7 +46,7 @@ echo Saving the old members file
 cp -p fistsmembers.txt old/
 
 echo Getting the FISTS member list
-curl -s http://fists.co.uk/docs/pa4n/callsigns.txt > temp1
+curl -s https://fists.co.uk/docs/pa4n/callsigns.txt > temp1
 
 echo Extracting member info 
 awk -f fists.awk <temp1 >fistsmembers.new

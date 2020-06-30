@@ -166,9 +166,10 @@ sub loadcalls {
             open CALLS, $filename;
             while (my $a = <CALLS>) {
                 chomp($a);
+                $a =~ s/\s//g;
+                $a =~ s/\r//g;
                 strip_ukcd_calls($a);
-                print "Reading $club member [". $a."]\n";
-                map {s/\r//g;} ($a);
+                print "Reading $club member [".$a."]\n";
                 $callhash{$a} |= $bm{$club};
             }
             close CALLS;

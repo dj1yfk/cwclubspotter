@@ -28,7 +28,7 @@ import (
 )
 
 // Globals
-var helptext = "\r\n- set/clubs       Show filtered spots\r\n- set/raw         Show all unfiltered RBN spots\r\n\r\nNo spots? Set your filter preferences at https://rbn.telegraphy.de/\r\n"
+var helptext = "\r\n- set/clubs       Show filtered spots\r\n- set/raw         Show all unfiltered RBN spots\r\n\r\nNo spots? Go to https://rbn.telegraphy.de/, enter your callsign\r\nand edit your filters!\r\n"
 var filter_names = map[string]string{"clubs": "Clubs (filtered)", "raw": "Raw unfiltered spots"}
 
 // build info should be set by Makefile or build process

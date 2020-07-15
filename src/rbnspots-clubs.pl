@@ -119,7 +119,7 @@ while (1) {
             $spot{member} = $callhash{$stripcall};    # save bitmask for club membership in spot hahs
             &save_spot(\%spot);                        # save to SQL database
         }
-        elsif (($spot{freq} >= 3566.5 and $spot{freq} <= 3567.5) or ($spot{freq} >= 7023.5 and $spot{freq} <= 7024.5)) {   # for qrqpoint.com
+        else {
             $spot{member} = 0;
             &save_spot(\%spot);
         }

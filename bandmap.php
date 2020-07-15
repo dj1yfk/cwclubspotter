@@ -90,8 +90,12 @@ for  ($i = 0; $i < count($clubs); $i++) {
 
 $redis->hset("rbnprefs", $ownCall, pack('C', $bm_conts).pack('Q', $mask));
 
-
-$queryclub_string = " AND member & $mask ";
+if ($mask) {
+    $queryclub_string = " AND member & $mask ";
+}
+else {
+    $queryclub_string = " ";
+}
 
 
 $allspeeds = array('<20', '20-24', '25-29', '30-34', '35-39', '>39');

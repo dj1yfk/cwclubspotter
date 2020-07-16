@@ -30,11 +30,12 @@ include_once("clubs.php");
 <audio id="cwplayer"></audio>
 <h1>CW Club RBN Spotter</h1>
 
-<p>The table shows recent RBN spots of CW club members in a dynamically updated
+<p>The table shows recent RBN spots of (optionally filtered by CW club members) in a dynamically updated
 bandmap (also available via telnet).
 See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
 
-<a id="filterChoice" href="javascript:toggleFilter();">hide filter</a>
+<a id="filterChoice" href="javascript:toggleFilter();">hide filter</a> - 
+<a id="freqChoice" href="javascript:toggleFreq();">hide frequencies</a>
 <div id="filter" style="display: block">
 <form onSubmit="filter_change();return false;">
 <table>
@@ -185,7 +186,19 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 </form>
 </div>
 <br/>
-<hr/>
+
+<div id="frequencies" style="display: block">
+<table>
+<tr><th>Club</th><th>160m</th><th>80m</th><th>60m</th><th>40m</th><th>30m</th><th>20m</th><th>17m</th><th>15m</th><th>12m</th><th>10m</th><th>6m</th></tr>
+<tr><th>CWops</th><td>1.818</td><td>3.528</td><td>-</td><td>7.028</td><td>10.118</td><td>14.028</td><td>18.078</td><td>21.028</td><td>24.908</td><td>28.028</td><td>-</td></tr>
+<tr><th>FISTS</th><td>1.818</td><td>3.558</td><td>-</td><td>7.028</td><td>10.118</td><td>14.058</td><td>18.085</td><td>21.058</td><td>24.908</td><td>28.058</td><td>50.058</td></tr>
+<tr><th>FOC</th><td>1.825</td><td>3.525</td><td>5.373</td><td>7.025</td><td>10.125</td><td>14.025</td><td>18.080</td><td>21.025</td><td>24.905</td><td>28.025</td><td>50.095</td></tr>
+<tr><th>SKCC</th><td>1.8135</td><td>3.530 / 3.550</td><td>-</td><td>7.055 / 7.120</td><td>10.120</td><td>14.050</td><td>18.080</td><td>21.050 / 21.114</td><td>24.910</td><td>28.050 / 28.114</td><td>50.090</td></tr>
+<tr><th>NAQCC</th><td>1.810 / 1.843</td><td>3.560</td><td>-</td><td>7.030 / 7.040</td><td>10.106 / 10.116</td><td>14.060</td><td>18.096</td><td>21.060</td><td>24.906</td><td>28.060</td><td>50.096</td></tr>
+</table>
+</div>
+
+
 <br/>
 <div id='tab'>Spots should appear here. If they don't, maybe you have Javascript disabled in your browser.</div>
 <br/>
@@ -263,8 +276,10 @@ include("js/bm_alerts.js");
 		filter_change(); // Update the internal arrays to represent the actual values of the checkboxes
 
 		var l = (getCookie('showFilter')==null || getCookie('showFilter')=='true');
-
         showFilter(l); // Show or hide the filter section, depending on the cookie value
+        
+        var l = (getCookie('showFreq')==null || getCookie('showFreq')=='true');
+        showFreq(l); // Show or hide the club frequencies
 	}
 
 	function set_all (what, mode) {
@@ -559,6 +574,31 @@ function showFilter(display) {
     		ele.style.display = "none";
 		text.innerHTML = "show filter";
 		//console.log('Hiding filter')
+	}
+}
+
+
+function toggleFreq() {
+    var ele = document.getElementById("frequencies");
+    var text = document.getElementById("freq");
+	if (ele.style.display == "block") {
+  		showFreq(false);
+		setCookie('showFreq', false);
+	} else {
+		showFreq(true);
+		setCookie('showFreq', true);
+	}
+}
+
+function showFreq(display) {
+	var ele = document.getElementById("frequencies");
+	var text = document.getElementById("freqChoice");
+	if (display==true) {
+		ele.style.display = "block";
+		text.innerHTML = "hide frequencies";
+	} else {
+    	ele.style.display = "none";
+		text.innerHTML = "show frequencies";
 	}
 }
 

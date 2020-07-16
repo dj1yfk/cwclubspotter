@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>16-Jul-2020</td><td>Show a table of CW club frequencies (optional) - tnx SQ9S</td></tr>
 <tr><td>14-Jul-2020</td><td>Deselecting all clubs now shows all unfiltered spots.</td></tr>
 <tr><td>14-Jun-2020</td><td>Added SOC</td></tr>
 <tr><td>11-May-2020</td><td>Added TORCW (Tortugas CW Club)</td></tr>

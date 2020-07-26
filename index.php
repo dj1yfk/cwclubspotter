@@ -193,7 +193,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <tr><th>CWops</th><td>1.818</td><td>3.528</td><td>-</td><td>7.028</td><td>10.118</td><td>14.028</td><td>18.078</td><td>21.028</td><td>24.908</td><td>28.028</td><td>-</td></tr>
 <tr><th>FISTS</th><td>1.818</td><td>3.558</td><td>-</td><td>7.028</td><td>10.118</td><td>14.058</td><td>18.085</td><td>21.058</td><td>24.908</td><td>28.058</td><td>50.058</td></tr>
 <tr><th>FOC</th><td>1.825</td><td>3.525</td><td>5.373</td><td>7.025</td><td>10.125</td><td>14.025</td><td>18.080</td><td>21.025</td><td>24.905</td><td>28.025</td><td>50.095</td></tr>
-<tr><th>SKCC</th><td>1.8135</td><td>3.530 / 3.550</td><td>-</td><td>7.055 / 7.120</td><td>10.120</td><td>14.050</td><td>18.080</td><td>21.050 / 21.114</td><td>24.910</td><td>28.050 / 28.114</td><td>50.090</td></tr>
+<tr><th>SKCC</th><td>1.8135</td><td>3.530 / 3.550</td><td>-</td><td>7.055 / 7.120</td><td>10.120</td><td>14.050 / 14.114</td><td>18.080</td><td>21.050 / 21.114</td><td>24.910</td><td>28.050 / 28.114</td><td>50.090</td></tr>
 <tr><th>NAQCC</th><td>1.810 / 1.843</td><td>3.560</td><td>-</td><td>7.030 / 7.040</td><td>10.106 / 10.116</td><td>14.060</td><td>18.096</td><td>21.060</td><td>24.906</td><td>28.060</td><td>50.096</td></tr>
 </table>
 </div>
@@ -227,7 +227,7 @@ include("js/bm_alerts.js");
 ?>
 
 
-    var linktargets = { "qrz": "https://www.qrz.com/db/", "hamqth": "https://hamqth.com/", "rbn": "https://foc.dj1yfk.de/activity/" };
+    var linktargets = { "qrz": "https://www.qrz.com/db/", "hamqth": "https://hamqth.com/", "rbn": "https://rbn.telegraphy.de/activity/" };
 
 	load_cookies(); // Load the cookies. This will also fetch the matching spots for this first time
 

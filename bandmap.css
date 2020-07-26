@@ -24,7 +24,6 @@ td {
 		padding-right: 6px;
 		padding-left: 6px;
 }
-
 code {
 		background-color: #dddddd;
 }
@@ -44,3 +43,8 @@ code {
 .selfspot { background-color: #ccffcc; }
 .alert { background-color: #f4f444; }
 
+.btn {
+    border: solid #000000 1px;
+    border-radius: 5px;
+    padding: 2px 4px 2px 4px;
+}

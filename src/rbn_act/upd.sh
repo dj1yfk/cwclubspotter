@@ -8,9 +8,9 @@ wget http://reversebeacon.net/raw_data/dl.php?f=$dldate -O $dldate".zip"
 
 unzip $dldate".zip"
 
-perl /home/fabian/sites/rbn.telegraphy.de/rbn-raw/act.pl $dldate".csv"
-perl /home/fabian/sites/rbn.telegraphy.de/rbn-raw/fixdxcc.pl 
-perl /home/fabian/sites/rbn.telegraphy.de/rbn-raw/fix_hours.pl 
+perl /home/fabian/sites/rbn.telegraphy.de/src/rbn_act/act.pl $dldate".csv"
+perl /home/fabian/sites/rbn.telegraphy.de/src/rbn_act/fix_dxcc.pl 
+perl /home/fabian/sites/rbn.telegraphy.de/src/rbn_act/fix_hours.pl 
 
 rm -f $dldate".csv"
 

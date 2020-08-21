@@ -32,7 +32,7 @@ include_once("clubs.php");
 
 <p>The table shows recent RBN spots of (optionally filtered by CW club members) in a dynamically updated
 bandmap (also available via telnet).
-See <a href="info">here</a> for more info. &nbsp; <span id="upd"></span></p>
+See <a href="info">here</a> for more info. &nbsp; <span style="color:red;">New: Calendar of CW activities (next to the frequency box), tnx SQ9S!</span> <span id="upd"></span></p>
 
 <a id="filterChoice" href="javascript:toggleFilter();">hide filter</a> - 
 <a id="freqChoice" href="javascript:toggleFreq();">hide frequencies</a>
@@ -188,6 +188,9 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <br/>
 
 <div id="frequencies" style="display: block">
+<table style="border:none;">
+<tr>
+<td valign="top">
 <table>
 <tr><th>Club</th><th>160m</th><th>80m</th><th>60m</th><th>40m</th><th>30m</th><th>20m</th><th>17m</th><th>15m</th><th>12m</th><th>10m</th><th>6m</th></tr>
 <tr><th>CWops</th><td>1.818</td><td>3.528</td><td>-</td><td>7.028</td><td>10.118</td><td>14.028</td><td>18.078</td><td>21.028</td><td>24.908</td><td>28.028</td><td>-</td></tr>
@@ -195,6 +198,28 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <tr><th>FOC</th><td>1.825</td><td>3.525</td><td>5.373</td><td>7.025</td><td>10.125</td><td>14.025</td><td>18.080</td><td>21.025</td><td>24.905</td><td>28.025</td><td>50.095</td></tr>
 <tr><th>SKCC</th><td>1.8135</td><td>3.530 / 3.550</td><td>-</td><td>7.055 / 7.120</td><td>10.120</td><td>14.050 / 14.114</td><td>18.080</td><td>21.050 / 21.114</td><td>24.910</td><td>28.050 / 28.114</td><td>50.090</td></tr>
 <tr><th>NAQCC</th><td>1.810 / 1.843</td><td>3.560</td><td>-</td><td>7.030 / 7.040</td><td>10.106 / 10.116</td><td>14.060</td><td>18.096</td><td>21.060</td><td>24.906</td><td>28.060</td><td>50.096</td></tr>
+</table>
+</td>
+<td>
+<table width=450>
+<tr><th colspan=2>Upcoming events <a id="toggle_events" href="javascript:toggle_events();">(show all)</a></th></tr>
+<?php
+$events = file("events.txt");
+foreach ($events as $e) {
+    $a = explode(";", $e);
+    $i++;
+    if ($a[1]) {
+        $comma = ",";
+    }
+    else {
+        $comma = "";
+    }
+    echo "<tr id='event$i'><td>$a[0] $a[1]</td><td><a href='$a[3]'>$a[2]</a></td></tr>";
+}
+?>
+</td>
+</tr>
+</table>
 </table>
 </div>
 
@@ -221,6 +246,10 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
     var ownCall;
     var abbreviate = false;
     var linktarget = 'qrz';
+
+    var show_all_events = false;
+
+
 
 <?php
 include("js/bm_alerts.js");
@@ -595,16 +624,41 @@ function showFreq(display) {
 	var text = document.getElementById("freqChoice");
 	if (display==true) {
 		ele.style.display = "block";
-		text.innerHTML = "hide frequencies";
+		text.innerHTML = "hide frequencies and calendar";
 	} else {
     	ele.style.display = "none";
-		text.innerHTML = "show frequencies";
+		text.innerHTML = "show frequencies and calendar";
 	}
 }
+
+
+function toggle_events () {
+    var nr = 0;
+	var i = 0;
+
+	while (document.getElementById('event' + (++nr)));
+
+	if (show_all_events == 1) {
+		for (i=1; i < nr; i++) {
+			document.getElementById('event' + i).style.display = "table-row";
+			document.getElementById('toggle_events').innerHTML = "(show less)";
+		}
+	}
+	else {
+		for (i=6; i < nr; i++) {
+			document.getElementById('event' + i).style.display = "none";
+			document.getElementById('toggle_events').innerHTML = "(show all)";
+		}
+	}
+	show_all_events = !show_all_events;
+}
+
+
 
 function init_rbn () {
     load_alerts();
     fetch_spots();
+	toggle_events();
 }
 
 </script>

@@ -214,7 +214,7 @@ foreach ($events as $e) {
     else {
         $comma = "";
     }
-    echo "<tr id='event$i'><td>$a[0] $a[1]</td><td><a href='$a[3]'>$a[2]</a></td></tr>";
+    echo "<tr id='event$i'><td>$a[0]$comma $a[1]</td><td><a target='_blank' href='$a[3]'>$a[2]</a></td></tr>";
 }
 ?>
 </td>

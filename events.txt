@@ -1,0 +1,24 @@
+Sep 23;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
+Sep 23;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Sep 26;1400z to 1800z;AGCW VHF/UHF Contest;https://www.agcw.org/index.php/en/contests-and-cw-activities/vhf-uhf-contest
+Sep 27;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
+Sep 28 to Oct 25;;FISTS 2M CHRONOPHAGE;https://fists.co.uk/activitiescalendar.html#fiststwomcp
+Sep 30;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Oct 1 to 31;;FISTS Eu Word Search;https://fists.co.uk/activitiescalendar.html#fistsws2020
+Oct 1;0000z to 2359z;SKCC's Slow Speed Saunter (CQS);https://www.skccgroup.com/operating_activities/slowspeed/
+Oct 1;1900z to 2100z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
+Oct 3;0700z to 1000z;German Telegraphy Contest (DTC);https://www.agcw.org/index.php/en/contests-and-cw-activities/german-telegraphy-contest-dtc
+Oct 4;0700z to 1000z;RCWC Radio Retro;soon
+Oct 7;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Oct 10;0000z to 2359z;QRP-ARCI Fall QSO Party;http://qrparci.org/contest/fall-qso-party
+Oct 10;1200z to 11.10 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
+Oct 11;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
+Oct 14;0030z to 0230z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
+Oct 14;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Oct 15;;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
+Oct 16 to 22.10;;RCWC 10 Years;soon
+Oct 21;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Oct 24;10z,16z,20z;RCWC 4 SEASONS;soon
+Oct 25;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
+Oct 28;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
+Oct 28;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/

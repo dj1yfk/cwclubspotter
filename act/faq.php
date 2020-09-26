@@ -33,7 +33,7 @@ p {
 
 <h2>I just called CQ, but my report is blank for today</h2>
 <p>RBN data is downloaded and processed daily, around 02:00 UTC. Additionally (as of 2019-01-21) live data is also fed into the database, but this is still an experimental feature. Therefore, to be sure that your data is included, wait until 02:00 UTC on the following day.</p>
-<p>You can always check your signal in real time on <a href="http://reversebeacon.net/srch.php">reversebeacon.net</a>.</p>
+<p>You can always check your signal in real time on <a href="http://reversebeacon.net/srch.php">reversebeacon.net</a> or <a href="http://skimmer.g7vjr.org/?dx=dj1yfk">skimmer.g7vjr.org</a>.</p>
 
 <h2>I see reported activity for a band that I was not active on!</h2>
 <p>Skimmers are not perfect. It often happens that calls are not copied correctly by skimmers and therefore a wrong callsign gets reported. You can find <strong>dozens</strong> of variations of some well known contest calls, with dots missing, etc. For example <a href="/activity/W3LPL">W3LPL</a> frequently gets spotted as <a href="/activity/W3LP">W3LP</a>, <a href="/activity/W3RPL">W3RPL</a>, <a href="/activity/LW3LPL">LW3LPL</a>,...</p>
@@ -41,8 +41,6 @@ p {
 
 <h2>My callsign was spotted wrong by the RBN. Will you correct this?</h2>
 <p>This site reflects exactly what the RBN spots, and I am reluctant to make any changes to the data I am receiving. Quite often, a callsign gets spotted with a missing last letter or some other miscopied parts, due to QRM, QSB etc. However, for every "busted" spot there are typically dozens of good spots, so they statistically don't matter and the accuracy of the report for your own callsign hardly suffers from this.</p>
-
-<h2>More to come, this is a work in progress...</h2> 
 
 <hr>
 <a href="/">Back to the CW Clubs RBN Spotter</a> - <a href="/activity">Back to RBN Activity Charts</a>

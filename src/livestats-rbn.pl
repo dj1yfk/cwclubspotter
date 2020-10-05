@@ -64,6 +64,9 @@ my $r_data = Redis->new;
 $r->subscribe('raw',
 	my $callback = sub {
 		my ($msg, $topic, $st) = @_;
+        if (substr($msg, 6, 9) eq "EA8/DF4UE") {
+            $msg =~ s#EA8/DF4UE#EA8AAA#g;
+        }
 		my $call = substr($msg, 26, 13);
 		$call =~ s/[^a-z0-9\/]//gi;
 

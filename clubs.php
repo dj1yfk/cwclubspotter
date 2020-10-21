@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -74,4 +74,7 @@ $clubabbr["SOC"] = "SOC";
 $clubname["SOC"] = "Second Class Operators' Club";
 $clubweb["SOC"] = "https://qsl.net/soc/";
 
+$clubabbr["UFT"] = "UFT";
+$clubname["UFT"] = "Union Française des Télégraphistes";
+$clubweb["UFT"] = "http://uft.net/";
 ?>

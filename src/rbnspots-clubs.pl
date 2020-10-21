@@ -51,7 +51,7 @@ my @dxcc;
 # freq and max one spot per call on this freq in 5 minutes.
 my %bm_conts = ( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
 
-my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS NRR QRPARCI CWJF TORCW SOC/;
+my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS NRR QRPARCI CWJF TORCW SOC UFT/;
 my %bm = ();
 # create bit masks from @clubs array
 my $i = 0;
@@ -91,6 +91,7 @@ while (1) {
         next if ($line =~ /DK1DU/);    # opt-out
         next if ($line =~ /DK2DO/);    # opt-out
         next if ($line =~ /R6AF/);    # opt-out
+        next if ($line =~ /G0JWB/);    # opt-out
 
         my %spot = &parse_line($line);
 

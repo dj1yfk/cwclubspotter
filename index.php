@@ -32,7 +32,7 @@ include_once("clubs.php");
 
 <p>The table shows recent RBN spots of (optionally filtered by CW club members) in a dynamically updated
 bandmap (also available via telnet).
-See <a href="info">here</a> for more info. &nbsp; <span style="color:red;">New: Calendar of CW activities (next to the frequency box), tnx SQ9S!</span> <span id="upd"></span></p>
+See <a href="info">here</a> for more info. &nbsp; <span style="color:red;"></span> <span id="upd"></span></p>
 
 <a id="filterChoice" href="javascript:toggleFilter();">hide filter</a> - 
 <a id="freqChoice" href="javascript:toggleFreq();">hide frequencies</a>
@@ -198,6 +198,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <tr><th>FOC</th><td>1.825</td><td>3.525</td><td>5.373</td><td>7.025</td><td>10.125</td><td>14.025</td><td>18.080</td><td>21.025</td><td>24.905</td><td>28.025</td><td>50.095</td></tr>
 <tr><th>SKCC</th><td>1.8135</td><td>3.530 / 3.550</td><td>-</td><td>7.055 / 7.120</td><td>10.120</td><td>14.050 / 14.114</td><td>18.080</td><td>21.050 / 21.114</td><td>24.910</td><td>28.050 / 28.114</td><td>50.090</td></tr>
 <tr><th>NAQCC</th><td>1.810 / 1.843</td><td>3.560</td><td>-</td><td>7.030 / 7.040</td><td>10.106 / 10.116</td><td>14.060</td><td>18.096</td><td>21.060</td><td>24.906</td><td>28.060</td><td>50.096</td></tr>
+<tr><th>UFT</th><td>1.835</td><td>3.545</td><td>5.352</td><td>7.013</td><td>10.135</td><td>14.045</td><td>18.083</td><td>21.045</td><td>24.903</td><td>28.045</td><td>50.085</td></tr>
 </table>
 </td>
 <td>
@@ -650,7 +651,7 @@ function toggle_events () {
 		}
 	}
 	else {
-		for (i=6; i < nr; i++) {
+		for (i=7; i < nr; i++) {
 			document.getElementById('event' + i).style.display = "none";
 			document.getElementById('toggle_events').innerHTML = "(show all)";
 		}

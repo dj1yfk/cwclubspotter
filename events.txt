@@ -1,18 +1,11 @@
-Sep 28 to Oct 25;;FISTS 2M CHRONOPHAGE;https://fists.co.uk/activitiescalendar.html#fiststwomcp
-Oct 1 to 31;;FISTS Eu Word Search;https://fists.co.uk/activitiescalendar.html#fistsws2020
-Oct 7;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Oct 10;0000z to 2359z;QRP-ARCI Fall QSO Party;http://qrparci.org/contest/fall-qso-party
-Oct 10;1200z to 11.10 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
-Oct 11;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
-Oct 14;0030z to 0230z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
-Oct 14;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Oct 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
-Oct 16 to 22.10;;RCWC 10 Years;soon
-Oct 17;2000z to 2200z;Concurso Tortugascw 80M;https://www.tortugascw.com/concurso2020-bases.html
-Oct 18;0800z to 1200z;Concurso Tortugascw 40M;https://www.tortugascw.com/concurso2020-bases.html
-Oct 21;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Oct 24;10z,16z,20z;RCWC 4 SEASONS;soon
-Oct 25;0600z to 1200z;A1CLUB STRAIGHT KEY;https://a1club.net/contest/2020/a1test-rule-2020-DX.pdf
-Oct 25;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
-Oct 28;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
-Oct 28;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Nov 5;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
+Nov 7;1200z to 11.10 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
+Nov 8;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
+Nov 11;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Nov 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
+Nov 16 to 22;;MECHANICAL KEY DAYS 2020;https://www.fists.co.uk/activitiescalendar.html#fistsmkd2020
+Nov 18;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Nov 19;0130z to 0330z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
+Nov 22;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
+Nov 25;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
+Nov 25;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/

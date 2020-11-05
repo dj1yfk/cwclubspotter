@@ -193,6 +193,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <td valign="top">
 <table>
 <tr><th>Club</th><th>160m</th><th>80m</th><th>60m</th><th>40m</th><th>30m</th><th>20m</th><th>17m</th><th>15m</th><th>12m</th><th>10m</th><th>6m</th></tr>
+<tr><th>HSC, VHSC, SHSC, EHSC</th><td>-</td><td>3.525 / 3.567</td><td>-</td><td>7.024 / 7.025</td><td>10.125</td><td>14.025</td><td>-</td><td>21.025</td><td>-</td><td>28.025</td><td>-</td></tr>
 <tr><th>CWops</th><td>1.818</td><td>3.528</td><td>-</td><td>7.028</td><td>10.118</td><td>14.028</td><td>18.078</td><td>21.028</td><td>24.908</td><td>28.028</td><td>-</td></tr>
 <tr><th>FISTS</th><td>1.818</td><td>3.558</td><td>-</td><td>7.028</td><td>10.118</td><td>14.058</td><td>18.085</td><td>21.058</td><td>24.908</td><td>28.058</td><td>50.058</td></tr>
 <tr><th>FOC</th><td>1.825</td><td>3.525</td><td>5.373</td><td>7.025</td><td>10.125</td><td>14.025</td><td>18.080</td><td>21.025</td><td>24.905</td><td>28.025</td><td>50.095</td></tr>
@@ -651,7 +652,7 @@ function toggle_events () {
 		}
 	}
 	else {
-		for (i=7; i < nr; i++) {
+		for (i=8; i < nr; i++) {
 			document.getElementById('event' + i).style.display = "none";
 			document.getElementById('toggle_events').innerHTML = "(show all)";
 		}

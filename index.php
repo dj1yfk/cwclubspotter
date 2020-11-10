@@ -176,7 +176,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 </tr>
 <tr>
 <th>Alerts</th>
-<td colspan=15>
+<td colspan=19>
 <input onblur="filter_change()" id="alerts" type="text" size="80" name="alerts" value="">
 <input onclick="filter_change()" id="cbAlertVisual" type="checkbox" name="cbAlertVisual" value="1" checked> Visual alert &nbsp; &nbsp;
 <input onclick="filter_change()" id="cbAlertAudio" type="checkbox" name="cbAlertAudio" value="1" checked> Audio alert (CW) &nbsp; &nbsp; <a href="/info#alerts">Alert help</a>
@@ -200,6 +200,7 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <tr><th>SKCC</th><td>1.8135</td><td>3.530 / 3.550</td><td>-</td><td>7.055 / 7.120</td><td>10.120</td><td>14.050 / 14.114</td><td>18.080</td><td>21.050 / 21.114</td><td>24.910</td><td>28.050 / 28.114</td><td>50.090</td></tr>
 <tr><th>NAQCC</th><td>1.810 / 1.843</td><td>3.560</td><td>-</td><td>7.030 / 7.040</td><td>10.106 / 10.116</td><td>14.060</td><td>18.096</td><td>21.060</td><td>24.906</td><td>28.060</td><td>50.096</td></tr>
 <tr><th>UFT</th><td>1.835</td><td>3.545</td><td>5.352</td><td>7.013</td><td>10.135</td><td>14.045</td><td>18.083</td><td>21.045</td><td>24.903</td><td>28.045</td><td>50.085</td></tr>
+<tr><th>ECWARC</th><td>1.822</td><td>3.542</td><td>-</td><td>7.022</td><td>10.122</td><td>14.042</td><td>18.082</td><td>21.042</td><td>24.912</td><td>28.022</td><td>-</td></tr>
 </table>
 </td>
 <td>
@@ -280,7 +281,7 @@ include("js/bm_alerts.js");
 			document.getElementById('cb' + bandName[i]).checked = (getCookie(bandName[i])==null || getCookie(bandName[i])=='true');
 		}
 		for (i = 0; i < clubName.length; i++) {
-			document.getElementById('cb' + clubName[i]).checked = (getCookie(clubName[i])==null || getCookie(clubName[i])=='true');
+			document.getElementById('cb' + clubName[i]).checked = (getCookie(clubName[i])==null || getCookie(clubName[i])=='false');
 		}
 		for (i = 0; i < speedName.length; i++) {
 			document.getElementById('cb' + speedName[i]).checked = (getCookie(speedName[i])==null || getCookie(speedName[i])=='true');
@@ -652,7 +653,7 @@ function toggle_events () {
 		}
 	}
 	else {
-		for (i=8; i < nr; i++) {
+		for (i=9; i < nr; i++) {
 			document.getElementById('event' + i).style.display = "none";
 			document.getElementById('toggle_events').innerHTML = "(show all)";
 		}

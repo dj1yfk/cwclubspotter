@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>10-Nov-2020</td><td>Add new club: Essex CW ARC</td></tr>
 <tr><td>21-Oct-2020</td><td>Add new club: UFT (Union Française des Télégraphistes) - tnx F5IYJ</td></tr>
 <tr><td>21-Aug-2020</td><td>Add a calendar of CW operating events - tnx SQ9S</td></tr>
 <tr><td>27-Jul-2020</td><td>Move RBN activity stats to rbn.telegraphy.de. Add support for 6m, 4m, 2m.</td></tr>

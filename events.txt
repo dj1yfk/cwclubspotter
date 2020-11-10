@@ -1,6 +1,4 @@
-Nov 5;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
-Nov 7;1200z to 11.10 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
-Nov 8;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
+Nov 9 to 15;;Essex CW Club Activity Week;https://sites.google.com/site/essexcw/essex-cw-activity-weekend
 Nov 11;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Nov 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
 Nov 16 to 22;;MECHANICAL KEY DAYS 2020;https://www.fists.co.uk/activitiescalendar.html#fistsmkd2020

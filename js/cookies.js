@@ -28,7 +28,7 @@ function createCookie(name,value,days) {
     if (days) {
         var date = new Date();
         date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
+        var expires = "; SameSite=Strict; expires="+date.toGMTString();
     }
     else var expires = "";
     document.cookie = name+"="+value+expires+"; path=/";
@@ -61,6 +61,6 @@ function getCookie (name) {
 function setCookie(name, value) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate()+4*7); // Expire in 4 weeks time
-    var val=escape(value) + "; expires=" + exdate.toUTCString();
+    var val=escape(value) + "; SameSite=Strict; expires=" + exdate.toUTCString();
     document.cookie=name + "=" + val;
 }

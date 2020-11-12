@@ -23,7 +23,7 @@ include_once("clubs.php");
 <link rel="shortcut icon" type="image/x-icon" href="/pa4n.ico">
 <link rel="stylesheet" type="text/css" href="/bandmap.css">
 <title>CW Club RBN Spotter</title>
-<script src="js/cookies.js"></script>
+<script src="js/cookies.js?cachebreak=<? echo filemtime("js/cookies.js"); ?>"></script>
 
 </head>
 <body onload="init_rbn();">

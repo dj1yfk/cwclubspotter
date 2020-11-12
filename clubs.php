@@ -71,7 +71,7 @@ $clubname["TORCW"] = "Tortugas CW Club";
 $clubweb["TORCW"] = "https://www.tortugascw.com/";
 
 $clubabbr["SOC"] = "SOC";
-$clubname["SOC"] = "Second Class Operators' Club";
+$clubname["SOC"] = "Second Class Operators’ Club";
 $clubweb["SOC"] = "https://qsl.net/soc/";
 
 $clubabbr["UFT"] = "UFT";

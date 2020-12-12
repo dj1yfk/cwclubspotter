@@ -92,6 +92,7 @@ while (1) {
         next if ($line =~ /DK2DO/);    # opt-out
         next if ($line =~ /R6AF/);    # opt-out
         next if ($line =~ /G0JWB/);    # opt-out
+        next if ($line =~ /HA2ZB/);    # opt-out
 
         my %spot = &parse_line($line);
 

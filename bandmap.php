@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 # RBN / DX Cluster Spotter view 
 #
 # Fabian Kurz, DJ1YFK <fabian@fkurz.net>

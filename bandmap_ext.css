@@ -1,0 +1,34 @@
+.bandmap {font-family:Ubuntu,calibri,tahoma,arial,sans-serif; font-size: 12px}
+.tab {
+		border-width: 2px;
+		border-color: #000000;
+		border-style: solid;
+}
+.myth {
+        background-color: #aabbff;
+}
+.mytd {
+        padding-right: 6px;
+        padding-left: 6px;
+}
+.newspot { background-color: #ffcccc; }
+.midspot { background-color: #ffffff; }
+.oldspot { background-color: #eeeeee; }
+.right { text-align:right; }
+.center { text-align:center; }
+
+.snr50 { color: #ffffff; font-weight:900; background-color: #505050}
+.snr40 { color: #000000; font-weight:900}
+.snr30 { color: #444444; font-weight:bold}
+.snr20 { color: #000000; }
+.snr10 { color: #444444; }
+.snr00 { color: #888888; }
+
+.selfspot { background-color: #ccffcc; }
+.alert { background-color: #f4f444; }
+
+.btn {
+    border: solid #000000 1px;
+    border-radius: 5px;
+    padding: 2px 4px 2px 4px;
+}

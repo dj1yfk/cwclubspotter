@@ -50,6 +50,7 @@
 <h2 id="alerts">Alerting</h2>
 <ul>
 <li>You can enter any number of callsigns, separated by spaces, in the <em>Alert</em> field. If one of these calls is spotted, it will be <span class="alert">marked in yellow</span> on the bandmap.</li>
+<li>Even calls that are not members of the selected clubs (if any) will be shown in the bandmap</li>
 <li>It is possible to limit the alerts by frequency by adding the range in parenthesis behind the call (without a space). Examples:
 <ul>
 <li><code>DJ1YFK(3500-10150)</code> - will only raise an alert for DJ1YFK on 80m through 30m</li>
@@ -66,8 +67,11 @@
 <p>You can switch between the telnet stream filtered by club members and a raw stream (all spots) by entering <code>set/clubs</code> and <code>set/raw</code> respectively.</p>
 <p>Ham Radio Deluxe users: If you don't see any spots, please try switching to the VE7CC output format (CC11) by entering <code>set/ve7cc</code>. You can switch back with <code>set/normal</code></p> 
 
+<h2>Embedding into your own website</h2>
+<p>It is possible to include a bandmap (possibly adjusted to your own needs) on your own website, e.g. a club website. If you need this, feel free to contact Fabian, DJ1YFK and discuss the technical details.</p>
+
 <h2>About:</h2><p>This page was created by <a href="http://fkurz.net/">Fabian, DJ1YFK</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
-As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>
+As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. Adam, SQ9S takes care of the activity calendar. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>
 
 <p> Current users:
 <?php

@@ -15,7 +15,6 @@ header("Access-Control-Allow-Origin: *");
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
 
-
 # DB config
 $mysql_host   = "localhost";
 $mysql_user   = "spotfilter";
@@ -156,9 +155,18 @@ $callFilter = mysqli_real_escape_string($con, $callFilter);
 $time_string="(timestampdiff(minute, time, UTC_TIMESTAMP()) <= $maxAge)";
 
 # Include self-spots if user has so selected:
-$ownCall=$_GET['ownCall'];
 $selfSpotStr=($_GET['selfSpots']==="true" ? "OR ($time_string $querybands_string AND (dxcall like '$ownCall'))" : "");
-#syslog(LOG_ERR, $selfSpotStr);
+
+# Include alert callsigns in *any* case, even if they're not part of the current filter
+$alerts = preg_replace('/[^A-Z0-9\/\s]/', '', $_COOKIE['alerts']); # clean alert list
+$alerts = preg_split('/\s+/', $alerts);
+error_log($_COOKIE['ownCall']." ".print_r($alerts, 1));
+for ($i = 0; $i < count($alerts); $i++) {
+    $alerts[$i] = "'".$alerts[$i]."'";
+}
+if (count($alerts)) {
+    $alertCalls = "OR ($time_string $querybands_string AND dxcall in (".join(",", $alerts).")) ";
+}
 
 $json_a = array();
 
@@ -175,8 +183,7 @@ else {
     # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
   }
 
-#$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, substring(`comment`, 9,2) as snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string ) $selfSpotStr order by ";
-$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr order by ";
+$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
 
 $aggregateSpotters=true; # Merge spots for 1 dxcall and ~1 frequency by different spotters into one row
 $aggregateSpeeds=true; # Merge spots for 1 dxcall and ~1 frequency with different speeds into one row

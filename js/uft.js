@@ -62,7 +62,7 @@ function stripcall (c) {
 			var d = document.getElementById('tab');
 
 			var newtable;
-			newtable = '<table class="tab" id="spots">' + '<tr><th class="myth">Frequency</th><th class="myth">Call</th><th class="myth">Age</th><th class="myth">Member of</th><th  class="myth" style="width:45px">WPM</th><th class="myth">Spotted by (and signal strength)</th></tr>';
+			newtable = '<table class="tab" id="spots">' + '<tr><th class="myth">Fréquence</th><th class="myth">Indicatif</th><th class="myth">Age</th><th class="myth">Clubs</th><th  class="myth" style="width:45px">MPM</th><th class="myth">Rapporté par (et force du signal)</th></tr>';
 
 			for (var i = 0; i < spots.length; i++) {
 				if (spots[i].age < 2) { tabclass = 'newspot'; }

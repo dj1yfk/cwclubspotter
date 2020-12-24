@@ -191,7 +191,7 @@ function get_hash_value () {
 
 
 <hr>
-<a href="/bandmap">Back to FOC RBN</a> - <a href="/activity">Back to RBN Activity Charts</a>
+<a href="/">Back to RBN</a> - <a href="/activity">Back to RBN Activity Charts</a>
 <hr>
 <p>Last modified: <? echo date ("Y-m-d",  filemtime("active.php")); ?> - <a href="http://fkurz.net/">Fabian Kurz, DJ1YFK</a> <a href="mailto:fabian@fkurz.net">&lt;fabian@fkurz.net&gt;</a>
 <?

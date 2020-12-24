@@ -20,7 +20,7 @@ if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {
         if (!file_exists("/tmp/rbn2_cache")) {
             mkdir("/tmp/rbn2_cache");
         }
-        system("xvfb-run -a --server-args=\"-screen 0, 1280x768x24\" wkhtmltoimage -q --width 870 --javascript-delay 500 http://rbn.telegraphy.de/activity_iframe/$call /tmp/rbn2_cache/$filename.png 2> /dev/null");
+        system("xvfb-run -a --server-args=\"-screen 0, 1280x768x24\" wkhtmltoimage -q --width 870 --javascript-delay 500 https://rbn.telegraphy.de/activity_iframe/$call /tmp/rbn2_cache/$filename.png 2> /dev/null");
         system("convert /tmp/rbn2_cache/$filename.png /tmp/rbn2_cache/$filename-small.png");
         system("rm -f /tmp/rbn2_cache/$filename.png");
     } 

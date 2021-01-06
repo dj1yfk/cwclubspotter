@@ -1,9 +1,14 @@
-Nov 9 to 15;;Essex CW Club Activity Week;https://sites.google.com/site/essexcw/essex-cw-activity-weekend
-Nov 11;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Nov 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
-Nov 16 to 22;;MECHANICAL KEY DAYS 2020;https://www.fists.co.uk/activitiescalendar.html#fistsmkd2020
-Nov 18;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Nov 19;0130z to 0330z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
-Nov 22;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2020
-Nov 25;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
-Nov 25;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Dec 30 to 05.01.2021;;New Year with RCWC 2021;http://rcwc.ru/2709-polozhenie-o-dnjah-aktivnosti-novyj-god-s-rcwc-2021-.html
+Jan 1 to 31;;K3Y Straight Key Month;https://www.skccgroup.com/k3y/
+Jan 6;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jan 7;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
+Jan 10;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
+Jan 13;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jan 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
+Jan 20;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jan 21;0130z to 0330z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
+Jan 24;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
+Jan 27;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
+Jan 27;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jan 28;0130z to 0330z;NAQCC QRP/CW 160 Meter Sprint;http://naqcc.info/sprint/sprint202101_160.html
+

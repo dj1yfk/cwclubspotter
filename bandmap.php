@@ -158,14 +158,16 @@ $time_string="(timestampdiff(minute, time, UTC_TIMESTAMP()) <= $maxAge)";
 $selfSpotStr=($_GET['selfSpots']==="true" ? "OR ($time_string $querybands_string AND (dxcall like '$ownCall'))" : "");
 
 # Include alert callsigns in *any* case, even if they're not part of the current filter
-$alerts = preg_replace('/[^A-Z0-9\/\s]/', '', $_COOKIE['alerts']); # clean alert list
-$alerts = preg_split('/\s+/', $alerts);
-error_log($_COOKIE['ownCall']." ".print_r($alerts, 1));
-for ($i = 0; $i < count($alerts); $i++) {
-    $alerts[$i] = "'".$alerts[$i]."'";
-}
-if (count($alerts)) {
-    $alertCalls = "OR ($time_string $querybands_string AND dxcall in (".join(",", $alerts).")) ";
+$alertCalls = "";
+if (array_key_exists('alerts', $_COOKIE)) {
+    $alerts = preg_replace('/[^A-Z0-9\/\s]/', '', $_COOKIE['alerts']); # clean alert list
+    $alerts = preg_split('/\s+/', $alerts);
+    for ($i = 0; $i < count($alerts); $i++) {
+        $alerts[$i] = "'".$alerts[$i]."'";
+    }
+    if (count($alerts)) {
+        $alertCalls = "OR ($time_string $querybands_string AND dxcall in (".join(",", $alerts).")) ";
+    }
 }
 
 $json_a = array();
@@ -213,10 +215,7 @@ switch ($sort) {
 	}
 #syslog(LOG_ERR, $queryStr);
 
-if (intval(phpversion())>=5)
-  $q = mysqli_query($con, $queryStr);
-else
-  $q = mysql_query($queryStr);
+$q = mysqli_query($con, $queryStr);
 
 # create JSON, aggregate all rows with same freq and dxcall into one entry.
 

@@ -208,8 +208,11 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <tr><th colspan=2>Upcoming events <a id="toggle_events" href="javascript:toggle_events();">(show all)</a></th></tr>
 <?php
 $events = file("events.txt");
+$i = 0;
 foreach ($events as $e) {
     $a = explode(";", $e);
+    if (count($a) < 4)
+        continue;
     $i++;
     if ($a[1]) {
         $comma = ",";

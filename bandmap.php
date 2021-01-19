@@ -166,7 +166,7 @@ if (array_key_exists('alerts', $_COOKIE)) {
         $alerts[$i] = "'".$alerts[$i]."'";
     }
     if (count($alerts)) {
-        $alertCalls = "OR ($time_string $querybands_string AND dxcall in (".join(",", $alerts).")) ";
+        $alertCalls = "OR ($time_string $queryconts_string $querybands_string AND dxcall in (".join(",", $alerts).")) ";
     }
 }
 

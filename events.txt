@@ -1,14 +1,29 @@
-Dec 30 to 05.01.2021;;New Year with RCWC 2021;http://rcwc.ru/2709-polozhenie-o-dnjah-aktivnosti-novyj-god-s-rcwc-2021-.html
 Jan 1 to 31;;K3Y Straight Key Month;https://www.skccgroup.com/k3y/
-Jan 6;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Jan 7;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
-Jan 10;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
-Jan 13;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Jan 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
 Jan 20;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Jan 21;0130z to 0330z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
 Jan 24;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
 Jan 27;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
 Jan 27;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Jan 28;0130z to 0330z;NAQCC QRP/CW 160 Meter Sprint;http://naqcc.info/sprint/sprint202101_160.html
-
+Feb 1;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Feb 1;0000z to 2359z;SKCC's Slow Speed Saunter (CQS);https://www.skccgroup.com/operating_activities/slowspeed/
+Feb 3;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Feb 4;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
+Feb 5;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Feb 6;1600z to 1900z;AGCW Straight Key Party;https://www.agcw.de/event/agcw-handtastenparty-80m-cw/
+Feb 8;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Feb 10;0130z to 0330z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
+Feb 10;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Feb 12;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Feb 13;1200z to 14.02 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
+Feb 14;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
+Feb 15;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Feb 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
+Feb 17;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Feb 17;1900z to 2030z;AGCW Semi-Automatic Key Evening;https://www.agcw.de/event/agcw-schlackertastenabend-80m-cw/
+Feb 19;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Feb 22;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Feb 24;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
+Feb 24;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Feb 26;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Feb 28;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021

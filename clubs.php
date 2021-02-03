@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -81,4 +81,12 @@ $clubweb["UFT"] = "http://uft.net/";
 $clubabbr["ECWARC"] = "ECWARC";
 $clubname["ECWARC"] = "Essex CW ARC";
 $clubweb["ECWARC"] = "https://sites.google.com/site/essexcw/home";
+
+$clubabbr["LICW"] = "LICW";
+$clubname["LICW"] = "Long Island CW Club";
+$clubweb["LICW"] = "https://longislandcwclub.org/";
+
+$clubabbr["EACW"] = "EACW";
+$clubname["EACW"] = "EA CW Club";
+$clubweb["EACW"] = "";
 ?>

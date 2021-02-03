@@ -15,6 +15,8 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>03-Feb-2021</td><td>Add new club: EACW - tnx EA4BW.</td></tr>
+<tr><td>25-Jan-2021</td><td>Add new club: Long Island CW Club - tnx K2MZ.</td></tr>
 <tr><td>24-Dec-2020</td><td>Alerts: Always show calls from alert list, even when they are not members of selected clubs.</td></tr>
 <tr><td>10-Nov-2020</td><td>Add new club: Essex CW ARC</td></tr>
 <tr><td>21-Oct-2020</td><td>Add new club: UFT (Union Française des Télégraphistes) - tnx F5IYJ</td></tr>

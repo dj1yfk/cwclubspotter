@@ -45,8 +45,13 @@ See <a href="info">here</a> for more info. &nbsp; <span style="color:red;"></spa
 <button type="button" onclick="set_all('club', false)">nil</button>
 </td>
 <?php
+$ccnt = 0;
 foreach ($clubs as $c) {
+    $ccnt++;
     echo "<td><input onclick='filter_change();' id='cb$c' type='checkbox' name='cb$c' value='1' checked><abbr title='".$clubname[$c]."'>".$clubabbr[$c]."</abbr></td>";
+    if ($ccnt == 18) {
+        echo "</tr><tr><th></th><td></td><td></td>";
+    }
 }
 ?>
 </tr>

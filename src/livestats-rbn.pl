@@ -64,9 +64,17 @@ my $r_data = Redis->new;
 $r->subscribe('raw',
 	my $callback = sub {
 		my ($msg, $topic, $st) = @_;
-        if (substr($msg, 6, 9) eq "EA8/DF4UE") {
-            $msg =~ s#EA8/DF4UE#EA8AAA#g;
+
+        # fix excessively long skimmer calls like IK4VET-1-# and EA8/DF4UE-#, 3V/KF5EYY-# - just cut them
+        # at the end.
+        my @parts = split(/\s+/, $msg);
+        if (length($parts[2]) > 9) {
+            print "OLD: >$msg<\n";
+            my $cut = substr($parts[2], 0, 9);
+            $msg =~ s/$parts[2]/$cut/;
+            print "NEW: >$msg<\n";
         }
+
 		my $call = substr($msg, 26, 13);
 		$call =~ s/[^a-z0-9\/]//gi;
 

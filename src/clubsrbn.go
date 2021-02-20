@@ -23,6 +23,7 @@ import (
 	"os"
 	"os/signal"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 )
@@ -55,6 +56,8 @@ var stop_listeners bool
 var log = logging.MustGetLogger("clubsrbn.go")
 
 var prod bool
+
+var mutex = &sync.Mutex{}
 
 func main() {
 	go handleSignals()
@@ -115,7 +118,9 @@ func listenerStart(service string) {
 func handleClientClose(conn net.Conn, ch chan string) {
 	log.Debugf("defer handleClientClose from %s\n", conn.RemoteAddr())
 	ra := conn.RemoteAddr()
+	mutex.Lock()
 	delete(users, ra)
+	mutex.Unlock()
 	conn.Close()
 	ch <- "end"
 }
@@ -247,7 +252,9 @@ func promptLogin(conn net.Conn) (login string) {
 	}
 
 	ra := conn.RemoteAddr()
+	mutex.Lock()
 	users[ra] = login // save in map
+	mutex.Unlock()
 
 	log.Debug(printAllUsers(true))
 	log.Infof("User logged in: %s (%s)\n", login, ra)
@@ -326,9 +333,11 @@ func loadUserfilters() {
 	defer c.Close()
 
 	for {
+		mutex.Lock()
 		for _, login := range users {
 			loadUserfilter(login, c)
 		}
+		mutex.Unlock()
 		time.Sleep(5 * time.Second)
 	}
 }
@@ -408,6 +417,7 @@ func printAllUsers(ip bool) string {
 	var buf bytes.Buffer
 
 	buf.WriteString(fmt.Sprintf("All connected users (%d)\r\n=========================\r\n", len(users)))
+	mutex.Lock()
 	for k, v := range users {
 		if ip {
 			buf.WriteString(fmt.Sprintf("%-20s %-25s %s\r\n", v, k, filter_names[prefs[v]]))
@@ -415,6 +425,7 @@ func printAllUsers(ip bool) string {
 			buf.WriteString(fmt.Sprintf("%-20s %s\r\n", v, filter_names[prefs[v]]))
 		}
 	}
+	mutex.Unlock()
 
 	return buf.String()
 }

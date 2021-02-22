@@ -87,7 +87,11 @@ foreach ($clubs as $c) {
 </td><td>
 <button type="button" onclick="set_all('speed', false)">nil</button>
 </td><td>
-<input onclick="filter_change()" id="cb<20" type="checkbox" name="cb<20" value="1" checked>&lt;20
+<input onclick="filter_change()" id="cb<10" type="checkbox" name="cb<10" value="1" checked>&lt;10
+</td><td>
+<input onclick="filter_change()" id="cb10-14" type="checkbox" name="cb10-14" value="1" checked>10-14
+</td><td>
+<input onclick="filter_change()" id="cb15-19" type="checkbox" name="cb15-19" value="1" checked>15-19
 </td><td>
 <input onclick="filter_change()" id="cb20-24" type="checkbox" name="cb20-24" value="1" checked>20-24
 </td><td>
@@ -253,7 +257,7 @@ foreach ($events as $e) {
 	var bandShow = new Array();
     var clubName = new Array("<?php echo join('", "', $clubs); ?>");
 	var clubShow = new Array();
-	var speedName = new Array("<20", "20-24", "25-29", "30-34", "35-39", ">39");
+	var speedName = new Array("<10", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", ">39");
 	var speedShow = new Array();
 	var maxAge;
 	var sort;

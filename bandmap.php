@@ -98,7 +98,7 @@ else {
 }
 
 
-$allspeeds = array('<20', '20-24', '25-29', '30-34', '35-39', '>39');
+$allspeeds = array('<10', '10-14', '15-19', '<20', '20-24', '25-29', '30-34', '35-39', '>39');
 $queryspeed_string = "";
 $first=true;
 foreach ($allspeeds as $c) {
@@ -113,7 +113,16 @@ foreach ($allspeeds as $c) {
 			$queryspeed_string.=" OR ";
 			}
 		switch ($c) {
-		   case '<20':
+		   case '<10':
+			$queryspeed_string.="wpm < 10";
+			break;
+		   case '10-14':
+			$queryspeed_string.="(wpm >= 10 AND wpm <= 14)";
+			break;
+		   case '15-19':
+			$queryspeed_string.="(wpm >= 15 AND wpm <= 19)";
+			break;
+		   case '<20':  # legacy
 			$queryspeed_string.="wpm < 20";
 			break;
 		   case '20-24':

@@ -1,18 +1,10 @@
-Feb 19;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
-Feb 22;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Feb 24;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
-Feb 24;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Feb 26;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
-Feb 28;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
-Mar 1;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Mar 1;0000z to 2359z;SKCC's Slow Speed Saunter (CQS);https://www.skccgroup.com/operating_activities/slowspeed/
 Mar 2;1900z to 2100z;AGCW YL-CW Party;https://www.agcw.de/contest/yl-cw-party/
 Mar 3;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Mar 4;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
-Mar 4;0000z to 10.03 23:59;RCWC - "Look for a woman";soon
+Mar 4;0000z to 10.03 23:59;RCWC - "Look for a woman";http://rcwc.ru/2756-award-8-march-cherchez-la-femme-2021.html
 Mar 5;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
 Mar 6;0000z to 14.03 2359z;Novice Rig Roundup;http://novicerigroundup.org/
-Mar 6;0000z to 2359z;RCWC - "Catch Phrases";soon
+Mar 6;0000z to 2359z;RCWC - "Winged Phrases";http://rcwc.ru/2722-contest-winged-phrases-2021.html
 Mar 8;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
 Mar 10;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Mar 12;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html

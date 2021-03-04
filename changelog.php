@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>03-Mar-2021</td><td>Add new club: NTC - tnx PA3HEN</td></tr>
 <tr><td>22-Feb-2021</td><td>Speed filtering for QRS improved (more options, previously "&lt;20" was the lowest) - tnx RM2D/SM6LRR.</td></tr>
 <tr><td>11-Feb-2021</td><td>Add new club: A1 Club - tnx JE1TRV.</td></tr>
 <tr><td>06-Feb-2021</td><td>Add new club: Marinefunker - tnx DL3DXX.</td></tr>

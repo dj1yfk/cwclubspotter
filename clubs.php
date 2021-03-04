@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -97,4 +97,8 @@ $clubweb["MF"] = "https://mf-runde.de/";
 $clubabbr["A1C"] = "A1C";
 $clubname["A1C"] = "A1 Club";
 $clubweb["A1C"] = "https://jo1zzz.blogspot.com/";
+
+$clubabbr["NTC"] = "NTC";
+$clubname["NTC"] = "Netherlands Telegraphy Club";
+$clubweb["NTC"] = "http://www.qsl.net/ntc/";
 ?>

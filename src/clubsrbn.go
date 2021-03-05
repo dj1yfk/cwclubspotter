@@ -293,8 +293,10 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 				clubs := binary.LittleEndian.Uint64(b[1:9])
 				spot = string(b[9:]) // spot w/o the bit fields
 
-				if !(cont&ufilter_cont[login] != 0 && clubs&ufilter_club[login] != 0) {
-					continue // spot does not match the filter
+				if ufilter_club[login] != 0 { // filter only IF any filter is set, otherwise let all spots through
+					if !(cont&ufilter_cont[login] != 0 && clubs&ufilter_club[login] != 0) {
+						continue // spot does not match the filter
+					}
 				}
 			}
 

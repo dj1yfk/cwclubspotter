@@ -88,7 +88,7 @@ $clubweb["LICW"] = "https://longislandcwclub.org/";
 
 $clubabbr["EACW"] = "EACW";
 $clubname["EACW"] = "EA CW Club";
-$clubweb["EACW"] = "";
+$clubweb["EACW"] = "https://www.eacwspain.es/";
 
 $clubabbr["MF"] = "MF";
 $clubname["MF"] = "Marinefunker";

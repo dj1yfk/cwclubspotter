@@ -1,14 +1,3 @@
-Mar 4;2000z to 2200z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
-Mar 4;0000z to 10.03 23:59;RCWC - "Look for a woman";http://rcwc.ru/2756-award-8-march-cherchez-la-femme-2021.html
-Mar 5;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
-Mar 6;0000z to 14.03 2359z;Novice Rig Roundup;http://novicerigroundup.org/
-Mar 6;0000z to 2359z;RCWC - "Winged Phrases";http://rcwc.ru/2722-contest-winged-phrases-2021.html
-Mar 8;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Mar 10;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
-Mar 12;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
-Mar 13;1200z to 14.03 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
-Mar 13;1400z to 2000z;AGCW QRP Contest;https://www.agcw.de/contest/qrp/
-Mar 14;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
 Feb 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
 Mar 15;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
 Mar 17;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/

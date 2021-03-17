@@ -1,5 +1,3 @@
-Feb 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
-Mar 15;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
 Mar 17;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Mar 18;0130z to 0330z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
 Mar 19;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
@@ -11,3 +9,32 @@ Mar 27;0000z to 2359z;FOC QSO Party;https://g4foc.org/qsoparty
 Mar 28;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
 Mar 29;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
 Mar 31;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Apr 1;0000z to 31.04 2359z;FISTS Eu Word Search;https://fists.co.uk/activitiescalendar.html#fistsws2021
+Apr 1;0000z to 2359z;SKCC's Slow Speed Saunter (CQS);https://www.skccgroup.com/operating_activities/slowspeed/
+Apr 1;1900z to 2100z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
+Apr 2;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Apr 4;0000z to 12.04 2359z;RCWC Dream of Humanity;soon
+Apr 5;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Apr 7;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Apr 9;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Apr 10;0000z to 0600z;QRP-ARCI Spring QSO Party;http://qrparci.org/contest/spring-qso-party
+Apr 10;1200z to 11.03 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
+Apr 11;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
+Apr 12;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Apr 14;0030z to 0230z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
+Apr 14;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Apr 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
+Apr 16;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Apr 17;0900z to 18.04 2359z;CQMM by CWJF;http://www.cqmmdx.com/
+Apr 18;0000z to 2359z;RCWC WARD;soon
+Apr 19;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Apr 21;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Apr 23;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Apr 25;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
+Apr 26;0000z to 30.04 2359z;EuCW QRS Week;https://eucw.org/euqrs.html
+Apr 26;0000z to 30.04 2359z;RCWC Morse 230;soon
+Apr 26;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
+Apr 28;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
+Apr 28;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Apr 30;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+May 1;0000z to 31.05 2359z;AGCW 50th Anniversary;soon

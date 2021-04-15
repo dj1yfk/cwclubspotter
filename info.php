@@ -68,7 +68,7 @@
 <p>Ham Radio Deluxe users: If you don't see any spots, please try switching to the VE7CC output format (CC11) by entering <code>set/ve7cc</code>. You can switch back with <code>set/normal</code></p> 
 
 <h2>Embedding into your own website</h2>
-<p>It is possible to include a bandmap (possibly adjusted to your own needs) on your own website, e.g. a club website. If you need this, feel free to contact Fabian, DJ1YFK and discuss the technical details.</p>
+<p>It is possible to include a bandmap (possibly adjusted to your own needs) on your own website, e.g. a club website (example: <a href="https://www.uft.net/les-stations-uft-sur-lair/">UFT</a>). If you need this, feel free to contact Fabian, DJ1YFK and discuss the technical details.</p>
 
 <h2>About:</h2><p>This page was created by <a href="http://fkurz.net/">Fabian, DJ1YFK</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
 As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. Adam, SQ9S takes care of the activity calendar. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>

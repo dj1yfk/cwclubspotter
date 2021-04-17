@@ -1,6 +1,3 @@
-Apr 14;1200z to 15.04 2200z;Maritime Radio Day;http://mrd.sfk-bremen.com/mrd_rules.php
-Apr 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
-Apr 16;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
 Apr 17;0900z to 18.04 2359z;CQMM by CWJF;http://www.cqmmdx.com/
 Apr 18;0000z to 2359z;RCWC WARD;http://rcwc.ru/2758-the-world-amateur-radio-day-2021-award.html
 Apr 19;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html

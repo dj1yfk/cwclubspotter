@@ -103,6 +103,6 @@ $clubname["NTC"] = "Netherlands Telegraphy Club";
 $clubweb["NTC"] = "http://www.qsl.net/ntc/";
 
 $clubabbr["MORSE"] = "MORSE";
-$clubname["MORSE"] = "MAritime Operators Radiotelegraphy Service";
+$clubname["MORSE"] = "Maritime Operators Radiotelegraphy Service";
 $clubweb["MORSE"] = "https://antonellourbani.wixsite.com/morse";
 ?>

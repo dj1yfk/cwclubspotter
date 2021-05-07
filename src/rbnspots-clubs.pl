@@ -218,22 +218,22 @@ sub save_spot {
     my $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
 
     # delete any old spots on the same band from this one
-#    my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
-#    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
+    my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
+    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
 
     $spot{'memberof'} = substr($spot{'memberof'}, 0, 128);
 
-#    $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
+    $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
 
     # fix freq to average
-#    $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
-#    $dbhret->execute();
+    $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
+    $dbhret->execute();
     
     my $nf = 0;
-#    $dbhret->bind_columns(\$nf);
-#    if ($dbhret->fetch() && $nf != 0) {
-#        $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
-#    }       
+    $dbhret->bind_columns(\$nf);
+    if ($dbhret->fetch() && $nf != 0) {
+        $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
+    }       
 
     my $line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $spot{member}, substr($line, 70)); 
     $| = 1;

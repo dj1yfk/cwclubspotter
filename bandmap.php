@@ -1,4 +1,5 @@
 <?php
+error_reporting(1);
 header("Access-Control-Allow-Origin: *");
 # RBN / DX Cluster Spotter view 
 #
@@ -50,8 +51,8 @@ $allconts = array('EU', 'NA', 'AS', 'SA', 'AF', 'OC');
 $queryconts = array();
 foreach ($allconts as $c) {
 	if ($_GET[$c] == 'true') {
-        array_push($queryconts, "'".$c."'");
-        $bm_conts |= $bm_conts_a[$c];
+		array_push($queryconts, "'".$c."'");
+		$bm_conts |= $bm_conts_a[$c];
 	}
 }
 
@@ -62,13 +63,17 @@ if (sizeof($queryconts)>0) {
 } else {
    $queryconts_string = "AND (false)";
 }
-	
+
+$bm_bands = 0;
 $allbands = array('160', '80', '60', '40', '30', '20', '17', '15', '12', '10', '6');
 $querybands = array();
+$bc = 0;
 foreach ($allbands as $c) {
 	if ($_GET[$c] == 'true') {
+		$bm_bands |= 1 << $bc;
 		array_push($querybands, $c);
 	}
+    $bc++;
 }
 if (sizeof($querybands)>0) {
    $querybands_string = "AND band in (";
@@ -77,6 +82,7 @@ if (sizeof($querybands)>0) {
 } else {
    $querybands_string = "AND (false)";
 }
+
 
 # Club selection 
 $queryclub_string = "";
@@ -88,8 +94,6 @@ for  ($i = 0; $i < count($clubs); $i++) {
     }
 }
 
-$redis->hset("rbnprefs", $ownCall, pack('C', $bm_conts).pack('Q', $mask));
-
 if ($mask) {
     $queryclub_string = " AND member & $mask ";
 }
@@ -99,6 +103,7 @@ else {
 
 
 $allspeeds = array('<10', '10-14', '15-19', '<20', '20-24', '25-29', '30-34', '35-39', '>39');
+$bm_speeds = 0;
 $queryspeed_string = "";
 $first=true;
 foreach ($allspeeds as $c) {
@@ -115,30 +120,39 @@ foreach ($allspeeds as $c) {
 		switch ($c) {
 		   case '<10':
 			$queryspeed_string.="wpm < 10";
+			$bm_speeds |= 0x01;
 			break;
 		   case '10-14':
 			$queryspeed_string.="(wpm >= 10 AND wpm <= 14)";
+			$bm_speeds |= 0x02;
 			break;
 		   case '15-19':
 			$queryspeed_string.="(wpm >= 15 AND wpm <= 19)";
+			$bm_speeds |= 0x04;
 			break;
 		   case '<20':  # legacy
+			$bm_speeds |= 0x07; # => 0b111
 			$queryspeed_string.="wpm < 20";
 			break;
 		   case '20-24':
 			$queryspeed_string.="(wpm >= 20 AND wpm <= 24)";
+			$bm_speeds |= 0x08;
 			break;
 		   case '25-29':
 			$queryspeed_string.="(wpm >= 25 AND wpm <= 29)";
+			$bm_speeds |= 0x10;
 			break;
 		   case '30-34':
 			$queryspeed_string.="(wpm >= 30 AND wpm <= 34)";
+			$bm_speeds |= 0x20;
 			break;
 		   case '35-39':
 			$queryspeed_string.="(wpm >= 35 AND wpm <= 39)";
+			$bm_speeds |= 0x40;
 			break;
 		   case '>39':
 			$queryspeed_string.="wpm > 39";
+			$bm_speeds |= 0x80;
 			break;
 			
 		}
@@ -153,6 +167,9 @@ else
 	$queryspeed_string.="AND (0)";
 	}
 	
+
+$redis->hset("rbnprefs", $ownCall, pack('C', $bm_conts).pack('Q', $mask).pack('C', $bm_speeds).pack('v', $bm_bands));
+
 $maxAge=$_GET['maxAge'];
 $sort=$_GET['sort'];
 

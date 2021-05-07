@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>07-May-2021</td><td>Band and speed filters now also work on the telnet interface - suggested by AI4FH.</td></tr>
 <tr><td>24-Apr-2021</td><td>Add new club: 4SQRP - tnx K4VLP</td></tr>
 <tr><td>17-Apr-2021</td><td>Add new club: MORSE - tnx IK0PHU</td></tr>
 <tr><td>03-Mar-2021</td><td>Add new club: NTC - tnx PA3HEN</td></tr>

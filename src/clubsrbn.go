@@ -47,6 +47,8 @@ var format map[string]string
 // filters per user, as set by web interface
 var ufilter_club map[string]uint64
 var ufilter_cont map[string]byte
+var ufilter_speed map[string]byte
+var ufilter_band map[string]uint16
 
 // if set to true, the TCP listeners will stop
 // so we can deploy a new version without killing
@@ -70,6 +72,8 @@ func main() {
 
 	ufilter_club = make(map[string]uint64)
 	ufilter_cont = make(map[string]byte)
+	ufilter_speed = make(map[string]byte)
+	ufilter_band = make(map[string]uint16)
 
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
@@ -285,18 +289,32 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 				// spot contains:
 				// 1 byte  continent
 				// 8 bytes clubs
+				// 1 byte  speed
+				// 2 bytes band
 				// n bytes spot (plain ascii), no newline
 
 				b := []byte(spot)
 
 				cont := b[0]
 				clubs := binary.LittleEndian.Uint64(b[1:9])
-				spot = string(b[9:]) // spot w/o the bit fields
+				speed := b[9]
+				band := binary.LittleEndian.Uint16(b[10:13])
+				spot = string(b[12:]) // spot w/o the bit fields
 
-				if ufilter_club[login] != 0 { // filter only IF any filter is set, otherwise let all spots through
-					if !(cont&ufilter_cont[login] != 0 && clubs&ufilter_club[login] != 0) {
-						continue // spot does not match the filter
-					}
+				// no club prefs stored for this call => pass all QSOs, regardless
+				// of club membership
+				all_calls := ufilter_club[login] == 0
+
+                /*
+				log.Debugf("cont  = %x vs %x = %x\n", cont, ufilter_cont[login], cont&ufilter_cont[login])
+				log.Debugf("club  = %x vs %x = %x\n", clubs, ufilter_club[login], clubs&ufilter_club[login])
+				log.Debugf("spee  = %x vs %x = %x\n", speed, ufilter_speed[login], speed&ufilter_speed[login])
+				log.Debugf("band  = %x vs %x = %x\n", band, ufilter_band[login], band&ufilter_band[login])
+				log.Debugf("spot  = >%s<\n", spot)
+                */
+
+				if !(cont&ufilter_cont[login] != 0 && (clubs&ufilter_club[login] != 0 || all_calls) && speed&ufilter_speed[login] != 0 && band&ufilter_band[login] != 0) {
+					continue // spot does not match the filter
 				}
 			}
 
@@ -352,6 +370,10 @@ func loadUserfilter(login string, c redis.Conn) {
 		// no preferences found. if it is a callsign with a SSID, try without
 		l := strings.LastIndex(login, "-")
 		if l == -1 {
+			ufilter_cont[login] = 0xff
+			ufilter_club[login] = 0
+			ufilter_speed[login] = 0xff
+			ufilter_band[login] = 0xffff
 			return
 		}
 
@@ -359,6 +381,10 @@ func loadUserfilter(login string, c redis.Conn) {
 
 		// no success either
 		if retstrip == nil {
+			ufilter_cont[login] = 0xff
+			ufilter_club[login] = 0
+			ufilter_speed[login] = 0xff
+			ufilter_band[login] = 0xffff
 			return
 		} else {
 			ret = retstrip
@@ -369,13 +395,27 @@ func loadUserfilter(login string, c redis.Conn) {
 
 	ufilter_cont[login] = ret2[0]
 	ufilter_club[login] = binary.LittleEndian.Uint64(ret2[1:9])
+
+	if len(ret2) > 10 {
+		ufilter_speed[login] = ret2[9]
+		ufilter_band[login] = binary.LittleEndian.Uint16(ret2[10:])
+	} else {
+		ufilter_speed[login] = 0xff
+		ufilter_band[login] = 0xffff
+	}
+	/*
+		log.Debugf("ufilter_cont[%s]  = %x\n", login, ufilter_cont[login])
+		log.Debugf("ufilter_club[%s]  = %x\n", login, ufilter_club[login])
+		log.Debugf("ufilter_speed[%s] = %x\n", login, ufilter_speed[login])
+		log.Debugf("ufilter_band[%s]  = %x\n", login, ufilter_band[login])
+	*/
 }
 
 // Retrieves spots from Redis and returns them into spots chan
 func subscribeSpots(filter string, spots chan string, control chan string) {
 	defer log.Debug("subscribeSpots => close\n")
 
-	pattern := "rbn"
+	pattern := "rbnX"
 
 	if filter == "raw" {
 		pattern = "raw"

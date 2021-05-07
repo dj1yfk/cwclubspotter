@@ -51,6 +51,8 @@ my @dxcc;
 # freq and max one spot per call on this freq in 5 minutes.
 my %bm_conts = ( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
 
+my %bm_bands = ( '160' => 0x0001, '80' => 0x0002, '60' => 0x0004, '40' => 0x0008, '30' => 0x0010, '20' => 0x0020, '17' => 0x0040, '15' => 0x0080, '12' => 0x0100, '10' => 0x0200, '6' => 0x0400, '4' => 0x0800, '2' => 0x1000);
+
 my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS NRR QRPARCI CWJF TORCW SOC UFT ECWARC LICW EACW MF A1C NTC MORSE 4SQRP/;
 my %bm = ();
 # create bit masks from @clubs array
@@ -216,22 +218,22 @@ sub save_spot {
     my $time = "$year-$month-$day $hour:$minute:00";  # always use gmtime, ignore spot time
 
     # delete any old spots on the same band from this one
-    my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
-    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
+#    my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
+#    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
 
     $spot{'memberof'} = substr($spot{'memberof'}, 0, 128);
 
-    $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
+#    $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
 
     # fix freq to average
-    $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
-    $dbhret->execute();
+#    $dbhret = $dbh->prepare("select round(avg(freq),1) as newfreq from spots where dxcall='$spot{dxcall}' and band=$spot{band};");
+#    $dbhret->execute();
     
     my $nf = 0;
-    $dbhret->bind_columns(\$nf);
-    if ($dbhret->fetch() && $nf != 0) {
-        $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
-    }       
+#    $dbhret->bind_columns(\$nf);
+#    if ($dbhret->fetch() && $nf != 0) {
+#        $dbh->do("update spots set freq = $nf where dxcall='$spot{dxcall}' and band = $spot{band}");
+#    }       
 
     my $line2=sprintf("%s %-24.24s %2.2s %02X %s", substr($line, 0, 39), $spot{memberof}, $spot{cont}, $spot{member}, substr($line, 70)); 
     $| = 1;
@@ -240,10 +242,24 @@ sub save_spot {
     # for Redis, we publish:
     # 1 byte continent info + lowest bit = "verified" spot 
     # 8 byte member info
+    # 1 byte speed
+    # 2 byte band info
     # original line
+
+    my $bm_speed = 0;
+    if    ($spot{wpm} <= 10) { $bm_speed = 0x01; }
+    elsif ($spot{wpm} <= 14) { $bm_speed = 0x02; }  
+    elsif ($spot{wpm} <= 19) { $bm_speed = 0x04; }  
+    elsif ($spot{wpm} <= 24) { $bm_speed = 0x08; }  
+    elsif ($spot{wpm} <= 29) { $bm_speed = 0x10; }  
+    elsif ($spot{wpm} <= 34) { $bm_speed = 0x20; }  
+    elsif ($spot{wpm} <= 39) { $bm_speed = 0x40; }  
+    elsif ($spot{wpm} >  39) { $bm_speed = 0x80; }  
 
     my $line3 = pack("C", $bm_conts{$spot{cont}} | &is_verified(%spot));
     $line3 .= pack("Q", $spot{member});
+    $line3 .= pack("C", $bm_speed);
+    $line3 .= pack("v", $bm_bands{$spot{band}});
     $line3 .= $spot{line};
 
     $r->publish('rbn', $line3."\r\n");

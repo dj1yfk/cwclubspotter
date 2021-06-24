@@ -39,10 +39,8 @@ See <a href="info">here</a> for more info. &nbsp; <span style="color:red;"></spa
 <div id="filter" style="display: block">
 <form onSubmit="filter_change();return false;">
 <table>
-<tr><th>Members of</th><td> 	
-<button type="button" onclick="set_all('club', true)">all</button>
-</td><td>
-<button type="button" onclick="set_all('club', false)">nil</button>
+<tr><th>Members of</th><td colspan=2> 	
+<button type="button" onclick="set_all('club', true)">all clubs</button>
 </td>
 <?php
 $ccnt = 0;
@@ -50,7 +48,7 @@ foreach ($clubs as $c) {
     $ccnt++;
     echo "<td><input onclick='filter_change();' id='cb$c' type='checkbox' name='cb$c' value='1' checked><abbr title='".$clubname[$c]."'>".$clubabbr[$c]."</abbr></td>";
     if ($ccnt == 18) {
-        echo "</tr><tr><th></th><td></td><td></td>";
+        echo "</tr><tr><th></th><td colspan=2> <button type=\"button\" onclick=\"set_all('club', false)\">no filter</button> </td>";
     }
 }
 ?>

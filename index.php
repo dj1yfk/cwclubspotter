@@ -170,7 +170,7 @@ foreach ($clubs as $c) {
 </td></tr>
 <tr>
 <th>Misc.</th>
-<td colspan=12>
+<td colspan=19>
 <input onclick="filter_change()" id="cbAC" type="checkbox" name="cbAC" value="1">Abbreviate Club Names
 &nbsp;
 &nbsp;
@@ -181,6 +181,24 @@ Click on call links to: <select onChange="filter_change();" id="linktarget" size
 <option value="rbn">RBN Activity Report</option>
 <option value="hamqth">hamqth.com</option>
 </select>
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
+RBN Activity Lookup: 
+<input id="rbna" type="text" size="12" name="rbna" placeholder="callsign..." value="">
+<button type="button" onClick="document.location.href='//rbn.telegraphy.de/activity/' + document.getElementById('rbna').value">Go!</button>
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
+<a href="/activity/rank">RBN Activity Ranking</a>
+
 </td>
 </tr>
 <tr>

@@ -1,29 +1,17 @@
-Jun 24;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
-Jun 25;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
-Jun 26;12z,16z;RCWC 4 SEASONS 2021 Summer;http://rcwc.ru/2720-rcwc-4-seasons-2021-contest-summer-stage.html
-Jun 26;06-09z, 14-17z;Concours QRP – UFT;https://www.uft.net/concours-qrp-uft/ 
-Jun 27;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
-Jun 27;2100z to 2159z;RCWC 4 SEASONS 2021 Summer;http://rcwc.ru/2720-rcwc-4-seasons-2021-contest-summer-stage.html
-Jun 28;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Jun 30;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
 Jul 1;0000z to 31.07 2359z;EuCW Activity Snakes And Ladders;https://eucw.org/sl.html
 Jul 1;0000z to 31.07 2359z;AGCW Friendship Activity;https://www.agcw.de/contest/freundschafts-aktivitaet/
-Jul 1;0000z to 2359z;SKCC's Slow Speed Saunter (CQS);https://www.skccgroup.com/operating_activities/slowspeed/
-Jul 1;0001z to 2359z;FISTS Eu Mechanical Key Days;https://fists.co.uk/activitiescalendar.html#fistsmkd2021
-Jul 1;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
-Jul 1;1900z to 2100z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
-Jul 2;0000z to 03.07 2359z;SP CW Club Activity Days;https://sq9s.pzk.pl/sp-cw-club-spcwc-activity-days/
 Jul 2;0000z to 04.07 2359z;FISTS What 3 Words;https://fists.co.uk/activitiescalendar.html#fistsw3w2021
 Jul 2;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
+Jul 3;0000z to 04.07 2359z;SP CW Club Activity Days;https://sq9s.pzk.pl/sp-cw-club-spcwc-activity-days/
 Jul 5;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Jul 7;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jul 7;13z,19z,03z,07z;CWOps CWT;https://cwops.org/cwops-tests/
 Jul 8;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
 Jul 9;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
 Jul 10;1200z to 11.07 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
 Jul 11;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
 Jul 11;2000z to 2300z;Summer Homebrew Sprint;http://qrparci.org/contest/summer-homebrew-sprint-2020
 Jul 12;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Jul 14;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jul 14;13z,19z,03z,07z;CWOps CWT;https://cwops.org/cwops-tests/
 Jul 15;0000z to 2359z;HSC Activity Day;https://hsc.lima-city.de/en/activityday.html
 Jul 15;0030z to 0230z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
 Jul 15;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
@@ -32,12 +20,12 @@ Jul 17;0000z to 2359z;FOC Bug Day;https://g4foc.org/Bug-Day
 Jul 17;0000z to 20.07 2359z;RCWC Meeting;soon
 Jul 17;0001z to 01.08 2359z;RCWC Marathon;soon
 Jul 19;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Jul 21;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jul 21;13z,19z,03z,07z;CWOps CWT;https://cwops.org/cwops-tests/
 Jul 22;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
 Jul 23;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
 Jul 25;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
 Jul 26;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
 Jul 28;0000z to 0200z;The Straight Key Sprint;https://www.skccgroup.com/operating_activities/weekday_sprint/
-Jul 28;13z,19z,03z;CWOps CWT;https://cwops.org/cwops-tests/
+Jul 28;13z,19z,03z,07z;CWOps CWT;https://cwops.org/cwops-tests/
 Jul 29;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
 Jul 30;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html

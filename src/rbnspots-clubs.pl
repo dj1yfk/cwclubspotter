@@ -164,21 +164,34 @@ sub parse_line {
 }
 
 sub loadcalls {
+    my $any_change = 0;
     foreach my $club (@clubs) {
         my $filename = "members/".lc($club)."members.txt";
         if ($membersize{$club} != -s $filename) {
             $membersize{$club} = -s $filename;
-            open CALLS, $filename;
-            while (my $a = <CALLS>) {
-                chomp($a);
-                $a =~ s/\s//g;
-                $a =~ s/\r//g;
-                strip_ukcd_calls($a);
-                print "Reading $club member [".$a."]\n";
-                $callhash{$a} |= $bm{$club};
-            }
-            close CALLS;
+            $any_change = 1;
         }
+    }
+
+    return if ($any_change == 0);
+
+    %callhash = ();
+
+    # at least one club had a change, so we need
+    # to completely reload $callhash (because some
+    # members may be deleted)
+    foreach my $club (@clubs) {
+        my $filename = "members/".lc($club)."members.txt";
+        open CALLS, $filename;
+        while (my $a = <CALLS>) {
+            chomp($a);
+            $a =~ s/\s//g;
+            $a =~ s/\r//g;
+            strip_ukcd_calls($a);
+            print "Reading $club member [".$a."]\n";
+            $callhash{$a} |= $bm{$club};
+        }
+        close CALLS;
     }
 }
 

@@ -538,9 +538,6 @@ include("js/bm_alerts.js");
                         mo += '<abbr title="' + moa[j] + '">' + moa[j].substr(0,1)  + '</abbr> '
                     }
                 }
-                else {
-                    mo = mo.replace(/ /g, '&nbsp;')
-                }
 
 				newtable += '<td>' + mo + '</td>';
 				newtable += '<td class="center">' + spots[i].wpm + '</td>';

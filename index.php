@@ -413,15 +413,11 @@ include("js/bm_alerts.js");
 
 		ownCall = document.getElementById('ownCall').value.toUpperCase();
 		if (ownCall=="") {
-		   document.getElementById('callmsg').innerHTML = '<-- Please enter your call sign &nbsp;&nbsp;';
-		   document.getElementById('callmsg').style.color="red";
-		   document.getElementById('callmsg').style.fontWeight="bold";
-		   return;
-		} else {
-		   document.getElementById('callmsg').innerHTML = '';
+		   ownCall = "GUEST" + Math.floor(Math.random() *10000);
+		   document.getElementById('ownCall').value = "N0CALL";
 		}
 
-        setCookie('ownCall', ownCall);
+		setCookie('ownCall', ownCall);
 		document.getElementById('ownCall').value=ownCall; // Displayed uppercase too
 
 		selfSpots = document.getElementById('selfSpots').checked;

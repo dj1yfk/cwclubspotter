@@ -116,5 +116,5 @@ $clubweb["30CW"] = "http://30cw.net/";
 
 $clubabbr["SPCWC"] = "SPCWC";
 $clubname["SPCWC"] = "Polski Klub Radiotelegrafistów";
-$clubweb["SPCWC"] = "http://spff.suchacz.eu/viewpage.php?page_id=10";
+$clubweb["SPCWC"] = "https://spcwc.pzk.pl/";
 ?>

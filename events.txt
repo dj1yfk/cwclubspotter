@@ -1,18 +1,5 @@
 Jul 28;0000z to 13.08 2359z;RCWC Meeting;http://rcwc.ru/2675-diploma-worked-with-radio-station-r4cp-6-w-r4cp-6.html
 Jul 28;0001z to 13.08 2359z;RCWC Marathon;http://rcwc.ru/2788-diploma-telegraph-marathon-r-cw-c-2021.html
-Aug 1;0000z to 2359z;SKCC's Slow Speed Saunter (CQS);https://www.skccgroup.com/operating_activities/slowspeed/
-Aug 1;0001z to 2359z;FISTS Eu Mechanical Key Days;https://fists.co.uk/activitiescalendar.html#fistsmkd2021
-Aug 2;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Aug 4;13z,19z,03z,07z;CWOps CWT;https://cwops.org/cwops-tests/
-Aug 5;1900z to 2100z;Straight Key Sprint Europe (SKSE);https://www.skccgroup.com/operating_activities/skse/
-Aug 5;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
-Aug 6;0000z to 08.08 2359z;FISTS What 3 Words;https://fists.co.uk/activitiescalendar.html#fistsw3w2021
-Aug 6;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
-Aug 7;1200z to 08.08 2359z;SKCC's Weekend Sprintathon (WES);https://www.skccgroup.com/operating_activities/weekend_sprintathon/
-Aug 8;14-16z & 18-20z;FISTS Eu Ladder;https://fists.co.uk/activitiescalendar.html#fistsladder2021
-Aug 9;0000z to 0100z;K1USN Slow Speed Test NA;http://www.k1usn.com/sst.html
-Aug 11;0030z to 0230z;NAQCC QRP/CW Sprint;http://naqcc.info/sprint_rules.html
-Aug 11;13z,19z,03z,07z;CWOps CWT;https://cwops.org/cwops-tests/
 Aug 12;1900z to 2000z;EACW Test;https://drive.google.com/file/d/1EV9DXfa9886ytZ_B6wrlUdo1OltLBOX8/view
 Aug 13;2000z to 2100z;K1USN Slow Speed Test EU;http://www.k1usn.com/sst.html
 Aug 14;0800z to 1100z;QRP-ARCI European Sprint;http://qrparci.org/contest/european-sprint

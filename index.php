@@ -233,7 +233,7 @@ RBN Activity Lookup:
 <table width=450>
 <tr><th colspan=2>Upcoming events <a id="toggle_events" href="javascript:toggle_events();">(show all)</a></th></tr>
 <?php
-$events = file("events.txt");
+$events = file("src/members/events.txt");
 $i = 0;
 foreach ($events as $e) {
     $a = explode(";", $e);

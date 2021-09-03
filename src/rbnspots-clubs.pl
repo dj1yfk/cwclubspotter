@@ -233,7 +233,7 @@ sub save_spot {
 
     # delete any old spots on the same band from this one
     my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
-    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 1.2");
+    $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 0.4");
 
     $spot{'memberof'} = substr($spot{'memberof'}, 0, 128);
 

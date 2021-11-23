@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -117,4 +117,8 @@ $clubweb["30CW"] = "http://30cw.net/";
 $clubabbr["SPCWC"] = "SPCWC";
 $clubname["SPCWC"] = "Polski Klub Radiotelegrafistów";
 $clubweb["SPCWC"] = "https://spcwc.pzk.pl/";
+
+$clubabbr["HTC"] = "HTC";
+$clubname["HTC"] = "Helvetia Telegraphy Club";
+$clubweb["HTC"] = "https://www.hb9htc.ch/";
 ?>

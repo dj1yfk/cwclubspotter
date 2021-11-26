@@ -284,8 +284,8 @@ Generate this report for any call: <input type="text" size="12" name="cl">
 <p><b>Note:</b> This is not a proper callsign. <b>T2DE</b> is the prosign &lt;DO&gt; (which initiates Japanese <a href="https://en.wikipedia.org/wiki/Wabun_code">Wabun code</a>) sent with wrong spacing, plus <em>DE</em>. Skimmer spots appear if a station calls <i>CQ DO DE JA...</i> but does not use exact spacing, i.e. sends <i>CQ T2DE JA...</i>.
 <? } ?>
 <div id='explain'>
-<p>Daily activity is measured by the number of active hour slots (24) times band slots (10, 160m - 10m incl. WARC and 60m) and the number of continents in which
-a skimmer spotted the station in the respective hour, for a maximum daily score of 24 * (10 + 6) = 384. When filtering by band, the continent information is omitted, because it's only saved once per slot, not per band.</p>
+<p>Daily activity is measured by the number of active hour slots (24) times band slots (13, 160m - 2m incl. WARC and 60m) and the number of continents in which
+a skimmer spotted the station in the respective hour, for a maximum daily score of 24 * (13 + 6) = 456. When filtering by band, the continent information is omitted, because it's only saved once per hour slot, not per band.</p>
 <p id='singleday'>Click a single day on the heatmap to see its details.</p>
 <div id="embed">
 <p>You can embed the statistics on your own website or profile on <a href="https://www.hamqth.com/">HamQTH</a>/QRZ.com by copying the following HTML snippet: (example: <a href="https://www.hamqth.com/dj1yfk">DJ1YFK</a> on HamQTH.com - <a href="http://rbn.telegraphy.de/activity/faq#embed">Click here for details.</a>)</p>

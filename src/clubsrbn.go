@@ -63,7 +63,6 @@ var mutex = &sync.Mutex{}
 
 func main() {
 	go handleSignals()
-	go loadUserfilters()
 
 	setupLogging()
 	users = make(map[net.Addr]string)
@@ -75,6 +74,9 @@ func main() {
 	ufilter_speed = make(map[string]byte)
 	ufilter_band = make(map[string]uint16)
 
+	go loadUserfilters()
+	readPrefs() // read prefs from file
+
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
 		log.Infof("Clubs RBN Server Production Mode, build: %s\n", build)
@@ -85,8 +87,6 @@ func main() {
 		go listenerStart(":8000")
 		prod = false
 	}
-
-	readPrefs() // read prefs from file
 
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -459,6 +459,7 @@ func printAllUsers(ip bool) string {
 	var buf bytes.Buffer
 
 	buf.WriteString(fmt.Sprintf("All connected users (%d)\r\n=========================\r\n", len(users)))
+
 	mutex.Lock()
 	for k, v := range users {
 		if ip {

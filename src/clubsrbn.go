@@ -1,5 +1,5 @@
 //
-// RBN Server implemented in Go, written by Fabian Kurz, DJ1YFK <fabian@fkurz.net>
+// RBN Server implemented in Go, written by Fabian Kurz, DJ5CW (ex DJ1YFK) <fabian@fkurz.net>
 //
 // This Go program provides the telnet server to which the users
 // connect, and a minimalistic user interface.
@@ -206,7 +206,7 @@ func handleClient(conn net.Conn) {
 
 func prompt(user string) string {
 	t := time.Now().UTC()
-	return fmt.Sprintf("%s de DJ1YFK-2 %sZ dxspider >\r\n", user, t.Format("_2-Jan-2006 1504"))
+	return fmt.Sprintf("%s de DJ5CW-2 %sZ dxspider >\r\n", user, t.Format("_2-Jan-2006 1504"))
 }
 
 func promptLogin(conn net.Conn) (login string) {
@@ -331,7 +331,7 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 // generate CC11 format strings:
 // in: DX de GM6DX-#:    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
 // out:
-// CC11^7021.4^DL2IAD^ 4-May-2020^1352Z^CW    12 dB  23 WPM  CQ^GM6DX^^^DJ1YFK^^^^^^^^^^
+// CC11^7021.4^DL2IAD^ 4-May-2020^1352Z^CW    12 dB  23 WPM  CQ^GM6DX^^^DJ5CW^^^^^^^^^^
 //       freq    dxc     date       utc   rem    spotter   dxcc etc. optional
 func formatVe7cc(spot string) string {
 	//    DX de GM6DX-#:    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
@@ -342,7 +342,7 @@ func formatVe7cc(spot string) string {
 	out := ""
 	if len(s) >= 10 && len(spot) > 33+28 {
 		t := time.Now().UTC()
-		out = "CC11^" + s[1] + "^" + s[2] + "^" + t.Format("_2-Jan-2006") + "^" + s[9] + "^" + spot[33:33+28] + "^" + s[0] + "^^^DJ1YFK^^^^^^^^^^\r\n"
+		out = "CC11^" + s[1] + "^" + s[2] + "^" + t.Format("_2-Jan-2006") + "^" + s[9] + "^" + spot[33:33+28] + "^" + s[0] + "^^^DJ5CW^^^^^^^^^^\r\n"
 	}
 	return out
 }

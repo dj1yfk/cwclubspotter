@@ -73,7 +73,7 @@ my @lines;
 print "rbn: trying to connect....\n";
 my $t = new Net::Telnet (Timeout => 10, Port => 7300, Prompt => '/./');
 $t->open("foc.dj1yfk.de");
-$t->print("DJ1YFK-9\n");    ### Changed
+$t->print("DJ5CW-9\n");
 $t->print("set/raw\n");
 print "rbn: connected... \n";
 

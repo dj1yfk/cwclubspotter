@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 
 <!-- RBN / DX Cluster Spotter view                               	-->
-<!--									-->
-<!-- Fabian Kurz, DJ1YFK <fabian@fkurz.net>				-->
-<!-- 2012-12-22								-->
-<!--									-->
-<!-- Frank R. Oppedijk, PA4N <pa4n@xs4all.nl>				-->
-<!-- 2013-04-26								-->
-<!--									-->
-<!-- Original sources from: http://fkurz.net/ham/stuff.html?rbnbandmap	-->
-<!--									-->
-<!-- This code is in the public domain.					-->
+<!-- Fabian Kurz, DJ5CW (ex DJ1YFK) <fabian@fkurz.net>              -->
+<!-- Frank R. Oppedijk, PA4N <pa4n@xs4all.nl>                       -->
+<!-- https://git.fkurz.net/dj1yfk/cwclubspotter                     -->
+<!-- This code is in the public domain.                             -->
 
 <?php
 include_once("clubs.php");

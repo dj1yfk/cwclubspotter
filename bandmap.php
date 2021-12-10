@@ -3,7 +3,7 @@ error_reporting(1);
 header("Access-Control-Allow-Origin: *");
 # RBN / DX Cluster Spotter view 
 #
-# Fabian Kurz, DJ1YFK <fabian@fkurz.net>
+# Fabian Kurz, DJ5CW (ex DJ1YFK) <fabian@fkurz.net>
 # 2012-12-22
 #
 # Frank R. Oppedijk, PA4N <pa4n@xs4all.nl>

@@ -29,6 +29,6 @@
 <li><a href="/activity/rank">RBN Activity Ranking</a></li>
 </ul>
 <hr>
-<a href="https://fkurz.net/">Fabian Kurz, DJ1YFK</a> &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;
+<a href="https://fkurz.net/">Fabian Kurz, DJ5CW</a> &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;
 </body>
 </html>

@@ -62,7 +62,7 @@
 
 			v.style.display = 'block';
 			v.innerHTML = '<span style="font-weight:bold;font-size:14px">RBN activity statistics for <?=$c?></span>';
-			l.innerHTML = '<code style="font-family:monospace">https://rbn.telegraphy.de/activity/</code> - Search for any callsign and create your own embeddable RBN widget! A free service by DJ1YFK.';
+			l.innerHTML = '<code style="font-family:monospace">https://rbn.telegraphy.de/activity/</code> - Search for any callsign and create your own embeddable RBN widget! A free service by DJ5CW.';
 	}
 
 </script>
@@ -276,7 +276,7 @@
 <form onSubmit="javascript:document.location.href='//rbn.telegraphy.de/activity/' + this.cl.value.toUpperCase(); return false;">
 Generate this report for any call: <input type="text" size="12" name="cl">
 <input type="submit" value="Go!"> - <a href="/activity/faq">FAQ - Data Removal - etc.</a>
- - You can generate joint reports for two calls, e.g. <a href="/activity/DJ1YFK+SO5CW">DJ1YFK+SO5CW</a>
+ - You can generate joint reports for two calls, e.g. <a href="/activity/DJ1YFK+DJ5CW">DJ1YFK+DJ5CW</a>
 </form>
 </div>
 
@@ -288,7 +288,7 @@ Generate this report for any call: <input type="text" size="12" name="cl">
 a skimmer spotted the station in the respective hour, for a maximum daily score of 24 * (13 + 6) = 456. When filtering by band, the continent information is omitted, because it's only saved once per hour slot, not per band.</p>
 <p id='singleday'>Click a single day on the heatmap to see its details.</p>
 <div id="embed">
-<p>You can embed the statistics on your own website or profile on <a href="https://www.hamqth.com/">HamQTH</a>/QRZ.com by copying the following HTML snippet: (example: <a href="https://www.hamqth.com/dj1yfk">DJ1YFK</a> on HamQTH.com - <a href="http://rbn.telegraphy.de/activity/faq#embed">Click here for details.</a>)</p>
+<p>You can embed the statistics on your own website or profile on <a href="https://www.hamqth.com/">HamQTH</a>/QRZ.com by copying the following HTML snippet: (example: <a href="https://www.hamqth.com/dj5cw">DJ5CW</a> on HamQTH.com - <a href="http://rbn.telegraphy.de/activity/faq#embed">Click here for details.</a>)</p>
 <pre style="background-color:#eeeeef">
 &lt;a href="https://rbn.telegraphy.de/activity/<?=$c;?>"&gt;&lt;img src="https://rbn.telegraphy.de/activity/image/<?=$c;?>"&gt;&lt;/a&gt;
 </pre>
@@ -300,7 +300,7 @@ a skimmer spotted the station in the respective hour, for a maximum daily score 
 <hr>
 <a href="https://foc.dj1yfk.de/bandmap">FOC RBN</a> - <a href="https://rbn.telegraphy.de">CW Club RBN Spotter</a> - <a href="/activity/rank">RBN Activity Rank</a> - <a href="/activity/stats">RBN Activity Statistics</a>
 <hr>
-<p>Last modified: <? echo date ("Y-m-d",  filemtime("active.php")); ?> - <a href="http://fkurz.net/">Fabian Kurz, DJ1YFK</a> <a href="mailto:fabian@fkurz.net">&lt;fabian@fkurz.net&gt;</a>
+<p>Last modified: <? echo date ("Y-m-d",  filemtime("active.php")); ?> - <a href="http://fkurz.net/">Fabian Kurz, DJ5CW</a> <a href="mailto:fabian@fkurz.net">&lt;fabian@fkurz.net&gt;</a>
 <?
 	if (!$_SERVER['HTTPS']) { ?> - <a rel="nofollow" href="https://rbn.telegraphy.de/activity/<?=$c;?>">Switch to https</a> <? }
 	else { ?> - <a rel="nofollow" href="http://rbn.telegraphy.de/activity/<?=$c;?>">Switch to http</a> <? }

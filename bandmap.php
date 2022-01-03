@@ -211,7 +211,7 @@ else {
     # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
   }
 
-$queryStr = "select freq, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
+$queryStr = "select freq, band, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
 
 $aggregateSpotters=true; # Merge spots for 1 dxcall and ~1 frequency by different spotters into one row
 $aggregateSpeeds=true; # Merge spots for 1 dxcall and ~1 frequency with different speeds into one row
@@ -260,11 +260,12 @@ while ($r) {
 		if ($r->dxcall != $dxc or abs($r->freq - $freq) > 0.5 or !$aggregateSpotters or (!$aggregateSpeeds and ($r->wpm!=$minwpm or $r->wpm!=$maxwpm))) { # Start new entry
 			if ($dxc != "") { 
 			# Output previous entry if it exists
-			array_push($json_a, build_json($dxc, $freq, $age, ($minwpm<$maxwpm ? "$minwpm-$maxwpm" : "$minwpm"), $memberof, $spotters, $spotters_old));
+			array_push($json_a, build_json($dxc, $freq, $band, $age, ($minwpm<$maxwpm ? "$minwpm-$maxwpm" : "$minwpm"), $memberof, $spotters, $spotters_old));
 			}
 
 			$dxc = $r->dxcall;
 			$freq = sprintf("%.1f", $r->freq);
+			$band = $r->band;
 			$age = $r->age;
 			$minwpm=$r->wpm;
 			$maxwpm=$r->wpm;
@@ -297,7 +298,7 @@ while ($r) {
 }
 
 # get rid of last entry
-array_push($json_a, build_json($dxc, $freq, $age, ($minwpm<$maxwpm ? "$minwpm-$maxwpm" : "$minwpm"), $memberof, $spotters, $spotters_old));
+array_push($json_a, build_json($dxc, $freq, $band, $age, ($minwpm<$maxwpm ? "$minwpm-$maxwpm" : "$minwpm"), $memberof, $spotters, $spotters_old));
 
 echo "[".implode(",", $json_a)."]";
 #error_log(1000*(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]));
@@ -306,9 +307,10 @@ if (intval(phpversion())>=5)
 else
   mysql_close();
 
-function build_json ($dxc, $freq, $age, $wpm, $memberof, $spotters, $spotters_old) {
+function build_json ($dxc, $freq, $band, $age, $wpm, $memberof, $spotters, $spotters_old) {
 	$ret = "";
 	$ret .= "{\n\"freq\":\"$freq\",\n";
+	$ret .= "\"band\":\"$band\",\n";
 	$ret .= "\"dxcall\":\"$dxc\",\n";
 	$ret .= "\"memberof\":\"$memberof\",\n";
 	$ret .= "\"age\":\"$age\",\n";

@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>06-Jan-2022</td><td>Spot filtering for CWops and FOC awards</td></tr>
 <tr><td>22-Nov-2021</td><td>Add new club: HTC - tnx HB9AFH</td></tr>
 <tr><td>22-Jun-2021</td><td>Add new club: SPCWC - tnx SQ9S</td></tr>
 <tr><td>15-May-2021</td><td>Add new club: 30CW - tnx VK5EEE/G4OJW</td></tr>

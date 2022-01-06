@@ -60,7 +60,13 @@
 <li>By checking the "Visual alert" box, you will receive a browser notification and the title of the site will flash for a few seconds to indicate there's an alert</li>
 <li>By checking the "Audio alert" box, you will receive an alert in Morse code, announcing the call(s) that were spotted</li>
 </ul>
-</p>
+
+<h2 id="awards">Award specific alerting</h2>
+<p>The CW Club RBN spotter can display alerts for various operating awards/activities of <a href="https://g4foc.org/">FOC</a> and <a href="https://cwops.org/">CWops</a>, by retrieving an user's list of needed callsigns/bands from the respective Award Tools (<a href="https://foc.telegraphy.de/">FOC Award Tools</a>, <a href="https://cwops.telegraphy.de/">CWops Award Tools</a>).</p>
+<p>If you're a member of either club and already upload your logs to the award tools, you can immediately be notified of new spots which are valid for the various operating awards by selecting the respetive checkboxes in the filter tab.</p>
+<p>You can refer to this <a target="_new" href="rbn_awards.png">screenshot</a>: 1. Enter your own callsign, 2. Select the desired awards for which you want to be alerted, 3. Hit the "Refresh" symbol to load your needed callsign lists from the CWops/FOC Award Tools.</p>
+<p>There are two display options: By default, spots that are new points for awards will be shown in yellow on the normal bandmap. You can also remove all other spots if you activate the checkbox "Show only needed stations on bandmap". If you hover your mouse cursor over the spot, a small popup will show for which award the spot counts.</p>
+<p>The award functions are currently only available on the web interface. The same function will eventually also be implemented for the telnet interface.</p>
 
 <h2>Connect via telnet</h2>
 <p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent, band and speed is implemented for the telnet port. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>

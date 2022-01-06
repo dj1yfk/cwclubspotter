@@ -201,6 +201,37 @@ RBN Activity Lookup:
 <input onclick="filter_change()" id="cbAlertAudio" type="checkbox" name="cbAlertAudio" value="1" checked> Audio alert (CW) &nbsp; &nbsp; <a href="/info#alerts">Alert help</a>
 </td>
 </tr>
+
+
+<th>Awards</th>
+<td colspan=19>
+<b>CWops:</b> 
+<input onclick="filter_change()" id="cbAwardACA" type="checkbox" name="cbAwardACA" value="1" checked> ACA
+<input onclick="filter_change()" id="cbAwardCMA" type="checkbox" name="cbAwardCMA" value="1" checked> CMA
+
+&nbsp;
+<b>FOC:</b>
+<input onclick="filter_change()" id="cbAwardAUG" type="checkbox" name="cbAwardAUG" value="1" checked> Augie
+<input onclick="filter_change()" id="cbAwardW1" type="checkbox" name="cbAwardW1" value="1" checked> Windle (allband) 
+<input onclick="filter_change()" id="cbAwardW" type="checkbox" name="cbAwardW" value="1"> Windle (per band) 
+
+&nbsp;&nbsp;
+<b>Options:</b>
+<input onclick="filter_change()" id="cbAwardFilter" type="checkbox" name="cbAwardFilter" value="1"> 
+Show <i>only</i> needed stations on bandmap
+<input onclick="filter_change()" id="cbAwardAudio" type="checkbox" name="cbAwardAudio" value="1"> 
+Audio alert (CW)
+
+&nbsp;&nbsp;
+
+<button type="button" onclick="load_awards();" title="Reload award data from server">↻</button>
+
+&nbsp; &nbsp; <a href="/info#awards">Awards help</a>
+
+</td>
+</tr>
+
+
 </table>
 </form>
 </div>
@@ -278,11 +309,25 @@ foreach ($events as $e) {
     var abbreviate = false;
     var linktarget = 'qrz';
 
+    var awardACA = true;
+    var awardCMA = true;
+    var awardAUG = true;
+    var awardW1 = true;
+    var awardW = false;
+    var awardFilter = false;
+    var awardAudio = false;
+
     var show_all_events = false;
 
+    var awardinfo = [];
 
+    // Filters for CWops/FOC etc.
+    // this may be loaded later from the server if there's information for the
+    // user's call.
+    var awards = {};
 
 <?php
+
 include("js/bm_alerts.js");
 ?>
 
@@ -330,6 +375,14 @@ include("js/bm_alerts.js");
 
         document.getElementById('cbAlertVisual').checked = getCookie('alertVisual')=='true';
         document.getElementById('cbAlertAudio').checked = getCookie('alertAudio')=='true';
+        
+        document.getElementById('cbAwardCMA').checked = getCookie('awardCMA')=='true';
+        document.getElementById('cbAwardACA').checked = getCookie('awardACA')=='true';
+        document.getElementById('cbAwardAUG').checked = getCookie('awardAUG')=='true';
+        document.getElementById('cbAwardW1').checked = getCookie('awardW1')=='true';
+        document.getElementById('cbAwardW').checked = getCookie('awardW')=='true';
+        document.getElementById('cbAwardFilter').checked = getCookie('awardFilter')=='true';
+        document.getElementById('cbAwardAudio').checked = getCookie('awardAudio')=='true';
 
 		var al = getCookie('alerts') || "";
 		document.getElementById('alerts').value=al;
@@ -433,6 +486,27 @@ include("js/bm_alerts.js");
         document.getElementById('alerts').value = alert_text;
         setCookie('alerts', alert_text);
 
+        awardFilter = document.getElementById('cbAwardFilter').checked;
+        setCookie('awardFilter', awardFilter);
+
+        awardAudio = document.getElementById('cbAwardAudio').checked;
+        setCookie('awardAudio', awardAudio);
+
+        awardCMA = document.getElementById('cbAwardCMA').checked;
+        setCookie('awardCMA', awardCMA);
+        
+        awardACA = document.getElementById('cbAwardACA').checked;
+        setCookie('awardACA', awardACA);
+
+        awardW1 = document.getElementById('cbAwardW1').checked;
+        setCookie('awardW1', awardW1);
+
+        awardW = document.getElementById('cbAwardW').checked;
+        setCookie('awardW', awardW);
+
+        awardAUG = document.getElementById('cbAwardAUG').checked;
+        setCookie('awardAUG', awardAUG);
+
 		fetch_spots(); // Fetch the spots matching this filter
 	}
 
@@ -514,7 +588,71 @@ include("js/bm_alerts.js");
                     tabclass='alert';
                 }
 
-				newtable += '<tr class="' + tabclass + '">';
+                var alert_line = false;
+                try {
+                    awardinfo = [];
+                    var cl = stripcall(spots[i].dxcall);
+                    if (awards[cl][spots[i].band] || awards[cl]['all']) {
+                        /* there's an entry for this call on this band/any - check if we really want to show it (check boxes) */
+
+                        // merge the two arrays
+                        var a = Array();
+                        if (awards[cl][spots[i].band]) {
+                            a = awards[cl][spots[i].band];
+                        }
+                        if (awards[cl]['all']) {
+                            a = a.concat(awards[cl]['all']);
+                        }
+
+                        if (awardCMA && a.indexOf('CMA') >= 0) {
+                            alert_line = true;
+                            awardinfo.push("CMA");
+                        }
+                        if (awardACA && a.indexOf('ACA') >= 0) {
+                            alert_line = true;
+                            awardinfo.push("ACA");
+                        }
+                        if (awardAUG && a.indexOf('AUG') >= 0) {
+                            alert_line = true;
+                            awardinfo.push("Augie");
+                        }
+                        if (awardW1 && a.indexOf('W1') >= 0) {
+                            alert_line = true;
+                            awardinfo.push("Windle (all band)");
+                        }
+                        if (awardW && a.indexOf('W') >= 0) {
+                            alert_line = true;
+                            awardinfo.push("Windle");
+                        }
+
+
+                        if (alert_line) {
+                            if (awardAudio) {
+                                alert_calls.push(cl);
+                                if (alert_freqs[cl] == null) {
+                                    alert_freqs[cl] = [ spots[i].freq ];
+                                }
+                                else {
+                                    alert_freqs[cl].push(spots[i].freq);
+                                }
+                            }
+                            awardinfo = awardinfo.join(', ', awardinfo);
+                            if (!awardFilter) {  // if we only show filtered spots, don't colour them
+                                tabclass='alert';
+                            }
+                        }
+                    }
+                    else {
+                        awardinfo = '';
+                    }
+                }
+                catch (e) {
+                }
+
+                if (awardFilter == true && !alert_line)
+                    continue;
+
+				newtable += '<tr title="' + awardinfo + '" class="' + tabclass + '">';
                 newtable += '<td class="right">' + spots[i].freq+ '&nbsp;</td>';
                 newtable += '<td><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
@@ -677,10 +815,22 @@ function toggle_events () {
 	show_all_events = !show_all_events;
 }
 
-
+function load_awards() {
+    var request =  new XMLHttpRequest();
+    request.open("GET", '/filter?c=' + ownCall, true);
+    request.onreadystatechange = function() {
+        var done = 4, ok = 200;
+            if (request.readyState == done && request.status == ok) {
+                awards = JSON.parse(request.responseText);
+                update_table();
+            }
+    }
+    request.send(null);
+}
 
 function init_rbn () {
     load_alerts();
+    load_awards();
     fetch_spots();
 	toggle_events();
 }

@@ -85,6 +85,8 @@ function check_alert (c, f) {
         }
     }
 
+    console.log(o);
+
     if (o.length)
         generate_alert(o);
 }
@@ -111,9 +113,17 @@ function generate_alert (c) {
         }
     }
 
-    if (alertAudio) {
-        sound_alert(c);
+    try {
+        if (alertAudio || awardAudio) {
+            sound_alert(c);
+        }
     }
+    catch (e) {
+        if (alertAudio) {
+            sound_alert(c);
+        }
+    }
+    
 
 }
 
@@ -136,8 +146,10 @@ function visual_alert (c) {
 }
 
 function sound_alert (c) {
+    console.log(c);
     var p = document.getElementById('cwplayer');
-    var text = c.join(" ").replace(/\(.*\)/g, "");
+    var text = c.join(" ").replace(/\([0-9., ]+\)/g, "");
+    console.log(text);
     p.src = "/cgi-bin/cw.mp3?s=35&e=35&f=600&t=alert " + text
     p.play();
 }

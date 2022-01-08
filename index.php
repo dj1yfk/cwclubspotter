@@ -212,8 +212,9 @@ RBN Activity Lookup:
 &nbsp;
 <b>FOC:</b>
 <input onclick="filter_change()" id="cbAwardAUG" type="checkbox" name="cbAwardAUG" value="1" checked> Augie
-<input onclick="filter_change()" id="cbAwardW1" type="checkbox" name="cbAwardW1" value="1" checked> Windle (allband) 
-<input onclick="filter_change()" id="cbAwardW" type="checkbox" name="cbAwardW" value="1"> Windle (per band) 
+<input onclick="filter_change()" id="cbAwardW1" type="checkbox" name="cbAwardW1" value="1" checked> Windle (one QSO / year) 
+<input onclick="filter_change()" id="cbAwardW" type="checkbox" name="cbAwardW" value="1"> Windle (normal) 
+<input onclick="filter_change()" id="cbAwardABC" type="checkbox" name="cbAwardABC" value="1"> ABC
 
 &nbsp;&nbsp;
 <b>Options:</b>
@@ -314,6 +315,7 @@ foreach ($events as $e) {
     var awardAUG = true;
     var awardW1 = true;
     var awardW = false;
+    var awardABC = false;
     var awardFilter = false;
     var awardAudio = false;
 
@@ -381,6 +383,7 @@ include("js/bm_alerts.js");
         document.getElementById('cbAwardAUG').checked = getCookie('awardAUG')=='true';
         document.getElementById('cbAwardW1').checked = getCookie('awardW1')=='true';
         document.getElementById('cbAwardW').checked = getCookie('awardW')=='true';
+        document.getElementById('cbAwardABC').checked = getCookie('awardABC')=='true';
         document.getElementById('cbAwardFilter').checked = getCookie('awardFilter')=='true';
         document.getElementById('cbAwardAudio').checked = getCookie('awardAudio')=='true';
 
@@ -504,6 +507,9 @@ include("js/bm_alerts.js");
         awardW = document.getElementById('cbAwardW').checked;
         setCookie('awardW', awardW);
 
+        awardABC = document.getElementById('cbAwardABC').checked;
+        setCookie('awardABC', awardABC);
+
         awardAUG = document.getElementById('cbAwardAUG').checked;
         setCookie('awardAUG', awardAUG);
 
@@ -623,6 +629,10 @@ include("js/bm_alerts.js");
                         if (awardW && a.indexOf('W') >= 0) {
                             alert_line = true;
                             awardinfo.push("Windle");
+                        }
+                        if (awardABC && a.indexOf('A') >= 0) {
+                            alert_line = true;
+                            awardinfo.push("ABC");
                         }
 
 

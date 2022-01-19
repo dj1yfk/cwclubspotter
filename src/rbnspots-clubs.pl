@@ -53,7 +53,7 @@ my %bm_conts = ( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' =>
 
 my %bm_bands = ( '160' => 0x0001, '80' => 0x0002, '60' => 0x0004, '40' => 0x0008, '30' => 0x0010, '20' => 0x0020, '17' => 0x0040, '15' => 0x0080, '12' => 0x0100, '10' => 0x0200, '6' => 0x0400, '4' => 0x0800, '2' => 0x1000);
 
-my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS NRR QRPARCI CWJF TORCW SOC UFT ECWARC LICW EACW MF A1C NTC MORSE 4SQRP 30CW SPCWC HTC/;
+my @clubs = qw/CWOPS FISTS FOC HSC VHSC SHSC EHSC SKCC AGCW NAQCC BUG RCWC LIDS NRR QRPARCI CWJF TORCW SOC UFT ECWARC LICW EACW MF A1C NTC MORSE 4SQRP 30CW SPCWC HTC UQRQC/;
 my %bm = ();
 # create bit masks from @clubs array
 my $i = 0;

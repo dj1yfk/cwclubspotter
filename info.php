@@ -69,7 +69,7 @@
 <p>The award functions are currently only available on the web interface. The same function will eventually also be implemented for the telnet interface.</p>
 
 <h2>Connect via telnet</h2>
-<p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent, band and speed is implemented for the telnet port. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
+<p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent, band and speed is implemented for the telnet port. Award filters are not yet available. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
 <p>You can switch between the telnet stream filtered by club members and a raw stream (all spots) by entering <code>set/clubs</code> and <code>set/raw</code> respectively.</p>
 <p>Ham Radio Deluxe users: If you don't see any spots, please try switching to the VE7CC output format (CC11) by entering <code>set/ve7cc</code>. You can switch back with <code>set/normal</code></p> 
 

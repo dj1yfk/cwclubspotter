@@ -5,7 +5,7 @@ CREATE TABLE `spots` (
         `freq` decimal(6,1)  NOT NULL default 0,
         `dxcall` varchar(16) NOT NULL default '',
         `fromcont` varchar(2) NOT NULL default '',
-        `memberof` varchar(64) NOT NULL default '',
+        `memberof` varchar(255) NOT NULL default '',
         `comment` varchar(64) NOT NULL default '',
         `snr` int NOT NULL default '0',
         `wpm` int NOT NULL default '0',

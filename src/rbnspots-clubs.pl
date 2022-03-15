@@ -235,7 +235,7 @@ sub save_spot {
     my $dbhret = $dbh->do("delete from spots where `call`='$spot{call}' and band='$spot{band}' and dxcall='$spot{dxcall}'");
     $dbhret = $dbh->do("delete from spots where band='$spot{band}' and dxcall='$spot{dxcall}' and abs(freq - $spot{freq}) > 0.4");
 
-    $spot{'memberof'} = substr($spot{'memberof'}, 0, 128);
+    $spot{'memberof'} = substr($spot{'memberof'}, 0, 255);
 
     $dbh->do("INSERT INTO spots (`call`, `freq`, `dxcall`, `memberof`, `comment`, `snr`, `wpm`, `time`, `band`, `fromcont`, `member`) VALUES ('$spot{call}', '$spot{freq}', '$spot{dxcall}', '$spot{memberof}', $spot{comment}, '$spot{snr}', $spot{wpm}, '$time', '$spot{band}', '$spot{cont}', $spot{member});");
 

@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -125,4 +125,12 @@ $clubweb["HTC"] = "https://www.hb9htc.ch/";
 $clubabbr["UQRQC"] = "U-QRQ-C";
 $clubname["UQRQC"] = "International CW Club U-QRQ";
 $clubweb["UQRQC"] = "http://uqrqc.ru/";
+
+$clubabbr["GPCW"] = "GPCW";
+$clubname["GPCW"] = "Grupo Português de CW";
+$clubweb["GPCW"] = "https://gpcw.pt/wp/";
+
+$clubabbr["MCARI"] = "MCARI";
+$clubname["MCARI"] = "Marconi Club dell A.R.I. di Loano";
+$clubweb["MCARI"] = "http://www.ariloano.it/marconiclub/";
 ?>

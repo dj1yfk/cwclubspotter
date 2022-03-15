@@ -255,6 +255,7 @@ Audio alert (CW)
 <tr><th>ECWARC</th><td>1.822</td><td>3.542</td><td>-</td><td>7.022</td><td>10.122</td><td>14.042</td><td>18.082</td><td>21.042</td><td>24.912</td><td>28.022</td><td>-</td></tr>
 <tr><th>BUG</th><td>1.813</td><td>3.533</td><td>5.373</td><td>7.033 / 7.123</td><td>10.123</td><td>14.033</td><td>18.083</td><td>21.033</td><td>24.903</td><td>28.033</td><td>50.083</td></tr>
 <tr><th>U-QRQ-C</th><td>-</td><td>3.518</td><td>-</td><td>7.018</td><td>-</td><td>14.055</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th>GPCW</th><td>1.830</td><td>3.528</td><td>-</td><td>7.028</td><td>10.128</td><td>14.028</td><td>18.081</td><td>21.028</td><td>24.898</td><td>28.028</td><td>50.098</td></tr>
 </table>
 </td>
 <td>
@@ -828,7 +829,7 @@ function toggle_events () {
 		}
 	}
 	else {
-		for (i=11; i < nr; i++) {
+		for (i=12; i < nr; i++) {
 			document.getElementById('event' + i).style.display = "none";
 			document.getElementById('toggle_events').innerHTML = "(show all)";
 		}

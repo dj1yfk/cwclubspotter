@@ -16,3 +16,4 @@ RewriteRule ^activity_iframe/([A-Za-z0-9/+]{1,99})(/)?$ /act/active.php?call=$1&
 
 ErrorDocument 404 /404.php
 
+AddType text/plain .spc

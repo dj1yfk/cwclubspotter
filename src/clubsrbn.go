@@ -75,14 +75,15 @@ func main() {
 	ufilter_band = make(map[string]uint16)
 
 	go loadUserfilters()
-	readPrefs() // read prefs from file
 
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
+		prod = true
+		readPrefs() // read prefs from file
 		log.Infof("Clubs RBN Server Production Mode, build: %s\n", build)
 		go listenerStart(":7000")
-		prod = true
 	} else {
+		readPrefs() // read prefs from file
 		log.Infof("RBN Server Debug Mode, build: %s\n", build)
 		go listenerStart(":8000")
 		prod = false

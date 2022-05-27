@@ -130,7 +130,7 @@ $clubabbr["GPCW"] = "GPCW";
 $clubname["GPCW"] = "Grupo Português de CW";
 $clubweb["GPCW"] = "https://gpcw.pt/wp/";
 
-$clubabbr["MCARI"] = "MCARI";
+$clubabbr["MCARI"] = "Marconi Club";
 $clubname["MCARI"] = "Marconi Club dell A.R.I. di Loano";
 $clubweb["MCARI"] = "http://www.ariloano.it/marconiclub/";
 ?>

@@ -135,7 +135,7 @@ function print_stats($call, $start_ts, $days) {
 	$ret .= "<table style='border-spacing:0;border-collapse:collapse;'><tr><th colspan='24'>Activity vs. Time (UTC)  <span id='hover'>[hover mouse over bar to see band]</span></th></tr><tr>";
 	for ($i = 0; $i < 24; $i++) {
         $height = 15 * $nob + 5;
-		$ret .= "<td style='vertical-align:bottom;height:${height}px;'>".hour_bar($i, $hract[$i], $maxhr, $height)."</td>";
+		$ret .= "<td id='v$i' style='vertical-align:bottom;height:${height}px;'>".hour_bar($i, $hract[$i], $maxhr, $height)."</td>\n";
 	}
 	$ret .= "</tr>\n";
 	$ret .= "<tr>\n";
@@ -207,7 +207,7 @@ function hour_bar ($h, $a, $max, $height) {
 		ksort($a);
 		foreach ($a as $b => $c) {		# band -> count
 			if ($c and is_int($b)) {
-				$ret .= "<img style='margin:0px;padding:0px;height:".(($c/$max)*($height-5))."px;width:8px;display:block;' title='$b"."m - $c"."h' src='/act/img/".$img[$b].".png'>\n";
+				$ret .= "<img style='margin:0px;padding:0px;height:".(($c/$max)*($height-5))."px;width:8px;display:block;' title='$b"."m - $c"."h' src='/act/img/".$img[$b].".png'>";
 			}
 		}
 	return $ret;

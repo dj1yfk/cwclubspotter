@@ -54,7 +54,7 @@ an der Verarbeitung der Daten besteht.</p>
 <ul>
     <li>Es gibt auf dieser Seite <strong>keine Benutzeraccounts</strong>.</li>
     <li>Es werden <strong>keine Daten an Dritte</strong> weitergegeben, weder durch Einbettung
-        externer Inhalte, noch durch Weitegabe der Daten, die durch den Besuch
+        externer Inhalte, noch durch Weitergabe der Daten, die durch den Besuch
         dieser Seite entstanden sind.</li>
     <li>Diese Webseite verwendet <strong>nur Cookies, die auf der Seite selbst verwendet werden</strong>. Diese dienen zur Erinnerung von vorher getätigten Einstellungen bei einem erneuten Besuch. Die Verwendung von Cookies ist optional und kann jederzeit im Browser deaktiviert werden.</li>
     <li>Nur die folgenden Daten werden im Log des Servers gespeichert:
@@ -81,7 +81,7 @@ an der Verarbeitung der Daten besteht.</p>
         inklusive der Metadaten,  permanent archiviert. Falls Sie dies nicht
         wünschen, weisen Sie bitte in der Mail kurz darauf hin.</li>
 </ul>
-
+@
 <h2>Daten aus dem Reverse Beacon Network</h2>
 <p>Auf dieser Webseite werden Daten verarbeitet und dargestellt, die aus einem weltweiten, von Funkamateuren zu wissenschaftlich-experimentellen Zwecken betriebenen Netzwerk von automatischen SDR-Empfängern stammen. Diese Empfänger suchen automatisch auf allen Amateurfunkfrequenzen nach Stationen, die in Morsecode oder digitalen Sendearten einen sogenannten "allgemeinen Anruf" senden.</p>
 
@@ -90,7 +90,7 @@ an der Verarbeitung der Daten besteht.</p>
 <p>Daher können die somit gewonnen Daten als öffentlich bekannt angesehen werden, und eine Verarbeitung dieser zu Zwecken, die den wissenschaftlich-experimentellen Zwecken des Amateurfunks dienen, kann als legitimes Interesse im Sinne der Erwägungsgrundlage 47 des DSGVO angesehen werden.</p>
 
 <h2>Löschung von personenbezogenen Daten</h2>
-<p>Jeder, dessen personenbezogene Daten auf diesem Server gespeichert sind, hat das Recht auf permanente Löschung. Diese kann formlos über die oben angegebenen Kontaktdaten per E-Mail oder in Schriform eingefordert werden.</p>
+<p>Jeder, dessen personenbezogene Daten auf diesem Server gespeichert sind, hat das Recht auf permanente Löschung. Diese kann formlos über die oben angegebenen Kontaktdaten per E-Mail oder in Schriftform eingefordert werden.</p>
 
 
 <h2>Sicherungskopien</h2>

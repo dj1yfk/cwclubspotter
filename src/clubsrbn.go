@@ -22,6 +22,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"sync"
 	"syscall"
@@ -43,6 +44,9 @@ var prefs map[string]string
 
 // output format (normal/ve7cc) per user (volatile)
 var format map[string]string
+
+// dedupe the output (only one spot per call and freq every 5 min)
+var dedupe map[string]bool
 
 // filters per user, as set by web interface
 var ufilter_club map[string]uint64
@@ -68,6 +72,7 @@ func main() {
 	users = make(map[net.Addr]string)
 	prefs = make(map[string]string)
 	format = make(map[string]string)
+	dedupe = make(map[string]bool)
 
 	ufilter_club = make(map[string]uint64)
 	ufilter_cont = make(map[string]byte)
@@ -196,6 +201,18 @@ func handleClient(conn net.Conn) {
 			control <- "end"
 			go outputClient(conn, control, login)
 			conn.Write([]byte("New format: Normal\r\n"))
+		case strings.Contains(cmd, "set/nodupes"):
+			log.Debugf("%s: Dedupe on\n", login)
+			dedupe[login] = true
+			control <- "end"
+			go outputClient(conn, control, login)
+			conn.Write([]byte("Suppressing duplicate spots (one spot per call and band every 5 minutes)\r\n"))
+		case strings.Contains(cmd, "set/dupes"):
+			log.Debugf("%s: Dedupe off\n", login)
+			dedupe[login] = false
+			control <- "end"
+			go outputClient(conn, control, login)
+			conn.Write([]byte("Enabling duplicate spots.\r\n"))
 		default:
 			log.Debugf("%s: Unknown command >%s< (ignored)\n", login, cmd)
 		}
@@ -273,6 +290,7 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 	spots := make(chan string)
 	rediscontrol := make(chan string)
 	filter := prefs[login]
+	dedupehash := make(map[string]time.Time) // key = DJ5CW + MHz + 100 kHz (e.g. DJ5CW on 5354.0 kHz: DJ5CW53 -> time of last spot)
 
 	go subscribeSpots(filter, spots, rediscontrol)
 
@@ -306,16 +324,14 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 				// of club membership
 				all_calls := ufilter_club[login] == 0
 
-				/*
-					log.Debugf("cont  = %x vs %x = %x\n", cont, ufilter_cont[login], cont&ufilter_cont[login])
-					log.Debugf("club  = %x vs %x = %x\n", clubs, ufilter_club[login], clubs&ufilter_club[login])
-					log.Debugf("spee  = %x vs %x = %x\n", speed, ufilter_speed[login], speed&ufilter_speed[login])
-					log.Debugf("band  = %x vs %x = %x\n", band, ufilter_band[login], band&ufilter_band[login])
-					log.Debugf("spot  = >%s<\n", spot)
-				*/
-
 				if !(cont&ufilter_cont[login] != 0 && (clubs&ufilter_club[login] != 0 || all_calls) && speed&ufilter_speed[login] != 0 && band&ufilter_band[login] != 0) {
 					continue // spot does not match the filter
+				}
+			}
+
+			if dedupe[login] == true {
+				if isDupe(spot, dedupehash) {
+					continue
 				}
 			}
 
@@ -327,6 +343,38 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 
 		}
 	}
+}
+
+func isDupe(spot string, dedupehash map[string]time.Time) bool {
+	spot = strings.Replace(spot, "-#:", " ", -1)
+	spot = strings.Replace(spot, "DX de ", "", -1)
+	s := strings.Fields(spot)
+	call := s[2]
+	freq, err := strconv.ParseFloat(s[1], 32)
+	if err != nil {
+		return false
+	}
+	freq_short := int(freq / 100)
+	hashkey := call + string(freq_short)
+
+	dupetime, exists := dedupehash[hashkey]
+
+	if exists {
+		if time.Now().Sub(dupetime) > 5*time.Minute {
+			log.Debugf("DUPEexpired: %s %s\n", spot, dupetime)
+			delete(dedupehash, hashkey)
+			dedupehash[hashkey] = time.Now()
+			return false
+		} else {
+			// log.Debugf("DUPE: %s %s\n", spot, dupetime)
+			return true
+		}
+	} else {
+		dedupehash[hashkey] = time.Now()
+		return false
+	}
+
+	return false
 }
 
 // generate CC11 format strings:

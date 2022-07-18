@@ -235,7 +235,7 @@ func promptLogin(conn net.Conn) (login string) {
 
 	login, err := readFullLine(conn, false, false)
 	if err != nil {
-		log.Warningf("Nothing received within 100ms, probably a real client.\n")
+		log.Debugf("Nothing received within 100ms, probably a real client.\n")
 		login_before_prompt = false
 	}
 
@@ -553,7 +553,7 @@ func readFullLine(conn net.Conn, allowspace bool, reporterror bool) (string, err
 
 		if err != nil {
 			if reporterror {
-				log.Errorf("Read from client: %s\n", err.Error())
+				log.Debugf("Read from client: %s\n", err.Error())
 			}
 			return "", err
 		}

@@ -68,15 +68,16 @@
 <p>There are two display options: By default, spots that are new points for awards will be shown in yellow on the normal bandmap. You can also remove all other spots if you activate the checkbox "Show only needed stations on bandmap". If you hover your mouse cursor over the spot, a small popup will show for which award the spot counts.</p>
 <p>The award functions are currently only available on the web interface. The same function will eventually also be implemented for the telnet interface.</p>
 
-<h2>Connect via telnet</h2>
+<h2 id="telnet">Connect via telnet</h2>
 <p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent, band and speed is implemented for the telnet port. Award filters are not yet available. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
 <p>You can switch between the telnet stream filtered by club members and a raw stream (all spots) by entering <code>set/clubs</code> and <code>set/raw</code> respectively.</p>
+<p>If you want to reduce the spot load, issue the command <code>set/nodupes</code>. If enabled, only one spot per callsign on the same frequency will be posted in a 5 minute window. To switch back to all spots, enter <code>set/dupes</code>.</p>
 <p>Ham Radio Deluxe users: If you don't see any spots, please try switching to the VE7CC output format (CC11) by entering <code>set/ve7cc</code>. You can switch back with <code>set/normal</code></p> 
 
 <h2>Embedding into your own website</h2>
 <p>It is possible to include a bandmap (possibly adjusted to your own needs) on your own website, e.g. a club website (example: <a href="https://www.uft.net/les-stations-uft-sur-lair/">UFT</a>). If you need this, feel free to contact Fabian, DJ5CW and discuss the technical details.</p>
 
-<h2>About:</h2><p>This page was created by <a href="http://fkurz.net/">Fabian, DJ5CW</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
+<h2>About</h2><p>This page was created by <a href="http://fkurz.net/">Fabian, DJ5CW</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
 As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. Adam, SQ9S takes care of the activity calendar. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>
 
 <p> Current users:

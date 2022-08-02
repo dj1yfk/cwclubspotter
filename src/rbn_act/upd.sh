@@ -4,7 +4,7 @@ cd /home/fabian/sites/rbn.telegraphy.de/rbn-raw
 
 dldate=$(date +"%Y%m%d" --date="yesterday")
 
-wget http://reversebeacon.net/raw_data/dl.php?f=$dldate -O $dldate".zip"
+wget https://data.reversebeacon.net/rbn_history/$dldate.zip -O $dldate".zip"
 
 unzip $dldate".zip"
 

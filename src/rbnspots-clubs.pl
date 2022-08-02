@@ -213,6 +213,22 @@ sub strip_ukcd_calls {
 sub save_spot {
     my %spot = %{$_[0]};
 
+	# RBN stats guys calling off band
+	if ($spot{dxcall} eq "WR5U" or $spot{dxcall} eq "DJ6ZM") {
+		if (($spot{band} == 160 and $spot{freq} > 1840) or
+			($spot{band} == 80 and $spot{freq} > 3569.5) or
+			($spot{band} == 60 and $spot{freq} > 5356) or
+			($spot{band} == 40 and $spot{freq} > 7040) or
+			($spot{band} == 30 and $spot{freq} > 10129) or
+			($spot{band} == 20 and $spot{freq} > 14070) or
+			($spot{band} == 17 and $spot{freq} > 18090) or
+			($spot{band} == 15 and $spot{freq} > 21061) or
+			($spot{band} == 12 and $spot{freq} > 24920) or
+			($spot{band} == 10 and $spot{freq} > 28070)) {
+			return;
+		}
+	}
+
     $spot{memberof} = "";
     foreach my $club (@clubs) {
         $spot{memberof}  .= "($club) " if ($spot{member} & $bm{$club});

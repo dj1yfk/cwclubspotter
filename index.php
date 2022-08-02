@@ -26,7 +26,7 @@ include_once("clubs.php");
 
 <p>The table shows recent RBN spots of (optionally filtered by CW club members) in a dynamically updated
 bandmap (also available via telnet).
-See <a href="info">here</a> for more info. &nbsp; <span style="color:red;">News: The Telnet server now has a <a href="/info#telnet">set/nodupes</a> command.</span> <span id="upd"></span></p>
+See <a href="info">here</a> for more info. &nbsp; <span style="color:red;"></span> <span id="upd"></span></p>
 
 <a id="filterChoice" href="javascript:toggleFilter();">hide filter</a> - 
 <a id="freqChoice" href="javascript:toggleFreq();">hide frequencies</a>

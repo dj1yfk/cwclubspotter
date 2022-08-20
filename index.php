@@ -168,6 +168,11 @@ foreach ($clubs as $c) {
 &nbsp;
 &nbsp;
 &nbsp;
+<input onclick="filter_change()" id="cbT9" type="checkbox" name="cbT9" value="1"><a href="https://internationalcwcouncil.org/top9-activity/">Top 9</a> QRGs only
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 Click on call links to: <select onChange="filter_change();" id="linktarget" size="1">
 <option value="qrz">QRZ.com</option>
 <option value="rbn">RBN Activity Report</option>
@@ -312,6 +317,7 @@ foreach ($events as $e) {
 	var callFilter;
     var ownCall;
     var abbreviate = false;
+    var t9 = false;
     var linktarget = 'qrz';
 
     var awardACA = true;
@@ -377,6 +383,7 @@ include("js/bm_alerts.js");
 		document.getElementById('selfSpots').checked = getCookie('selfSpots')=='true';
         
         document.getElementById('cbAC').checked = getCookie('abbreviate')=='true';
+        document.getElementById('cbT9').checked = (getCookie('t9') == null) ? false : getCookie('t9'); 
         
         document.getElementById('linktarget').value = (getCookie('linktarget') == null) ? 'qrz' : getCookie('linktarget');
 
@@ -481,6 +488,9 @@ include("js/bm_alerts.js");
 
         abbreviate = document.getElementById('cbAC').checked;
         setCookie('abbreviate', abbreviate);
+
+        t9 = document.getElementById('cbT9').checked;
+        setCookie('t9', t9);
 
         linktarget = document.getElementById('linktarget').value;
         setCookie('linktarget', linktarget);
@@ -589,6 +599,20 @@ include("js/bm_alerts.js");
 				else if (spots[i].age < 2) { tabclass = 'newspot'; }
 				else if (spots[i].age < 10) { tabclass = 'midspot'; }
                 else { tabclass = 'oldspot'; }
+
+                if (t9) {
+                   if (!(
+                        (spots[i].freq >= 3561 &&  spots[i].freq <= 3570) ||
+                        (spots[i].freq >= 7031 &&  spots[i].freq <= 7040) ||
+                        (spots[i].freq >= 10121 &&  spots[i].freq <= 10130) ||
+                        (spots[i].freq >= 14061 &&  spots[i].freq <= 14070) ||
+                        (spots[i].freq >= 18086 &&  spots[i].freq <= 18095) ||
+                        (spots[i].freq >= 21061 &&  spots[i].freq <= 21070) ||
+                        (spots[i].freq >= 24906 &&  spots[i].freq <= 24915) ||
+                        (spots[i].freq >= 28061 &&  spots[i].freq <= 28070)
+                        ))
+                        continue;
+                }
 
                 var scall = stripcall(spots[i].dxcall);
                 var alert_this = '';

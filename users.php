@@ -48,19 +48,23 @@ else
 
 echo "<br/>";
 echo "<br/>\n";
-echo "Call signs: ";
+echo "Call signs (non-GUESTs): <ul>";
   $q=mysqli_query($con, "select distinct(`call`) from users where time > (NOW() - INTERVAL 5 MINUTE) and `call` not like '' order by 1;");
   $numrows = mysqli_num_rows($q); 
   $row=0;
   while ($row<$numrows) {
     mysqli_data_seek($q, $row);
     $resrow=mysqli_fetch_assoc($q);
-    echo $resrow['call'];
-    echo " ";
+    if (!preg_match('/GUEST/', $resrow['call'])) {
+        echo "<li><a href='https://www.qrz.com/db/".$resrow['call']."'>".$resrow['call']."</a> - <a href='https://rbn.telegraphy.de/activity/".$resrow['call']."'>RBN</a></li>\n";
+    }
+    else {
+###        echo "<li>".$resrow['call']."</li>\n";
+    }  
     $row++;
   }
 ?>
-
+</ul>
 </p>
 
 </body>

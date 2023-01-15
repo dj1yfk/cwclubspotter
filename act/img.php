@@ -1,4 +1,5 @@
 <?
+error_reporting(0);
 $call = strtoupper($_GET['c']);
 
 if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {

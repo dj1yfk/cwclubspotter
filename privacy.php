@@ -81,7 +81,7 @@ an der Verarbeitung der Daten besteht.</p>
         inklusive der Metadaten,  permanent archiviert. Falls Sie dies nicht
         wünschen, weisen Sie bitte in der Mail kurz darauf hin.</li>
 </ul>
-@
+
 <h2>Daten aus dem Reverse Beacon Network</h2>
 <p>Auf dieser Webseite werden Daten verarbeitet und dargestellt, die aus einem weltweiten, von Funkamateuren zu wissenschaftlich-experimentellen Zwecken betriebenen Netzwerk von automatischen SDR-Empfängern stammen. Diese Empfänger suchen automatisch auf allen Amateurfunkfrequenzen nach Stationen, die in Morsecode oder digitalen Sendearten einen sogenannten "allgemeinen Anruf" senden.</p>
 

@@ -383,7 +383,7 @@ include("js/bm_alerts.js");
 		document.getElementById('selfSpots').checked = getCookie('selfSpots')=='true';
         
         document.getElementById('cbAC').checked = getCookie('abbreviate')=='true';
-        document.getElementById('cbT9').checked = (getCookie('t9') == null) ? false : getCookie('t9'); 
+        document.getElementById('cbT9').checked = (getCookie('top9') == null) ? false : (getCookie('top9')=='true'); 
         
         document.getElementById('linktarget').value = (getCookie('linktarget') == null) ? 'qrz' : getCookie('linktarget');
 
@@ -490,7 +490,7 @@ include("js/bm_alerts.js");
         setCookie('abbreviate', abbreviate);
 
         t9 = document.getElementById('cbT9').checked;
-        setCookie('t9', t9);
+        setCookie('top9', t9);
 
         linktarget = document.getElementById('linktarget').value;
         setCookie('linktarget', linktarget);

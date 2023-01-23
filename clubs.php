@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "TBDXC");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -133,4 +133,9 @@ $clubweb["GPCW"] = "https://gpcw.pt/wp/";
 $clubabbr["MCARI"] = "Marconi Club";
 $clubname["MCARI"] = "Marconi Club dell A.R.I. di Loano";
 $clubweb["MCARI"] = "http://www.ariloano.it/marconiclub/";
+
+$clubabbr["TBDXC"] = "TBDXC";
+$clubname["TBDXC"] = "True Blue DXers Club";
+$clubweb["TBDXC"] = "https://www.tbdxc.net/";
+
 ?>

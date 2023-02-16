@@ -86,8 +86,7 @@ while (my $line = <>) {
 	next if (substr($line, 0, 1) eq "(");# last line
 	next if (substr($line, 0, 1) eq "c");# first line
 
-    next if (substr($line, 0, 5) eq "M0ORD"); # wrong band spots
-    next if (substr($line, 0, 5) eq "F8DGY"); # wrong band spots
+    next if (substr($line, 0, 6) eq "OZ4ADX"); # wrong band spots
 
 	my (undef, undef, $s_cont, undef, $band, $call, undef, undef, undef,
 		undef, $date, undef, undef) = split(/,/, $line);

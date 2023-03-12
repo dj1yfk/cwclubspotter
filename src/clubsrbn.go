@@ -49,10 +49,20 @@ var format map[string]string
 var dedupe map[string]bool
 
 // filters per user, as set by web interface
+/*
 var ufilter_club map[string]uint64
 var ufilter_cont map[string]byte
 var ufilter_speed map[string]byte
 var ufilter_band map[string]uint16
+*/
+
+type UFilter struct {
+	club   uint64
+	cont   byte
+	speed  byte
+	band   uint16
+	reload time.Time
+}
 
 // if set to true, the TCP listeners will stop
 // so we can deploy a new version without killing
@@ -73,13 +83,6 @@ func main() {
 	prefs = make(map[string]string)
 	format = make(map[string]string)
 	dedupe = make(map[string]bool)
-
-	ufilter_club = make(map[string]uint64)
-	ufilter_cont = make(map[string]byte)
-	ufilter_speed = make(map[string]byte)
-	ufilter_band = make(map[string]uint16)
-
-	go loadUserfilters()
 
 	// Launch listeners
 	if len(os.Args) == 2 && os.Args[1] == "prod" {
@@ -292,6 +295,9 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 	filter := prefs[login]
 	dedupehash := make(map[string]time.Time) // key = DJ5CW + MHz + 100 kHz (e.g. DJ5CW on 5354.0 kHz: DJ5CW53 -> time of last spot)
 
+	var ufilter UFilter
+	ufilter.reload = time.Now().Add(time.Duration(-5) * time.Second)
+
 	go subscribeSpots(filter, spots, rediscontrol)
 
 	for {
@@ -303,6 +309,8 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 				return
 			}
 		case spot := <-spots:
+			// reload this user's filters from web interface every 5 seconds
+			reloadUserFilter(login, &ufilter)
 
 			if filter == "clubs" {
 				// spot contains:
@@ -322,9 +330,9 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 
 				// no club prefs stored for this call => pass all QSOs, regardless
 				// of club membership
-				all_calls := ufilter_club[login] == 0
+				all_calls := ufilter.club == 0
 
-				if !(cont&ufilter_cont[login] != 0 && (clubs&ufilter_club[login] != 0 || all_calls) && speed&ufilter_speed[login] != 0 && band&ufilter_band[login] != 0) {
+				if !(cont&ufilter.cont != 0 && (clubs&ufilter.club != 0 || all_calls) && speed&ufilter.speed != 0 && band&ufilter.band != 0) {
 					continue // spot does not match the filter
 				}
 			}
@@ -343,6 +351,63 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 
 		}
 	}
+}
+
+func reloadUserFilter(login string, ufilter *UFilter) {
+
+	if time.Now().Sub(ufilter.reload) < 5*time.Second {
+		return
+	}
+
+	ufilter.reload = time.Now()
+
+	c, _ := redis.Dial("tcp", "localhost:6379")
+	defer c.Close()
+	ret, _ := c.Do("HGET", "rbnprefs", login)
+
+	if ret == nil {
+		// no preferences found. if it is a callsign with a SSID, try without
+		l := strings.LastIndex(login, "-")
+		if l == -1 {
+			ufilter.cont = 0xff
+			ufilter.club = 0
+			ufilter.speed = 0xff
+			ufilter.band = 0xffff
+			return
+		}
+
+		retstrip, _ := c.Do("HGET", "rbnprefs", login[0:l])
+
+		// no success either
+		if retstrip == nil {
+			ufilter.cont = 0xff
+			ufilter.club = 0
+			ufilter.speed = 0xff
+			ufilter.band = 0xffff
+			return
+		} else {
+			ret = retstrip
+		}
+	}
+
+	ret2 := []byte(ret.([]uint8))
+
+	ufilter.cont = ret2[0]
+	ufilter.club = binary.LittleEndian.Uint64(ret2[1:9])
+
+	if len(ret2) > 10 {
+		ufilter.speed = ret2[9]
+		ufilter.band = binary.LittleEndian.Uint16(ret2[10:])
+	} else {
+		ufilter.speed = 0xff
+		ufilter.band = 0xffff
+	}
+	/*
+		log.Debugf("ufilter_cont[%s]  = %x\n", login, ufilter.cont)
+		log.Debugf("ufilter_club[%s]  = %x\n", login, ufilter.club)
+		log.Debugf("ufilter_speed[%s] = %x\n", login, ufilter.speed)
+		log.Debugf("ufilter_band[%s]  = %x\n", login, ufilter.band)
+	*/
 }
 
 func isDupe(spot string, dedupehash map[string]time.Time) bool {
@@ -394,70 +459,6 @@ func formatVe7cc(spot string) string {
 		out = "CC11^" + s[1] + "^" + s[2] + "^" + t.Format("_2-Jan-2006") + "^" + s[9] + "^" + spot[33:33+28] + "^" + s[0] + "^^^DJ5CW^^^^^^^^^^\r\n"
 	}
 	return out
-}
-
-// go routine loads all user filters once every 5 seconds from Redis
-func loadUserfilters() {
-	c, _ := redis.Dial("tcp", "localhost:6379")
-	defer c.Close()
-
-	for {
-		mutex.Lock()
-		for _, login := range users {
-			loadUserfilter(login, c)
-		}
-		mutex.Unlock()
-		time.Sleep(5 * time.Second)
-	}
-}
-
-func loadUserfilter(login string, c redis.Conn) {
-
-	ret, _ := c.Do("HGET", "rbnprefs", login)
-
-	if ret == nil {
-		// no preferences found. if it is a callsign with a SSID, try without
-		l := strings.LastIndex(login, "-")
-		if l == -1 {
-			ufilter_cont[login] = 0xff
-			ufilter_club[login] = 0
-			ufilter_speed[login] = 0xff
-			ufilter_band[login] = 0xffff
-			return
-		}
-
-		retstrip, _ := c.Do("HGET", "rbnprefs", login[0:l])
-
-		// no success either
-		if retstrip == nil {
-			ufilter_cont[login] = 0xff
-			ufilter_club[login] = 0
-			ufilter_speed[login] = 0xff
-			ufilter_band[login] = 0xffff
-			return
-		} else {
-			ret = retstrip
-		}
-	}
-
-	ret2 := []byte(ret.([]uint8))
-
-	ufilter_cont[login] = ret2[0]
-	ufilter_club[login] = binary.LittleEndian.Uint64(ret2[1:9])
-
-	if len(ret2) > 10 {
-		ufilter_speed[login] = ret2[9]
-		ufilter_band[login] = binary.LittleEndian.Uint16(ret2[10:])
-	} else {
-		ufilter_speed[login] = 0xff
-		ufilter_band[login] = 0xffff
-	}
-	/*
-		log.Debugf("ufilter_cont[%s]  = %x\n", login, ufilter_cont[login])
-		log.Debugf("ufilter_club[%s]  = %x\n", login, ufilter_club[login])
-		log.Debugf("ufilter_speed[%s] = %x\n", login, ufilter_speed[login])
-		log.Debugf("ufilter_band[%s]  = %x\n", login, ufilter_band[login])
-	*/
 }
 
 // Retrieves spots from Redis and returns them into spots chan

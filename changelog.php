@@ -15,6 +15,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>14-Mar-2023</td><td>Award Alerts: Allow suppressin alerts for selected calls - tnx SM6LRR/RM2D</td></tr>
 <tr><td>18-Jan-2023</td><td>Added new club: True Blue DXers Club (TBDXC) - tnx SM6LRR/RM2D</td></tr>
 <tr><td>15-Jan-2023</td><td>Clicking on a frequency now opens the WebSDR of Twente University on that frequency - tnx DL8ABG</td></tr>
 <tr><td>20-Aug-2022</td><td>Add "<a href="https://internationalcwcouncil.org/top9-activity/">Top 9</a>" frequencies - tnx SQ9S</td></tr>

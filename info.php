@@ -67,6 +67,8 @@
 <p>You can refer to this <a target="_new" href="rbn_awards.png">screenshot</a>: 1. Enter your own callsign, 2. Select the desired awards for which you want to be alerted, 3. Hit the "Refresh" symbol to load your needed callsign lists from the CWops/FOC Award Tools.</p>
 <p>There are two display options: By default, spots that are new points for awards will be shown in yellow on the normal bandmap. You can also remove all other spots if you activate the checkbox "Show only needed stations on bandmap". If you hover your mouse cursor over the spot, a small popup will show for which award the spot counts.</p>
 <p>The award functions are currently only available on the web interface. The same function will eventually also be implemented for the telnet interface.</p>
+<p><b>Note:</b> If you want to suppress certain alerted calls, you can add them into your alert list with an exclamation mark in front of them, e.g. <code>!DJ5CW</code> will mean no alerts will be generated for DJ5CW.</p>
+
 
 <h2 id="telnet">Connect via telnet</h2>
 <p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent, band and speed is implemented for the telnet port. Award filters are not yet available. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>

@@ -585,7 +585,7 @@ include("js/bm_alerts.js");
 
 	function update_table () {
 			var d = document.getElementById('tab');
-            var alert_list = document.getElementById('alerts').value.toUpperCase().split(/[^A-Z0-9\/()\-\,]+/);
+            var alert_list = document.getElementById('alerts').value.toUpperCase().split(/[^\!A-Z0-9\/()\-\,]+/);
             var alert_calls = [];
             var alert_freqs = {};
             createCookie('alerts', alert_list.join(" "), 365);
@@ -632,61 +632,73 @@ include("js/bm_alerts.js");
                     awardinfo = [];
                     var cl = stripcall(spots[i].dxcall);
                     if (awards[cl][spots[i].band] || awards[cl]['all']) {
-                        /* there's an entry for this call on this band/any - check if we really want to show it (check boxes) */
 
-                        // merge the two arrays
-                        var a = Array();
-                        if (awards[cl][spots[i].band]) {
-                            a = awards[cl][spots[i].band];
-                        }
-                        if (awards[cl]['all']) {
-                            a = a.concat(awards[cl]['all']);
-                        }
+                        /* there's an entry for this call on this band/any.
+                         * Check if we really want to show it, for which we
+                         * need to have checked the check boxe matching the
+                         * award in question and we need to make sure this
+                         * call is not actively suppressed from alerts by
+                         * an entry in the manual alerts list with a ! in
+                         * front... */
 
-                        if (awardCMA && a.indexOf('CMA') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("CMA");
-                        }
-                        if (awardACA && a.indexOf('ACA') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("ACA");
-                        }
-                        if (awardAUG && a.indexOf('AUG') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("Augie");
-                        }
-                        if (awardW1 && a.indexOf('W1') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("Windle (all band)");
-                        }
-                        if (awardW && a.indexOf('W') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("Windle");
-                        }
-                        if (awardABC && a.indexOf('A') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("ABC");
-                        }
-                        if (awardWAFOC && a.indexOf('O') >= 0) {
-                            alert_line = true;
-                            awardinfo.push("WAFOC");
-                        }
+                        if (alert_list.indexOf("!" + cl) == -1) {
+                            // merge the two arrays
+                            var a = Array();
+                            if (awards[cl][spots[i].band]) {
+                                a = awards[cl][spots[i].band];
+                            }
+                            if (awards[cl]['all']) {
+                                a = a.concat(awards[cl]['all']);
+                            }
 
+                            if (awardCMA && a.indexOf('CMA') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("CMA");
+                            }
+                            if (awardACA && a.indexOf('ACA') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("ACA");
+                            }
+                            if (awardAUG && a.indexOf('AUG') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("Augie");
+                            }
+                            if (awardW1 && a.indexOf('W1') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("Windle (all band)");
+                            }
+                            if (awardW && a.indexOf('W') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("Windle");
+                            }
+                            if (awardABC && a.indexOf('A') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("ABC");
+                            }
+                            if (awardWAFOC && a.indexOf('O') >= 0) {
+                                alert_line = true;
+                                awardinfo.push("WAFOC");
+                            }
 
-                        if (alert_line) {
-                            if (awardAudio) {
-                                alert_calls.push(cl);
-                                if (alert_freqs[cl] == null) {
-                                    alert_freqs[cl] = [ spots[i].freq ];
+                            if (alert_line) {
+                                if (awardAudio) {
+                                    alert_calls.push(cl);
+                                    if (alert_freqs[cl] == null) {
+                                        alert_freqs[cl] = [ spots[i].freq ];
+                                    }
+                                    else {
+                                        alert_freqs[cl].push(spots[i].freq);
+                                    }
                                 }
-                                else {
-                                    alert_freqs[cl].push(spots[i].freq);
+                                awardinfo = awardinfo.join(', ', awardinfo);
+                                if (!awardFilter) {  // if we only show filtered spots, don't colour them
+                                    tabclass='alert';
                                 }
                             }
-                            awardinfo = awardinfo.join(', ', awardinfo);
-                            if (!awardFilter) {  // if we only show filtered spots, don't colour them
-                                tabclass='alert';
-                            }
+
+                        }   /* alert of this call not suppressed */
+                        else {
+                            console.log("Alert for " + cl + " suppressed by user.");
                         }
                     }
                     else {

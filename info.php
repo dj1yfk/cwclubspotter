@@ -67,7 +67,7 @@
 <p>You can refer to this <a target="_new" href="rbn_awards.png">screenshot</a>: 1. Enter your own callsign, 2. Select the desired awards for which you want to be alerted, 3. Hit the "Refresh" symbol to load your needed callsign lists from the CWops/FOC Award Tools.</p>
 <p>There are two display options: By default, spots that are new points for awards will be shown in yellow on the normal bandmap. You can also remove all other spots if you activate the checkbox "Show only needed stations on bandmap". If you hover your mouse cursor over the spot, a small popup will show for which award the spot counts.</p>
 <p>The award functions are currently only available on the web interface. The same function will eventually also be implemented for the telnet interface.</p>
-<p><b>Note:</b> If you want to suppress certain alerted calls, you can add them into your alert list with an exclamation mark in front of them, e.g. <code>!DJ5CW</code> will mean no alerts will be generated for DJ5CW.</p>
+<p><b>Note:</b> If you want to suppress certain alerted calls, you can add them into your alert list with an exclamation mark in front of them, e.g. <code>!DJ5CW</code> will mean no alerts will be generated for DJ5CW. To complete remove a call from the bandmap, prepend a tilde, e.g. <code>~DJ5CW</code>.</p>
 
 
 <h2 id="telnet">Connect via telnet</h2>

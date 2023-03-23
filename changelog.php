@@ -1,4 +1,4 @@
-<h2>Last updates of member lists:</h2>
+<h2 id="last_updates">Last updates of member lists</h2>
 <table>
 <tr><th>Club</th><th>Website</th><th>Date</th><th>Calls (approx.)</th></tr>
 <?
@@ -8,6 +8,7 @@ foreach ($clubs as $c) {
 }
 ?>
 </table>
+<p>The lists are updated automatically every day at 17:20 UTC.</p>
 
 <p>Missing your favorite club? Get in touch!</p>
 

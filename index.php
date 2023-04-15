@@ -18,6 +18,7 @@ include_once("clubs.php");
 <link rel="stylesheet" type="text/css" href="/bandmap.css">
 <title>CW Club RBN Spotter</title>
 <script src="js/cookies.js?cachebreak=<? echo filemtime("js/cookies.js"); ?>"></script>
+<script src="js/members.js?cachebreak=<? echo time(); ?>"></script>
 
 </head>
 <body onload="init_rbn();">
@@ -717,9 +718,16 @@ include("js/bm_alerts.js");
                 if (awardFilter == true && !alert_line)
                     continue;
 
+                var name = "";
+                try {
+                    name = members.hasOwnProperty(scall) ? members[scall] : ""; 
+                }
+                catch {
+                }
+
 				newtable += '<tr title="' + awardinfo + '" class="' + tabclass + '">';
                 newtable += '<td class="right"><a target="_blank" href="http://websdr.ewi.utwente.nl:8901/?tune='+spots[i].freq+'cw">' + spots[i].freq+ '</a>&nbsp;</td>';
-                newtable += '<td><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
+                newtable += '<td title="' + name + '"><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
 
                 var mo = spots[i].memberof;

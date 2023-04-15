@@ -14,6 +14,8 @@ RewriteRule ^activity/([A-Za-z0-9/+]{1,99})(/)?$ /act/active.php?call=$1 [L]
 RewriteRule ^activity(/)?$ /act/active.php?call=DJ5CW [L]
 RewriteRule ^activity_iframe/([A-Za-z0-9/+]{1,99})(/)?$ /act/active.php?call=$1&iframe=1 [L]
 
+RewriteRule ^js/members.js$ /members.php [L]
+
 ErrorDocument 404 /404.php
 
 AddType text/plain .spc

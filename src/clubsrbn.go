@@ -49,18 +49,12 @@ var format map[string]string
 var dedupe map[string]bool
 
 // filters per user, as set by web interface
-/*
-var ufilter_club map[string]uint64
-var ufilter_cont map[string]byte
-var ufilter_speed map[string]byte
-var ufilter_band map[string]uint16
-*/
-
 type UFilter struct {
 	club   uint64
 	cont   byte
 	speed  byte
 	band   uint16
+	block  map[string]bool
 	reload time.Time
 }
 
@@ -297,6 +291,7 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 
 	var ufilter UFilter
 	ufilter.reload = time.Now().Add(time.Duration(-5) * time.Second)
+	ufilter.block = make(map[string]bool)
 
 	go subscribeSpots(filter, spots, rediscontrol)
 
@@ -337,6 +332,10 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 				}
 			}
 
+			if len(ufilter.block) > 0 && callOnBlockList(spot, ufilter.block) {
+				continue
+			}
+
 			if dedupe[login] == true {
 				if isDupe(spot, dedupehash) {
 					continue
@@ -353,6 +352,19 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 	}
 }
 
+func callOnBlockList(spot string, list map[string]bool) bool {
+	spot = strings.Replace(spot, "-#:", " ", -1)
+	spot = strings.Replace(spot, "DX de ", "", -1)
+	s := strings.Fields(spot)
+	call := s[2]
+
+	if list[call] {
+		return true
+	}
+	return false
+
+}
+
 func reloadUserFilter(login string, ufilter *UFilter) {
 
 	if time.Now().Sub(ufilter.reload) < 5*time.Second {
@@ -364,6 +376,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 	c, _ := redis.Dial("tcp", "localhost:6379")
 	defer c.Close()
 	ret, _ := c.Do("HGET", "rbnprefs", login)
+	block, _ := c.Do("HGET", "rbnblock", login)
 
 	if ret == nil {
 		// no preferences found. if it is a callsign with a SSID, try without
@@ -377,6 +390,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 		}
 
 		retstrip, _ := c.Do("HGET", "rbnprefs", login[0:l])
+		blockstrip, _ := c.Do("HGET", "rbnblock", login[0:l])
 
 		// no success either
 		if retstrip == nil {
@@ -387,6 +401,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 			return
 		} else {
 			ret = retstrip
+			block = blockstrip
 		}
 	}
 
@@ -402,12 +417,18 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 		ufilter.speed = 0xff
 		ufilter.band = 0xffff
 	}
-	/*
-		log.Debugf("ufilter_cont[%s]  = %x\n", login, ufilter.cont)
-		log.Debugf("ufilter_club[%s]  = %x\n", login, ufilter.club)
-		log.Debugf("ufilter_speed[%s] = %x\n", login, ufilter.speed)
-		log.Debugf("ufilter_band[%s]  = %x\n", login, ufilter.band)
-	*/
+
+	if block != nil {
+		bs := string(block.([]uint8))
+		// log.Debugf("block list of %s = %s %T\n", login, block, bs)
+		var bl = strings.Split(bs, " ")
+		for k := range ufilter.block {
+			delete(ufilter.block, k)
+		}
+		for i := 0; i < len(bl); i++ {
+			ufilter.block[bl[i]] = true
+		}
+	}
 }
 
 func isDupe(spot string, dedupehash map[string]time.Time) bool {
@@ -426,7 +447,7 @@ func isDupe(spot string, dedupehash map[string]time.Time) bool {
 
 	if exists {
 		if time.Now().Sub(dupetime) > 5*time.Minute {
-			log.Debugf("DUPEexpired: %s %s\n", spot, dupetime)
+			// log.Debugf("DUPE expired: %s %s\n", spot, dupetime)
 			delete(dedupehash, hashkey)
 			dedupehash[hashkey] = time.Now()
 			return false

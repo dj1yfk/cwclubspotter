@@ -722,7 +722,7 @@ include("js/bm_alerts.js");
                 try {
                     name = members.hasOwnProperty(scall) ? members[scall] : ""; 
                 }
-                catch {
+                catch (e) {
                 }
 
 				newtable += '<tr title="' + awardinfo + '" class="' + tabclass + '">';

@@ -1,23 +1,42 @@
+<?php
+if ($_GET["b"]) {
+    $bcn = true;
+    $bcntext = " beacon ";
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="/bandmap.css" />
 <script>
 </script>
-<title>RBN activity ranking</title>
+    <title>RBN activity <?=$bcntext?> ranking</title>
 </head>
 <body>
 <noscript>This page requires JavaScript to work properly</noscript>
 <h1>RBN activity ranking</h1>
 
 <p>
-Type a callsign (or partial callsign) and see its position in the world wide RBN activity rank.<br>
-Results are updates as you type. <a href="mailto:fabian@fkurz.net">Comments? Write me!</a> See also: <a href="/activity/stats">Statistics</a>.
+Type a <?=$bcntext?> callsign (or partial callsign) and see its position in the world wide RBN <?=$bcntext?> activity rank.<br>
+Results are updates as you type. <a href="mailto:fabian@fkurz.net">Comments? Write me!</a> See also: <a href="/activity/stats">Statistics</a> - 
+
+<?
+if($bcn) {
+?>
+    <a href="/activity/rank">RBN Ranking (non beacons)</a>.
+<?
+}
+else {
+?>
+    <a href="/activity/beaconrank">RBN Ranking for beacons</a>.
+<?
+}
+?>
+
 </p>
 
 <form>
-	<input onkeyup="page=1;update_rank();" onsubmit="return false;" type="text" size="15" id="cs" value="" placeholder="callsign...">
-	<!-- <input type="checkbox" id="beacons" checked> Include beacons. -->
+	<input onkeyup="page=1;update_rank();" onsubmit="return false;" type="text" size="15" id="cs" value="" placeholder="<?=$bcntext?>callsign...">
 	 Per page: <a href="javascript:change_size(25);">25</a> - 
 	<a href="javascript:change_size(50);">50</a> - 
     <a href="javascript:change_size(100);">100</a> -
@@ -65,7 +84,7 @@ function update_rank () {
 				var c = document.getElementById('cs').value;
 				// Sanity checks passed, now send to API
 				var request =  new XMLHttpRequest();
-				request.open("GET", '/act/r.php?c='+c+'&o='+ ((page - 1)* size) + '&n=' + size + '&d=' + dxcc, true);
+				request.open("GET", '/act/r.php?<? if ($bcn == true) {echo "b=1&";} ?>c='+c+'&o='+ ((page - 1)* size) + '&n=' + size + '&d=' + dxcc, true);
 				request.onreadystatechange = function() {
 						var done = 4, ok = 200;
 						if (request.readyState == done && request.status == ok) {
@@ -95,16 +114,7 @@ function create_table (o) {
     t += "<th style='width:50px'>h / year</th><th style='width:50px'>h / day</th><th style='width:180px'>Callsign</th></tr>";
 		for (var i = 0; i < o.length; i++) {
 				var round_hours = Math.round(o[i].hours / 36.5) / 10;
-                var bcn = '';
-                var anon = false;
 				var call = o[i].callsign;
-				if (o[i].beacon == 1) {
-						bcn = ' (beacon)';
-				}
-
-                if (o[i].anon == 1) {
-                   anon = true; 
-                }
 
 				if (highlight_rank > 0 && o[i].rank == highlight_rank) {
 						call = '<b>' + o[i].callsign + '</b>';
@@ -116,12 +126,7 @@ function create_table (o) {
                     t += "<td>" + o[i].wwrank + "</td>";
                 } 
 
-                if (anon) {
-                    t += "<td>" + o[i].hours + "</td><td>" + round_hours + "</td><td>" + o[i].callsign + bcn + "</td></tr>";
-                }
-                else {
-                    t += "<td>" + o[i].hours + "</td><td>" + round_hours + "</td><td><a href='/activity/" + o[i].callsign + "'>"+ call  +"</a>" + bcn + "</td></tr>";
-                }
+                t += "<td>" + o[i].hours + "</td><td>" + round_hours + "</td><td><a href='/activity/" + o[i].callsign + "'>"+ call  +"</a></td></tr>";
 		}
 		t += "</table>";
 		var d = document.getElementById('rankcalls');

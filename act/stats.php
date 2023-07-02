@@ -29,16 +29,24 @@ function print_stats($call, $start_ts, $days) {
     for ($i = 0; $i < count($calls); $i++)
         $calls[$i] = "'".$calls[$i]."'";
     $db = mysqli_connect($mysql_host,$mysql_user,$mysql_pass, $mysql_dbname) or die ("<h1>Sorry: Could not connect to database!</h1>");
-    $query = "select min(rank) from rbn_rank_beacon where callsign in (".join(',', $calls).");";
-    # error_log($query);
-	$q = mysqli_query($db, $query);
-	if ($q) {
-		$rank = mysqli_fetch_row($q);
-		$rank = $rank[0];
-	}
-	else {
-		$rank = false;
-	}
+
+    $bcn = false;
+    foreach (array("rbn_rank_nobeacon", "rbn_rank_beacon") as $table) {
+        $query = "select min(rank) from $table where callsign in (".join(',', $calls).");";
+	    $q = mysqli_query($db, $query);
+	    if ($q) {
+		    $rank = mysqli_fetch_row($q);
+		    $rank = $rank[0];
+            if ($rank > 0) {
+                if ($table == "rbn_rank_beacon")
+                    $bcn = true;
+                break;
+            }
+	    }
+	    else {
+		    $rank = false;
+	    }
+    }
 
     # error_log("call '$c' rank $rank");
 	# 01.01.2009 = start of all data (first cell)
@@ -111,7 +119,10 @@ function print_stats($call, $start_ts, $days) {
 
 	$ret .= "Hours (in $days days) with at least one RBN spot: ".$act['any']." (".round($act['any']/$days,1)."h / day).\n";
 	$ret .= "EU: ".$act['EU'].", NA: ".$act['NA'].", AS: ".$act['AS'].", SA: ".$act['SA'].", AF: ".$act['AF'].", OC: ".$act['OC'];
-	if ($rank) { 
+	if ($rank && $bcn) { 
+			$ret .= ". <a target='_top' href='/activity/beaconrank#$rank'>Beacon rank: ".$rank."</a>";
+	}
+	if ($rank && !$bcn) { 
 			$ret .= ". <a target='_top' href='/activity/rank#$rank'>Rank: ".$rank."</a>";
 	}
 	$ret .= "<br><br>\n"; 

@@ -15,6 +15,11 @@
 		if (!is_int($n+0)) { $n = 25; }
 	}
 
+	$b = false;
+	if (array_key_exists('b', $_GET)) {
+        $b = true;
+	}
+
     # DXCC
     $d = '';
 	if (array_key_exists('d', $_GET)) {
@@ -43,8 +48,15 @@
 	include_once('db.php');
 	$db = mysqli_connect($mysql_host,$mysql_user,$mysql_pass,$mysql_dbname) or die ("<h1>Sorry: Could not connect to database.</h1>");
 
+    if ($b) {
+        $table = "rbn_rank_beacon";
+    }
+    else {
+        $table = "rbn_rank_nobeacon";
+    }
+
     $query1 = "set @r=$o;";
-    $query2 = "select @r:=@r+1 as rank, rank as wwrank, callsign, hours, beacon, wl from rbn_rank_beacon where wl=1 and callsign like \"%$c%\" $dxcc limit $o,$n;";
+    $query2 = "select @r:=@r+1 as rank, rank as wwrank, callsign, hours, beacon, wl from $table where wl=1 and callsign like \"%$c%\" $dxcc limit $o,$n;";
 	$q = mysqli_query($db, $query1);
 	$q = mysqli_query($db, $query2);
 	if (!$q) {

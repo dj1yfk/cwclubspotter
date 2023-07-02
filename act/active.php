@@ -276,7 +276,7 @@
 <form onSubmit="javascript:document.location.href='//rbn.telegraphy.de/activity/' + this.cl.value.toUpperCase(); return false;">
 Generate this report for any call: <input type="text" size="12" name="cl">
 <input type="submit" value="Go!"> - <a href="/activity/faq">FAQ - Data Removal - etc.</a>
- - You can generate joint reports for two calls, e.g. <a href="/activity/DJ1YFK+DJ5CW">DJ1YFK+DJ5CW</a>
+ - You can generate joint reports for two calls, e.g. <a href="/activity/SO5CW+DJ5CW">SO5CW+DJ5CW</a>
 </form>
 </div>
 

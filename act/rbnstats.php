@@ -115,6 +115,7 @@ individual calls.</p>
 See also: 
 <ul>
 <li><a href="/activity/rank">RBN Ranking</a> - Find out the rank of individual calls in the world wide ranking</li>
+<li><a href="/activity/beaconrank">RBN Ranking for beacons</a> - Find out the rank of beacons in the world wide ranking (separate listing)</li>
 <li><a href="/activity">Activity reports</a> - Detailled overview of a call's activity in the RBN</li>
 <li><a href="/">CW Club RBN Spotter</a></li>
 <li><a href="https://foc.dj1yfk.de/">FOC RBN</a></li>
@@ -122,10 +123,6 @@ See also:
 
 <hr>
 <p>Last modified: <? echo date ("Y-m-d",  filemtime("active.php")); ?> - <a href="http://fkurz.net/">Fabian Kurz, DJ5CW</a> <a href="mailto:fabian@fkurz.net">&lt;fabian@fkurz.net&gt;</a>
-<?
-        if (!$_SERVER['HTTPS']) { ?> - <a rel="nofollow" href="https://rbn.telegraphy.de/activity/stats">Switch to https</a> <? }
-				        else { ?> - <a rel="nofollow" href="http://rbn.telegraphy.de/activity/stats">Switch to http</a> <? }
-?>
 - <a href="/privacy">Impressum / Datenschutz / Privacy Policy</a>
 <!-- Page rendered in  <? echo 1000*(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]);  ?> ms -->
 

@@ -14,7 +14,7 @@ if ($_GET["b"]) {
 </head>
 <body>
 <noscript>This page requires JavaScript to work properly</noscript>
-<h1>RBN activity ranking</h1>
+<h1>RBN activity <?=$bcntext?> ranking</h1>
 
 <p>
 Type a <?=$bcntext?> callsign (or partial callsign) and see its position in the world wide RBN <?=$bcntext?> activity rank.<br>

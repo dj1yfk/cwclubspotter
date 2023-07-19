@@ -8,7 +8,7 @@ foreach ($clubs as $c) {
 }
 ?>
 </table>
-<p>The lists are updated automatically every day at 17:20 UTC.</p>
+<p>Most of the lists are updated automatically every day at 17:20 UTC. Those with an older update date are updated manually/on request only because no suitable list is available online.</p>
 
 <p>Missing your favorite club? Get in touch!</p>
 

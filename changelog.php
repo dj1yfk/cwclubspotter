@@ -16,6 +16,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>29-Jul-2023</td><td>Always show calls from alert list (regardless of "Show only needed stations on bandmap" checkbox)</td></tr>
 <tr><td>15-Apr-2023</td><td>Hovering over a callsign now shows name and club numbers (so far only implemented for FOC, more to come)</td></tr>
 <tr><td>14-Mar-2023</td><td>Award Alerts: Allow suppressing alerts for selected calls - tnx SM6LRR/RM2D</td></tr>
 <tr><td>18-Jan-2023</td><td>Added new club: True Blue DXers Club (TBDXC) - tnx SM6LRR/RM2D</td></tr>

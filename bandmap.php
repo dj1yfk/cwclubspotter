@@ -196,6 +196,14 @@ if (array_key_exists('alerts', $_COOKIE)) {
     }
 }
 
+# for embedded RBN on Danish CW site
+if ($ownCall == "CWMEDGNISTER") {
+    $ozFilter = "(dxcall like 'OU%' or dxcall like 'OV%' or dxcall like 'OX%' or dxcall like 'OY%' or dxcall like 'OZ%' or dxcall like '5P%' or dxcall like '5Q%') and "; 
+}
+else {
+    $ozFilter = "";
+}
+
 $json_a = array();
 
 if (intval(phpversion())>=5) {
@@ -211,7 +219,7 @@ else {
     # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
   }
 
-$queryStr = "select freq, band, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
+$queryStr = "select freq, band, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where $ozFilter ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
 
 $aggregateSpotters=true; # Merge spots for 1 dxcall and ~1 frequency by different spotters into one row
 $aggregateSpeeds=true; # Merge spots for 1 dxcall and ~1 frequency with different speeds into one row

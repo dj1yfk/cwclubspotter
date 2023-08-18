@@ -732,7 +732,7 @@ include("js/bm_alerts.js");
                 }
 
 				newtable += '<tr title="' + awardinfo + '" class="' + tabclass + '">';
-                newtable += '<td class="right"><a target="_blank" href="http://websdr.ewi.utwente.nl:8901/?tune='+spots[i].freq+'cw">' + spots[i].freq+ '</a>&nbsp;</td>';
+                newtable += '<td class="right"><a target="_blank" href="http://websdr.ewi.utwente.nl:8901/?tune='+spots[i].freq+'cw" rel="nofollow">' + spots[i].freq+ '</a>&nbsp;</td>';
                 newtable += '<td title="' + name + '"><a href="' + linktargets[linktarget]  + spots[i].dxcall + '" target="_blank">' + spots[i].dxcall + '</a></td>';
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
 

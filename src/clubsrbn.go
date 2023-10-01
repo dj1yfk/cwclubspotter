@@ -257,7 +257,7 @@ func promptLogin(conn net.Conn) (login string) {
 
 	// "Valid" call?
 	if len(login) < 3 || len(login) > 10 {
-		log.Warningf("Invalid login: %s\n", login)
+		log.Debugf("Invalid login: %s\n", login)
 		conn.Write([]byte("Invalid call. Bye.\r\n"))
 		return ""
 	}

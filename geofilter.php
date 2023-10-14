@@ -78,17 +78,21 @@ include("db.php");
     var layerControl = L.control.layers({}, overlayMaps).addTo(map);
 
     // check for polygons in local storage 
-    var saved_polygons = JSON.parse(localStorage.getItem("polygons"));
+    try {
+        var saved_polygons = JSON.parse(localStorage.getItem("polygons"));
 
-    for (var i = 0; i < saved_polygons.length; i++) {
-        // convert to suitable format for leaflet
-        var arr = [];
-        for (var j = 0; j < saved_polygons[i].length; j++) {
-            arr.push([ saved_polygons[i][j]["lat"] , saved_polygons[i][j]["lng"] ]);
-        }
-        L.polygon(arr, {color: '#3388ff'}).addTo(map);
-    } 
-    update();
+        for (var i = 0; i < saved_polygons.length; i++) {
+            // convert to suitable format for leaflet
+            var arr = [];
+            for (var j = 0; j < saved_polygons[i].length; j++) {
+                arr.push([ saved_polygons[i][j]["lat"] , saved_polygons[i][j]["lng"] ]);
+            }
+            L.polygon(arr, {color: '#3388ff'}).addTo(map);
+        } 
+        update();
+    }
+    catch (e) {
+    }
 
     // callbacks provided by geoman
     map.on("pm:create", (e) => { update(); });

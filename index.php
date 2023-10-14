@@ -123,6 +123,8 @@ foreach ($clubs as $c) {
 <input onclick="filter_change()" id="cbAF" type="checkbox" name="cbAF" value="1" checked>AF
 </td><td>
 <input onclick="filter_change()" id="cbOC" type="checkbox" name="cbOC" value="1" checked>OC
+</td><td colspan=3>
+<input onclick="filter_change()" id="cbCS" type="checkbox" name="cbCS" value="1" checked><a href="/geofilter">Custom</a>
 <tr><th>Max spot age</th><td>
 <input onclick="filter_change()" id="maxAge5" type="radio" name="maxAge" value="5">5
 </td><td>
@@ -304,7 +306,7 @@ foreach ($events as $e) {
 <script>
 	var spots = {};
 	var baseurl = 'bandmap.php'; 
-	var contName = new Array("EU", "NA", "AS", "SA", "AF", "OC");
+	var contName = new Array("EU", "NA", "AS", "SA", "AF", "OC", "CS");
 	var contShow = new Array();
 	var bandName = new Array("160", "80", "60", "40", "30", "20", "17", "15", "12", "10", "6");
 	var bandShow = new Array();

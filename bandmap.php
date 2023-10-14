@@ -37,9 +37,10 @@ $ownCall=mysqli_real_escape_string($con, $ownCall);
 mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 20 MINUTE);");
 mysqli_query($con, "insert into users values ('$visitor', NOW(), '$ownCall');");
 
-$bm_conts_a = array( 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
+// CS = custom filter, take only skimmers from Redis "rbnskimmers" array
+$bm_conts_a = array( 'CS' => 0x02, 'OC' => 0x04, 'AF' => 0x08, 'SA' => 0x10, 'AS' => 0x20, 'NA' => 0x40, 'EU' => 0x80 );
 $bm_conts = 0;
-$allconts = array('EU', 'NA', 'AS', 'SA', 'AF', 'OC');
+$allconts = array('CS', 'EU', 'NA', 'AS', 'SA', 'AF', 'OC');
 $queryconts = array();
 foreach ($allconts as $c) {
 	if ($_GET[$c] == 'true') {
@@ -48,7 +49,19 @@ foreach ($allconts as $c) {
 	}
 }
 
-if (sizeof($queryconts)>0) {
+if ($bm_conts == $bm_conts_a["CS"]) {   // custom polygon filter, no continent filter
+    $queryconts_string = "";
+    $sk = $redis->hget("rbnskimmers", $ownCall);
+    $arr = array();
+    if (strlen($sk) > 3) {
+        $arr = explode(" ", $sk);
+    }
+    for ($i = 0; $i < count($arr); $i++) {
+        $arr[$i] = '"'.$arr[$i].'"';
+    }
+    $customSkimmers = " (`call` in (".implode(",", $arr).")) and  ";
+}
+elseif (sizeof($queryconts)>0) {
    $queryconts_string = "AND fromcont in (";
    $queryconts_string.= implode(',', $queryconts);
    $queryconts_string.= ")";
@@ -175,17 +188,24 @@ $time_string="(timestampdiff(minute, time, UTC_TIMESTAMP()) <= $maxAge)";
 # Include self-spots if user has so selected:
 $selfSpotStr=($_GET['selfSpots']==="true" ? "OR ($time_string $querybands_string AND (dxcall like '$ownCall'))" : "");
 
-# Include alert callsigns in *any* case, even if they're not part of the current filter
+# Include alert callsigns in *any* case, even if they're not part of the current filter.
+# For calls prepended with a ~ (blocked), set the rbnblock value accordingly in
+# Redis so the Telnet server can block them
 $alertCalls = "";
 if (array_key_exists('alerts', $_COOKIE)) {
-    $alerts = preg_replace('/[^A-Z0-9\/\s]/', '', $_COOKIE['alerts']); # clean alert list
+    $block = array();
+    $alerts = preg_replace('/[^\!\~A-Z0-9\/\s]/', '', $_COOKIE['alerts']); # clean alert list
     $alerts = preg_split('/\s+/', $alerts);
     for ($i = 0; $i < count($alerts); $i++) {
+        if (substr($alerts[$i],0,1) == "~") {
+            $block[] = substr($alerts[$i],1);
+        }
         $alerts[$i] = "'".$alerts[$i]."'";
     }
     if (count($alerts)) {
         $alertCalls = "OR ($time_string $queryconts_string $querybands_string AND dxcall in (".join(",", $alerts).")) ";
     }
+    $redis->hset("rbnblock", $ownCall, implode(" ", $block));
 }
 
 # for embedded RBN on Danish CW site
@@ -211,7 +231,8 @@ else {
     # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
   }
 
-$queryStr = "select freq, band, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where $ozFilter ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
+$queryStr = "select freq, band, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where $customSkimmers $ozFilter ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
+
 
 $aggregateSpotters=true; # Merge spots for 1 dxcall and ~1 frequency by different spotters into one row
 $aggregateSpeeds=true; # Merge spots for 1 dxcall and ~1 frequency with different speeds into one row
@@ -242,6 +263,7 @@ switch ($sort) {
 #syslog(LOG_ERR, $queryStr);
 
 $q = mysqli_query($con, $queryStr);
+#error_log($queryStr);
 
 # create JSON, aggregate all rows with same freq and dxcall into one entry.
 

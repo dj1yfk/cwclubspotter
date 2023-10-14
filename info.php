@@ -71,7 +71,8 @@
 
 
 <h2 id="telnet">Connect via telnet</h2>
-<p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent, band and speed is implemented for the telnet port. Award filters are not yet available. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
+<p>You can receive the spots via telnet by connecting to <code>rbn.telegraphy.de</code> on port <code>7000</code>. Filtering by club, continent (including "custom" skimmer selections), band and speed is implemented for the telnet port, as well as the block list (calls with a ~ in the alert box).
+Award filters are not yet available. Any changes you make to your filters here on the website automatically applies to the telnet port. If you need multiple sets of filters, simply use SSIDs like DJ5CW-1, DJ5CW-2 and log in accordingly. If you think that additional filters could be helpful, let me know!</p>
 <p>You can switch between the telnet stream filtered by club members and a raw stream (all spots) by entering <code>set/clubs</code> and <code>set/raw</code> respectively.</p>
 <p>If you want to reduce the spot load, issue the command <code>set/nodupes</code>. If enabled, only one spot per callsign on the same frequency will be posted in a 5 minute window. To switch back to all spots, enter <code>set/dupes</code>.</p>
 <p>Ham Radio Deluxe users: If you don't see any spots, please try switching to the VE7CC output format (CC11) by entering <code>set/ve7cc</code>. You can switch back with <code>set/normal</code></p> 

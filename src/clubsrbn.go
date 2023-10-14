@@ -54,7 +54,8 @@ type UFilter struct {
 	cont   byte
 	speed  byte
 	band   uint16
-	block  map[string]bool
+	block  map[string]bool // blocked callsign list
+	skim   map[string]bool // skimmer list (only show spots from these)
 	reload time.Time
 }
 
@@ -292,6 +293,7 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 	var ufilter UFilter
 	ufilter.reload = time.Now().Add(time.Duration(-5) * time.Second)
 	ufilter.block = make(map[string]bool)
+	ufilter.skim = make(map[string]bool)
 
 	go subscribeSpots(filter, spots, rediscontrol)
 
@@ -327,12 +329,23 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 				// of club membership
 				all_calls := ufilter.club == 0
 
+				// continent preference indicates custom filter (skimmer list
+				// set by drawing polygon) => set cont to 0xff for now
+				// and filter out later
+				if ufilter.cont == 0x02 {
+					cont = 0xff
+				}
+
 				if !(cont&ufilter.cont != 0 && (clubs&ufilter.club != 0 || all_calls) && speed&ufilter.speed != 0 && band&ufilter.band != 0) {
 					continue // spot does not match the filter
 				}
 			}
 
 			if len(ufilter.block) > 0 && callOnBlockList(spot, ufilter.block) {
+				continue
+			}
+
+			if ufilter.cont == 0x02 && len(ufilter.skim) > 0 && skimmerNotOnList(spot, ufilter.skim) {
 				continue
 			}
 
@@ -350,6 +363,18 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 
 		}
 	}
+}
+
+func skimmerNotOnList(spot string, list map[string]bool) bool {
+	spot = strings.Replace(spot, "-#:", " ", -1)
+	spot = strings.Replace(spot, "DX de ", "", -1)
+	s := strings.Fields(spot)
+	skimmer := s[0]
+
+	if list[skimmer] {
+		return false
+	}
+	return true
 }
 
 func callOnBlockList(spot string, list map[string]bool) bool {
@@ -377,6 +402,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 	defer c.Close()
 	ret, _ := c.Do("HGET", "rbnprefs", login)
 	block, _ := c.Do("HGET", "rbnblock", login)
+	skim, _ := c.Do("HGET", "rbnskimmers", login)
 
 	if ret == nil {
 		// no preferences found. if it is a callsign with a SSID, try without
@@ -391,6 +417,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 
 		retstrip, _ := c.Do("HGET", "rbnprefs", login[0:l])
 		blockstrip, _ := c.Do("HGET", "rbnblock", login[0:l])
+		skimstrip, _ := c.Do("HGET", "rbnskimmers", login[0:l])
 
 		// no success either
 		if retstrip == nil {
@@ -402,6 +429,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 		} else {
 			ret = retstrip
 			block = blockstrip
+			skim = skimstrip
 		}
 	}
 
@@ -429,6 +457,18 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 			ufilter.block[bl[i]] = true
 		}
 	}
+	if skim != nil {
+		ss := string(skim.([]uint8))
+		// log.Debugf("skimmer list of %s = %s %T\n", login, skim, ss)
+		var sk = strings.Split(ss, " ")
+		for k := range ufilter.skim {
+			delete(ufilter.skim, k)
+		}
+		for i := 0; i < len(sk); i++ {
+			ufilter.skim[sk[i]] = true
+		}
+	}
+
 }
 
 func isDupe(spot string, dedupehash map[string]time.Time) bool {

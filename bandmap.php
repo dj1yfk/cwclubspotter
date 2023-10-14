@@ -1,5 +1,5 @@
 <?php
-error_reporting(1);
+error_reporting(0);
 header("Access-Control-Allow-Origin: *");
 # RBN / DX Cluster Spotter view 
 #
@@ -16,12 +16,6 @@ header("Access-Control-Allow-Origin: *");
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
 
-# DB config
-$mysql_host   = "localhost";
-$mysql_user   = "spotfilter";
-$mysql_pass   = "spotfilter";
-$mysql_dbname = "spotfilter";
-
 include_once("clubs.php");
 
 # XXX temporarily accept both CWOPS and CWops
@@ -29,9 +23,7 @@ if (array_key_exists('CWops', $_GET) and $_GET['CWops'] == 'true') {
     $_GET['CWOPS'] = 'true';
 }
 
-$con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
-if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
-mysqli_select_db($con, $mysql_dbname);
+include_once("db.php");
 
 if (!isset($_GET['req']))
 	return; # Stop if called w/o arguments (like: called by a robot)
@@ -337,4 +329,6 @@ function build_json ($dxc, $freq, $band, $age, $wpm, $memberof, $spotters, $spot
 
 	return $ret;
 }
+
+# error_log("query_time($ownCall): ".(1000*(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])));
 ?>

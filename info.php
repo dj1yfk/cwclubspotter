@@ -84,15 +84,9 @@ As of November 2018, Fabian took over the maintenance, further development and h
 
 <p> Current users:
 <?php
-# DB config
-$mysql_host   = "localhost";
-$mysql_user   = "spotfilter";
-$mysql_pass   = "spotfilter";
-$mysql_dbname = "spotfilter";
 
-  $con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
-  if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
-  mysqli_select_db($con, $mysql_dbname);
+  include_once("db.php");
+
   $q=mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 1 DAY);");
   $q=mysqli_query($con, "select count(distinct(ipaddress)) from users where time > (NOW() - INTERVAL 10 MINUTE);");
   mysqli_data_seek($q, 0);

@@ -11,9 +11,11 @@ system("cp /tmp/skimmer.sql /tmp/skimmer.sql.old");
 open OUT, ">/tmp/skimmer.sql";
 print OUT "delete from skimmers;\n";
 foreach my $line (sort @a) {
+    $line =~ s/-//g;
     if ($line =~ /\s+(\w+)\s+(.*\s+)?([A-X]{2}[0-9]{2}[A-X]{2})/) {
         my $call = $1;
         my @ll = loc_to_latlon($3);
+        print OUT "-- original line: $line\n";
         print OUT "insert into skimmers (`callsign`, `lat`, `lng`) values ('$call', $ll[0], $ll[1]);\n";
     }
 }

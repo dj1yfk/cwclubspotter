@@ -551,7 +551,7 @@ include("js/bm_alerts.js");
 
 	function fetch_spots () {
 
-			if (document.hidden && (seqNr % 4)) {
+			if (document.hidden && (seqNr++ % 4)) {
 				console.log("browser tab hidden. skip fetching 3 of 4 times; nr " + seqNr);
 				return;
 			}
@@ -559,7 +559,7 @@ include("js/bm_alerts.js");
 			document.getElementById('upd').innerHTML = 'Updating...';
 
 			var i;
-			var queryurl = baseurl + '?req=' + seqNr++;
+			var queryurl = baseurl + '?req=' + seqNr;
 			for (i = 0; i < contName.length; i++) {
 					queryurl += '&' + contName[i] + '=' + contShow[i];
 			}

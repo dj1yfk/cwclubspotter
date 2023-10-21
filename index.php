@@ -550,6 +550,12 @@ include("js/bm_alerts.js");
 	}
 
 	function fetch_spots () {
+
+			if (document.hidden && (seqNr % 4)) {
+				console.log("browser tab hidden. skip fetching 3 of 4 times; nr " + seqNr);
+				return;
+			}
+
 			document.getElementById('upd').innerHTML = 'Updating...';
 
 			var i;
@@ -587,6 +593,8 @@ include("js/bm_alerts.js");
 	}
 
 	function update_table () {
+			var thisSelf = false;
+			var tabclass = "";
 			var d = document.getElementById('tab');
             var alert_list = document.getElementById('alerts').value.toUpperCase().split(/[^\~\!A-Z0-9\/()\-\,]+/);
             var alert_calls = [];
@@ -598,7 +606,7 @@ include("js/bm_alerts.js");
 			newtable = '<table id="spots">' + '<tr><th>Frequency</th><th>Call</th><th>Age</th><th>Member of</th><th style="width:45px">WPM</th><th>Spotted by (and signal strength)</th></tr>';
 
 			for (var i = 0; i < spots.length; i++) {
-				if (selfSpots==true && spots[i].dxcall==ownCall) { tabclass = 'selfspot'; }
+				if (stripcall(spots[i].dxcall) == stripcall(ownCall)) { tabclass = 'selfspot'; }
 				else if (spots[i].age < 2) { tabclass = 'newspot'; }
 				else if (spots[i].age < 10) { tabclass = 'midspot'; }
                 else { tabclass = 'oldspot'; }
@@ -636,7 +644,7 @@ include("js/bm_alerts.js");
                     else {
                         alert_freqs[scall].push(spots[i].freq);
                     }
-                    if (!awardFilter) {  // if we only show filtered spots, don't colour them
+                    if (!awardFilter && tablcass != 'selfspot') {  // if we only show filtered spots, don't colour them
                         tabclass='alert';
                     }
                     alert_line = true;
@@ -706,7 +714,7 @@ include("js/bm_alerts.js");
                                     }
                                 }
                                 awardinfo = awardinfo.join(', ', awardinfo);
-                                if (!awardFilter) {  // if we only show filtered spots, don't colour them
+                                if (!awardFilter && tabclass != 'selfspot') {  // if we only show filtered spots, don't colour them
                                     tabclass='alert';
                                 }
                             }

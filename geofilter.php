@@ -19,6 +19,7 @@ include("db.php");
 
 </head>
 <h1>RBN Skimmer Filter Selection Map: <span id="ownCall"></span></h1>
+<p style="color:red" id="hint"></p>
 
 <style>
 #map { height: 750px; }
@@ -37,6 +38,10 @@ include("db.php");
 <script>
 
     var ownCall = getCookie('ownCall') || "";
+    if (ownCall == "") {
+        ownCall = "(NO CALL)";
+        document.getElementById("hint").innerHTML = "You have not entered a call, so the filter won't be saved. Please go to the <a href='/'>main bandmap page</a> and enter a callsign.";
+    }
     document.getElementById('ownCall').innerHTML = ownCall;
 
     var selected_skimmers = [];

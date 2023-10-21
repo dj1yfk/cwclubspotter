@@ -365,7 +365,7 @@ include("js/bm_alerts.js");
 			document.getElementById('cb' + bandName[i]).checked = (getCookie(bandName[i])==null || getCookie(bandName[i])=='true');
 		}
 		for (i = 0; i < clubName.length; i++) {
-			document.getElementById('cb' + clubName[i]).checked = (getCookie(clubName[i])==null || getCookie(clubName[i])=='true');
+			document.getElementById('cb' + clubName[i]).checked = getCookie(clubName[i])=='true';
 		}
 		for (i = 0; i < speedName.length; i++) {
 			document.getElementById('cb' + speedName[i]).checked = (getCookie(speedName[i])==null || getCookie(speedName[i])=='true');

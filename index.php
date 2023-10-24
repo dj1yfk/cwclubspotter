@@ -644,7 +644,7 @@ include("js/bm_alerts.js");
                     else {
                         alert_freqs[scall].push(spots[i].freq);
                     }
-                    if (!awardFilter && tablcass != 'selfspot') {  // if we only show filtered spots, don't colour them
+                    if (!awardFilter && tabclass != 'selfspot') {  // if we only show filtered spots, don't colour them
                         tabclass='alert';
                     }
                     alert_line = true;

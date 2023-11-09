@@ -18,11 +18,11 @@ my %s = $r->hgetall("rbnskimmers");
 
 foreach my $c (keys %p) {
     next unless ($c);
-    print "\n";
-    print "Updating Skimmers for for: >$c<\n";
+	#    print "\n";
+	#    print "Updating Skimmers for for: >$c<\n";
     my @oldlist = sort split(/\s+/, $s{$c});
     my $old = join(" ", @oldlist);
-    print "Polygons: $p{$c}\n\n";
+	#    print "Polygons: $p{$c}\n\n";
     # break up the JSON array of arrays without decoding :)
     my @a = split(/\],\[/, $p{$c});
     my @skimmerlist;
@@ -42,11 +42,11 @@ foreach my $c (keys %p) {
    }
    @skimmerlist = sort @skimmerlist;
    my $new = join(" ", @skimmerlist);
-   print "old: $old\n";
-   print "new: $new\n";
+   #   print "old: $old\n";
+   #   print "new: $new\n";
 
    if ($old ne $new) {
-       print "=> Updating list in Redis\n";
+       print "=> Updating list for $c in Redis\n";
        $r->hset("rbnskimmers", $c, $new);
    }
 

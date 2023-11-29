@@ -63,5 +63,56 @@ function save_polygons ($c, $p) {
 }
 
 
+function calendar($p) {
+    global $con;
+
+    if ($p == 0) {
+        $limit = "";
+    }
+    else {
+        $p--;
+        $p *= 12;
+        $limit = " limit $p,12 ";
+    }
+
+    $q = mysqli_query($con, "select * from calendar order by day asc, hours asc $limit;");
+    $out = array();
+    while ($d = mysqli_fetch_array($q, MYSQLI_ASSOC)) {
+        array_push($out, $d);
+    }
+    return $out;
+}
+
+function save_calendar($p) {
+    global $con;
+    $cal = json_decode($p, true);
+
+    for ($i = 0; $i < count($cal); $i++) {
+        $day = date("Y-m-d", $cal[$i]["ts"]);
+        $hours = mysqli_real_escape_string($con, $cal[$i]["hours"]);
+        $name = mysqli_real_escape_string($con, $cal[$i]["name"]);
+        $url = mysqli_real_escape_string($con, $cal[$i]["url"]);
+        mysqli_query($con, "insert into calendar (day, hours, name, url) values ('$day', '$hours', '$name', '$url')");
+    }
+
+    return "OK";
+}
+
+function del_calendar($id, $all) {
+    global $con;
+
+    if ($all+0 == 1) {
+        $q = mysqli_query($con, "select * from calendar where id='$id' limit 1");
+        $r = mysqli_fetch_assoc($q);
+        $name = $r["name"];
+        $q = mysqli_query($con, "delete from calendar where name='$name'");
+    }
+    else {
+        $q = mysqli_query($con, "delete from calendar where id='$id'");
+    }
+
+    return "OK";
+}
+
 
 ?>

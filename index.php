@@ -268,30 +268,8 @@ Audio alert (CW)
 </table>
 </td>
 <td>
-<table width=450>
-<tr><th colspan=2>Upcoming events <a id="toggle_events" href="javascript:toggle_events();">(show all)</a></th></tr>
-<?php
-$events = file("src/members/events.txt");
-$i = 0;
-foreach ($events as $e) {
-    $a = explode(";", $e);
-    if (count($a) < 4)
-        continue;
-    $i++;
-    if ($a[1]) {
-        $comma = ",";
-    }
-    else {
-        $comma = "";
-    }
-    if ($a[3] != "soon\r\n") {
-        echo "<tr id='event$i'><td>$a[0]$comma $a[1]</td><td><a target='_blank' href='$a[3]'>$a[2]</a></td></tr>";
-    }
-    else {
-        echo "<tr id='event$i'><td>$a[0]$comma $a[1]</td><td>$a[2]</td></tr>";
-    }
-}
-?>
+<table id="events" width=450>
+<tr><th colspan=2><a id="eventsback" style="text-decoration:none" href="javascript:load_events(--events_page);">⯇</a> &nbsp; &nbsp; Upcoming events &nbsp; &nbsp; <a id="eventsforward" style="text-decoration:none;" id="" href="javascript:load_events(++events_page);">⯈</a></th></tr>
 </table>
 </td>
 </tr>
@@ -334,6 +312,8 @@ foreach ($events as $e) {
     var awardAudio = false;
 
     var show_all_events = false;
+
+    var events_page = 1;
 
     var awardinfo = [];
 
@@ -904,6 +884,36 @@ function toggle_events () {
 	show_all_events = !show_all_events;
 }
 
+function load_events(page) {
+    if (page < 1) { page = 1; }
+    if (page > 100) { page = 100; }
+
+    var mnt = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var request =  new XMLHttpRequest();
+    request.open("GET", "/api.php?action=view_calendar&page="+page, true);
+    request.onreadystatechange = function() {
+    	var done = 4, ok = 200;
+        if (request.readyState == done && request.status == ok) {
+            var cal = JSON.parse(request.responseText);
+			var t = document.getElementById("events");
+            while (t.rows.length > 1) {
+                t.deleteRow(-1);
+            }
+			for (var i = 0; i < 12; i++) {
+                var tmpday = new Date(cal[i]["day"]);     // 2023-11-12 => Nov 12
+                cal[i]["day"] = mnt[tmpday.getMonth()] + " " + tmpday.getDate();
+                var row = t.insertRow(-1);
+                var day = row.insertCell(0);
+                var evt = row.insertCell(1);
+                day.innerHTML = cal[i]["day"] + ", " +  cal[i]["hours"];
+                evt.innerHTML = "<a href='"+cal[i]["url"]+"'>" + cal[i]["name"] +  "</a>"; 
+			}
+        }
+    }
+	request.send();
+}
+
+
 function load_awards() {
     var request =  new XMLHttpRequest();
     request.open("GET", '/filter?c=' + ownCall, true);
@@ -920,6 +930,7 @@ function load_awards() {
 function init_rbn () {
     load_alerts();
     load_awards();
+    load_events();
     fetch_spots();
 	toggle_events();
 }

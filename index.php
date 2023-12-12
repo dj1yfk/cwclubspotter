@@ -269,7 +269,7 @@ Audio alert (CW)
 </td>
 <td>
 <table id="events" width=450>
-<tr><th colspan=2><a id="eventsback" style="text-decoration:none" href="javascript:load_events(--events_page);">⯇</a> &nbsp; &nbsp; Upcoming events &nbsp; &nbsp; <a id="eventsforward" style="text-decoration:none;" id="" href="javascript:load_events(++events_page);">⯈</a></th></tr>
+<tr><th colspan=2><a id="eventsback" style="text-decoration:none" href="javascript:load_events(--events_page);">&#9664;</a> &nbsp; &nbsp; Upcoming events &nbsp; &nbsp; <a id="eventsforward" style="text-decoration:none;" id="" href="javascript:load_events(++events_page);">&#9654;</a></th></tr>
 </table>
 </td>
 </tr>

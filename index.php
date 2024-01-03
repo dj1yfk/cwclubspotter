@@ -455,7 +455,6 @@ include("js/bm_alerts.js");
 		callFilter = document.getElementById('callFilter').value.toUpperCase() || "*";
                 setCookie('callFilter', callFilter);
 		document.getElementById('callFilter').value=callFilter; // Displayed uppercase too
-		//console.log(callFilter);
 
 		ownCall = document.getElementById('ownCall').value.toUpperCase();
 		if (ownCall=="") {
@@ -558,7 +557,7 @@ include("js/bm_alerts.js");
 			queryurl += '&' + 'callFilter=' + callFilter;
 			queryurl += '&' + 'ownCall=' + ownCall;
 			queryurl += '&' + 'selfSpots=' + selfSpots;
-			console.log(queryurl);
+			// console.log(queryurl);
 
 			var request =  new XMLHttpRequest();
 			request.open("GET", queryurl, true);
@@ -899,9 +898,11 @@ function load_events(page) {
             while (t.rows.length > 1) {
                 t.deleteRow(-1);
             }
-			for (var i = 0; i < 12; i++) {
-                var tmpday = new Date(cal[i]["day"]);     // 2023-11-12 => Nov 12
-                cal[i]["day"] = mnt[tmpday.getMonth()] + " " + tmpday.getDate();
+            for (var i = 0; i < 12; i++) {
+                // 2023-12-01 ==> Dec 1
+                var tmpday = cal[i]["day"].split("-");
+                var newday = mnt[parseInt(tmpday[1])-1] + " " + parseInt(tmpday[2]);
+                cal[i]["day"] = newday;
                 var row = t.insertRow(-1);
                 var day = row.insertCell(0);
                 var evt = row.insertCell(1);

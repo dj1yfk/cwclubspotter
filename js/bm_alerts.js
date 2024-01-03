@@ -85,7 +85,7 @@ function check_alert (c, f) {
         }
     }
 
-    console.log(o);
+    // console.log(o);
 
     if (o.length)
         generate_alert(o);

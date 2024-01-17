@@ -333,6 +333,7 @@ include("js/bm_alerts.js");
 	load_cookies(); // Load the cookies. This will also fetch the matching spots for this first time
 
 	window.setInterval('fetch_spots()', 30000);
+	window.setInterval('load_events()', 600000);
 
     function load_cookies () {
         console.log("load_cookies");
@@ -883,7 +884,7 @@ function toggle_events () {
 	show_all_events = !show_all_events;
 }
 
-function load_events(page) {
+function load_events(page = 1) {
     if (page < 1) { page = 1; }
     if (page > 100) { page = 100; }
 

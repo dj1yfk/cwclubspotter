@@ -942,10 +942,5 @@ function init_rbn () {
 
 <hr>
 <a href="/privacy">Privacy / Datenschutz / Impressum</a>
-<?
-        if (!$_SERVER['HTTPS']) { ?> - <a rel="nofollow" href="https://rbn.telegraphy.de/">Switch to https</a> <? }
-                    else { ?> - <a rel="nofollow" href="http://rbn.telegraphy.de/">Switch to http</a> <? }
-?>
-
 </body>
 </html>

@@ -33,7 +33,7 @@ Frohschammerstr. 8<br>
 D-80807 München<br>
 Germany<br>
 <br>
-phone: +49 89 5457 8182
+phone: +49 174 6926713 
 <br>
 mail: <a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>
 </p>

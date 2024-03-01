@@ -32,6 +32,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta property="og:title" content="RBN Activity of <?=$c?>" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://rbn.telegraphy.de/activity/<?=$c?>" />
+<meta property="og:image" content="https://rbn.telegraphy.de/activity/image/<?=$c?>" />
+<meta property="og:description" content="Summary of the Morse code activity of <?=$c?> over the last year" />
+
 <script src="/act/d3/d3.min.js" charset="utf-8"></script>
 <link rel="stylesheet" href="/act/cal/cal-heatmap.css" />
 <link rel="stylesheet" href="/bandmap.css" />

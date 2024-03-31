@@ -37,7 +37,12 @@ foreach my $c (keys %p) {
         $client->POST('https://rbn.telegraphy.de/api?action=skimmers_in_polygon', $poly);
         if ($client->responseCode() eq '200') {
             my $l = decode_json($client->responseContent());
-            push(@skimmerlist, @{$l});
+            if ($l) {
+                push(@skimmerlist, @{$l});
+            }
+            else {
+                print "Warning: No Skimmers in polygon for $c\n");
+            }
         }
    }
    @skimmerlist = sort @skimmerlist;

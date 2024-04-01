@@ -41,7 +41,7 @@ foreach my $c (keys %p) {
                 push(@skimmerlist, @{$l});
             }
             else {
-                print "Warning: No Skimmers in polygon for $c\n");
+                print "Warning: No Skimmers in polygon for $c\n";
             }
         }
    }

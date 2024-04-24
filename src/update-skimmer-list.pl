@@ -12,6 +12,7 @@ open OUT, ">/tmp/skimmer.sql";
 print OUT "delete from skimmers;\n";
 foreach my $line (sort @a) {
     $line =~ s/-//g;
+    $line =~ s/\/A/-A/g;
     if ($line =~ /\s+(\w+)\s+(.*\s+)?([A-X]{2}[0-9]{2}[A-X]{2})/) {
         my $call = $1;
         my @ll = loc_to_latlon($3);

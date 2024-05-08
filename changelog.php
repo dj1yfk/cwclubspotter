@@ -16,7 +16,6 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
-<tr><td>3-May-2024</td><td>Added new club: OECWG (Austrian CW Club) - tnx OE3KME</td></tr>
 <tr><td>24-Apr-2024</td><td>Removed TBDXC (defunct club), added SMHSC (Swedish High Speed Club), tnx EA6BF</td></tr>
 <tr><td>29-Nov-2023</td><td>Event calendar updated/improved (allows scrolling now, improved backend, dynamic reloading...)</td></tr>
 <tr><td>14-Oct-2023</td><td>Instead of filtering Skimmers by continent, users can now select arbitrary Skimmers from a map (custom filter).</td></tr>

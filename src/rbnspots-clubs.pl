@@ -102,7 +102,7 @@ while (1) {
             next;
         }
         next if ($line =~ /BEACON/);
-        next if ($line =~ /NCDXF B/);
+        next if ($line =~ /NCDXF/);
 
         if (time - $db_keepalive > 30) {
             $dbh->do("select 1") or die "MySQL server died... ".DBI->errstr;

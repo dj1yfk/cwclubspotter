@@ -65,14 +65,15 @@ function save_polygons ($c, $p) {
 
 function calendar($p) {
     global $con;
+    $num_rows = 13;
 
     if ($p == 0) {
         $limit = "";
     }
     else {
         $p--;
-        $p *= 12;
-        $limit = " limit $p,12 ";
+        $p *= $num_rows;
+        $limit = " limit $p,$num_rows ";
     }
 
     $q = mysqli_query($con, "select * from calendar order by day asc, hours asc $limit;");

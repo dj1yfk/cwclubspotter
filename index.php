@@ -265,6 +265,7 @@ Audio alert (CW)
 <tr><th>U-QRQ-C</th><td>-</td><td>3.518</td><td>-</td><td>7.018</td><td>-</td><td>14.055</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
 <tr><th>GPCW</th><td>1.830</td><td>3.528</td><td>-</td><td>7.028</td><td>10.128</td><td>14.028</td><td>18.081</td><td>21.028</td><td>24.898</td><td>28.028</td><td>50.098</td></tr>
 <tr><th>Marconi Club</th><td>-</td><td>3.564</td><td>-</td><td>7.029</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th>HTC</th><td>-</td><td>3.550</td><td>-</td><td>7.033</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
 </table>
 </td>
 <td>
@@ -899,7 +900,7 @@ function load_events(page = 1) {
             while (t.rows.length > 1) {
                 t.deleteRow(-1);
             }
-            for (var i = 0; i < 12; i++) {
+            for (var i = 0; i < 13; i++) {
                 // 2023-12-01 ==> Dec 1
                 var tmpday = cal[i]["day"].split("-");
                 var newday = mnt[parseInt(tmpday[1])-1] + " " + parseInt(tmpday[2]);

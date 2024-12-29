@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "SMHSC", "OECWG");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "SMHSC", "OECWG", "CFO");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -141,5 +141,9 @@ $clubweb["SMHSC"] = "https://groups.io/g/SMHSC";
 $clubabbr["OECWG"] = "OECWG";
 $clubname["OECWG"] = "Die Österreichische CW Group";
 $clubweb["OECWG"] = "https://oecwg.at/";
+
+$clubabbr["CFO"] = "CFO";
+$clubname["CFO"] = "Chicken Fat Operators Club";
+$clubweb["CFO"] = "https://groups.google.com/g/chicken-fat-operators-club";
 
 ?>

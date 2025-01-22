@@ -16,7 +16,8 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
-<tr><td>29-Dev-2024</td><td>Added new club: CFO (Chicken Fat Operators Club), tnx KV1I/W0VTT</td></tr>
+<tr><td>22-Jan-2025</td><td>Spot fetch interval can be changed (30/60/120/180s) - tnx F5IJO</td></tr>
+<tr><td>29-Dec-2024</td><td>Added new club: CFO (Chicken Fat Operators Club), tnx KV1I/W0VTT</td></tr>
 <tr><td>16-Nov-2024</td><td>Added new club: OECWG (Austrian CW Club)</td></tr>
 <tr><td>24-Apr-2024</td><td>Removed TBDXC (defunct club), added SMHSC (Swedish High Speed Club), tnx EA6BF</td></tr>
 <tr><td>29-Nov-2023</td><td>Event calendar updated/improved (allows scrolling now, improved backend, dynamic reloading...)</td></tr>

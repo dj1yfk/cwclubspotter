@@ -150,6 +150,12 @@ foreach ($clubs as $c) {
 </td><td>
 <input onclick="filter_change()" id="maxAge60" type="radio" name="maxAge" value="60">60
 </td></tr>
+<tr><th>Refresh rate</th>
+<td> <input onclick="filter_change()" id="refresh30" type="radio" name="refresh" value="30">30 s</td>
+<td> <input onclick="filter_change()" id="refresh60" type="radio" name="refresh" value="60">60 s</td>
+<td> <input onclick="filter_change()" id="refresh120" type="radio" name="refresh" value="120">120 s</td>
+<td> <input onclick="filter_change()" id="refresh180" type="radio" name="refresh" value="180">180 s</td>
+</tr>
 <tr><th>Sort by</th><td>
 <input onclick="filter_change();" id="sort1" type="radio" name="sort" value="1">Freq
 </td><td>
@@ -294,6 +300,7 @@ Audio alert (CW)
 	var speedName = new Array("<10", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", ">39");
 	var speedShow = new Array();
 	var maxAge;
+	var refresh;
 	var sort;
 	var seqNr = seqNr || 1;
 	var callFilter;
@@ -333,7 +340,7 @@ include("js/bm_alerts.js");
 
 	load_cookies(); // Load the cookies. This will also fetch the matching spots for this first time
 
-	window.setInterval('fetch_spots()', 30000);
+	var refresh_interval = window.setInterval('fetch_spots()', refresh*1000);
 	window.setInterval('load_events()', 600000);
 
     function load_cookies () {
@@ -355,6 +362,9 @@ include("js/bm_alerts.js");
 
 		var j=getCookie('maxAge') || 20;
 		document.getElementById('maxAge'+j).checked = true;
+
+		var j=getCookie('refresh') || 30;
+		document.getElementById('refresh'+j).checked = true;
 
 		var j=getCookie('sort') || 1;
 		document.getElementById('sort'+j).checked = true;
@@ -445,6 +455,17 @@ include("js/bm_alerts.js");
    		}
 		setCookie('maxAge', maxAge);
 
+		var refreshes = document.getElementsByName('refresh');
+		for(i = 0; i < refreshes.length; i++) {
+   			if (refreshes[i].checked == true) {
+       				refresh = refreshes[i].value;
+				break;
+				}
+   		}
+		setCookie('refresh', refresh);
+        window.clearInterval(refresh_interval);
+	    refresh_interval = window.setInterval('fetch_spots()', refresh*1000);
+
                 var sorts = document.getElementsByName('sort');
                 for(i = 0; i <sorts.length; i++) {
                         if (sorts[i].checked == true) {
@@ -530,7 +551,8 @@ include("js/bm_alerts.js");
   		}
 	}
 
-	function fetch_spots () {
+    function fetch_spots () {
+            console.log("Fetch spots");
 
 			if (document.hidden && (seqNr++ % 4)) {
 				console.log("browser tab hidden. skip fetching 3 of 4 times; nr " + seqNr);

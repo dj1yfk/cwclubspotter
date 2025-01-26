@@ -24,28 +24,14 @@ $mysql_user   = "spotfilter";
 $mysql_pass   = "spotfilter";
 $mysql_dbname = "spotfilter";
 
-if (intval(phpversion())>=5) {
-  $con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
-  if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
-  mysqli_select_db($con, $mysql_dbname);
-  $q=mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 1 DAY);");
-
-  $q=mysqli_query($con, "select count(distinct(ipaddress)) from users where time > (NOW() - INTERVAL 5 MINUTE);");
-  mysqli_data_seek($q, 0);
-  $resrow = mysqli_fetch_row($q);
-  echo $resrow[0];
-  }
-else
-  {
-  $con=mysql_connect($mysql_host,$mysql_user,$mysql_pass);
-  if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
-  mysql_select_db($mysql_dbname);
-  $q=mysql_query("delete from users where time < (NOW() - INTERVAL 1 DAY);");
-
-  $q=mysql_query("select count(distinct(ipaddress)) from users where time > (NOW() - INTERVAL 5 MINUTE);");
-  echo mysql_result($q, 0 ,0);
-  }
-
+$con=mysqli_connect($mysql_host,$mysql_user,$mysql_pass);
+if (!$con)  die("<h1>Sorry: Could not connect to database.</h1>");
+mysqli_select_db($con, $mysql_dbname);
+$q=mysqli_query($con, "delete from users where time < (NOW() - INTERVAL 1 DAY);");
+$q=mysqli_query($con, "select count(distinct(ipaddress)) from users where time > (NOW() - INTERVAL 5 MINUTE);");
+mysqli_data_seek($q, 0);
+$resrow = mysqli_fetch_row($q);
+echo $resrow[0];
 echo "<br/>";
 echo "<br/>\n";
 echo "Call signs (non-GUESTs): <ul>";

@@ -218,18 +218,11 @@ else {
 
 $json_a = array();
 
-if (intval(phpversion())>=5) {
-  mysqli_query($con, "set timezone = '+00:00'");
-  if (rand(0,10) < 1) {
-     mysqli_query($con, "delete from spots where time < (UTC_TIMESTAMP() - INTERVAL 60 MINUTE) or time > (UTC_TIMESTAMP() + INTERVAL 30 MINUTE);");
-  }
-    # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
-  } 
-else {
-  mysql_query("set timezone = '+00:00'");
-  mysql_query("delete from spots where time < (UTC_TIMESTAMP() - INTERVAL 60 MINUTE) or time > (UTC_TIMESTAMP() + INTERVAL 30 MINUTE);");
-    # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
-  }
+# Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
+mysqli_query($con, "set timezone = '+00:00'");
+if (rand(0,10) < 1) {
+    mysqli_query($con, "delete from spots where time < (UTC_TIMESTAMP() - INTERVAL 60 MINUTE) or time > (UTC_TIMESTAMP() + INTERVAL 30 MINUTE);");
+}
 
 $queryStr = "select freq, band, dxcall, `call`, timestampdiff(minute, time, UTC_TIMESTAMP()) as age, `memberof`, snr, wpm from spots where $customSkimmers $ozFilter ( $time_string $queryconts_string $querybands_string AND dxcall like '$callFilter' $queryclub_string $queryspeed_string) $selfSpotStr $alertCalls order by ";
 

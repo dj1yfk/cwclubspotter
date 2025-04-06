@@ -16,6 +16,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>6-Apr-2025</td><td>Added new club: CFT (French Télégraphic Club) - tnx ON4LDL</td></tr>
 <tr><td>22-Jan-2025</td><td>Spot fetch interval can be changed (30/60/120/180s) - tnx F5IJO</td></tr>
 <tr><td>29-Dec-2024</td><td>Added new club: CFO (Chicken Fat Operators Club), tnx KV1I/W0VTT</td></tr>
 <tr><td>16-Nov-2024</td><td>Added new club: OECWG (Austrian CW Club)</td></tr>

@@ -42,8 +42,11 @@ $ccnt = 0;
 foreach ($clubs as $c) {
     $ccnt++;
     echo "<td><input onclick='filter_change();' id='cb$c' type='checkbox' name='cb$c' value='1' checked><abbr title='".$clubname[$c]."'>".$clubabbr[$c]."</abbr></td>";
-    if ($ccnt == 18) {
+    if ($ccnt == 16) {
         echo "</tr><tr><th></th><td colspan=2> <button type=\"button\" onclick=\"set_all('club', false)\">no filter</button> </td>";
+    }
+    if ($ccnt == 32) {
+        echo "</tr><tr><th></th><td colspan=2> &nbsp; </td>";
     }
 }
 ?>
@@ -151,10 +154,10 @@ foreach ($clubs as $c) {
 <input onclick="filter_change()" id="maxAge60" type="radio" name="maxAge" value="60">60
 </td></tr>
 <tr><th>Refresh rate</th>
-<td> <input onclick="filter_change()" id="refresh30" type="radio" name="refresh" value="30">30 s</td>
-<td> <input onclick="filter_change()" id="refresh60" type="radio" name="refresh" value="60">60 s</td>
-<td> <input onclick="filter_change()" id="refresh120" type="radio" name="refresh" value="120">120 s</td>
-<td> <input onclick="filter_change()" id="refresh180" type="radio" name="refresh" value="180">180 s</td>
+<td> <input onclick="filter_change()" id="refresh30" type="radio" name="refresh" value="30">30&nbsp;s</td>
+<td> <input onclick="filter_change()" id="refresh60" type="radio" name="refresh" value="60">60&nbsp;s</td>
+<td> <input onclick="filter_change()" id="refresh120" type="radio" name="refresh" value="120">120&nbsp;s</td>
+<td> <input onclick="filter_change()" id="refresh180" type="radio" name="refresh" value="180">180&nbsp;s</td>
 </tr>
 <tr><th>Sort by</th><td>
 <input onclick="filter_change();" id="sort1" type="radio" name="sort" value="1">Freq
@@ -750,6 +753,8 @@ include("js/bm_alerts.js");
 				newtable += '<td class="right">' + spots[i].age+ '</td>';
 
                 var mo = spots[i].memberof;
+
+                mo = mo.replace("MCARI", "Marconi");
 
                 if (abbreviate && mo.length > 10) {
                     var moa = mo.split(' ');

@@ -80,7 +80,7 @@ $clubweb["UFT"] = "http://uft.net/";
 
 $clubabbr["ECWARC"] = "ECWARC";
 $clubname["ECWARC"] = "Essex CW ARC";
-$clubweb["ECWARC"] = "https://sites.google.com/site/essexcw/home";
+$clubweb["ECWARC"] = "https://essexcw.uk/";
 
 $clubabbr["LICW"] = "LICW";
 $clubname["LICW"] = "Long Island CW Club";

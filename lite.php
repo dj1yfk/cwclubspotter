@@ -11,7 +11,17 @@ if (preg_match("/^[0-9]+$/", $_GET['band'])) { $b = " and band = ".$_GET['band']
 
 
 $q = mysqli_query($con, "select * from spots where dxcall like '$c%' $b order by time desc");
-    
+
+$cnt = 0;
 while ($r = mysqli_fetch_row($q)) {
+    $cnt++;
     printf("DX de %-8s  %10s  %-12s  %s\n", "$r[0]:", $r[1], $r[2], $r[5]);
+    if ($cnt == 200) {
+        print("... 200 spots delivered, stopping here.");
+        exit();
+    }
+}
+
+if (!$cnt) {
+    print("No spots found in last hour.");
 }

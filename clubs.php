@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "SMHSC", "OECWG", "CFO", "CFT");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "SMHSC", "OECWG", "CFO", "CFT", "FOCN");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -149,4 +149,9 @@ $clubweb["CFO"] = "https://groups.google.com/g/chicken-fat-operators-club";
 $clubabbr["CFT"] = "CFT";
 $clubname["CFT"] = "Club Francophone des Télégraphistes";
 $clubweb["CFT"] = "https://www.on5cft.com/member-cft/";
+
+$clubabbr["FOCN"] = "FOCN";
+$clubname["FOCN"] = "First Class Operators’ Club Nominees";
+$clubweb["FOCN"] = "https://g4foc.org/";
+
 ?>

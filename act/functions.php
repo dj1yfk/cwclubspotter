@@ -26,7 +26,7 @@
 
         if (!$res) {
            $arr = Array(); 
-           $arr = array_pad($arr, 596064, 0);
+           $arr = array_pad($arr, 876000, 0);
         }
         else {
             $f = gzdecode ($res[0]);
@@ -36,12 +36,16 @@
             # starting at 1. Fix this into array with 0 ... end
             $arr[0] = 0;
             array_shift($arr);
+
+            # old format of 596064 bytes? pad to 876000 bytes (25 years from
+            # 2009)
+            $arr = array_pad($arr, 876000, 0);
         }
 
         # today's data available in Redis?
         $redis = new Redis();
         $redis->connect('127.0.0.1', 6379);
-        $rd = $redis->get("RBN2live".$c);
+        $rd = $redis->get("RBNlive3".$c);
         # merge into data from permanent database
         if ($rd) {
             $rd2 = gzdecode($rd);
@@ -51,7 +55,7 @@
             array_shift($arr_redis);
             # error_log("redis for $c fetched. length: $hours");
             for ($i = 0; $i < count($arr); $i++) {
-                $arr[$i] |=  $arr_redis[$i];
+                $arr[$i] |= $arr_redis[$i];
             }
         }
 

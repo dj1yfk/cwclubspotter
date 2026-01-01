@@ -138,7 +138,7 @@ my $beacon;
 my $dxcc;
 my $wl;
 
-my $tpl = "\x00"x596064;		# completely empty template 
+my $tpl = "\x00"x876000;		# completely empty template for 25 years starting 2009-01-01
 
 foreach my $k (sort keys %d) {
 

@@ -110,10 +110,10 @@ $r->subscribe('raw',
             my $bm = 0x0000 | $bm_bands{$band} | $bm_conts{$cont};
 
             # get current data from redis.
-            my $dat = $r_data->get("RBN2live".$call);
+            my $dat = $r_data->get("RBNlive".$call);
             my $uncomp;
             if (!$dat) {
-                $uncomp = "\x00"x596064;
+                $uncomp = "\x00"x876000;        # 25 years * 365 days * 24h * 4 bytes => OK until 2009+25 = 2034
             }
             else {
                 $uncomp = Compress::Zlib::memGunzip($dat);
@@ -127,8 +127,8 @@ $r->subscribe('raw',
             $bm |= $oldbm;
             substr($uncomp, $hour*4, 4) = pack("L", $bm);
             my $data_blob = Compress::Zlib::memGzip($uncomp);
-            $r_data->set("RBN2live".$call, $data_blob);
-            $r_data->expire("RBN2live".$call, 259200); # 96h
+            $r_data->set("RBNlive3".$call, $data_blob);
+            $r_data->expire("RBNlive3".$call, 259200); # 96h
 		}
 		else {
 			print "Old: ";

@@ -1,6 +1,6 @@
 <?php
 
-$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "SMHSC", "OECWG", "CFO", "CFT", "FOCN");
+$clubs = Array("CWOPS", "FISTS", "FOC", "HSC", "VHSC", "SHSC", "EHSC", "SKCC", "AGCW", "NAQCC", "BUG", "RCWC", "LIDS", "NRR", "QRPARCI", "CWJF", "TORCW", "SOC", "UFT", "ECWARC", "LICW", "EACW", "MF", "A1C", "NTC", "MORSE", "4SQRP", "30CW", "SPCWC", "HTC", "UQRQC", "GPCW", "MCARI", "SMHSC", "OECWG", "CFO", "CFT", "FOCN", "QRQCREW");
 
 $clubabbr["CWOPS"] = "CWops";
 $clubname["CWOPS"] = "CW Operators’ Club";
@@ -154,4 +154,7 @@ $clubabbr["FOCN"] = "FOCN";
 $clubname["FOCN"] = "First Class Operators’ Club Nominees";
 $clubweb["FOCN"] = "https://g4foc.org/";
 
+$clubabbr["QRQCREW"] = "QRQCREW";
+$clubname["QRQCREW"] = "QRQ Crew Club";
+$clubweb["QRQCREW"] = "https://www.qrqcrew.club/";
 ?>

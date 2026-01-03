@@ -4,6 +4,7 @@
 
     # call can be a single call or space separated calls
 	$c = $_GET['call'];
+#    error_log("FKDEBUG0  HeatMap $c");
 
 	$start = $_GET['start'];
 	$stop  = $_GET['stop'];
@@ -34,6 +35,7 @@
     $calls = explode(" ", $c);
     $arr = get_multiple_calls($calls);
 
+#    error_log("FKDEBUG2  HeatMap fetched $c");
 	# 01.01.2009 = start of all data (first cell)
 	$t0 = 1230768000;
 
@@ -113,5 +115,7 @@
 	echo "{\n";
 	echo join($out, ",\n");
 	echo "}\n";
+
+#    error_log("FKDEBUG3  HeatMap $c");
 
 ?>

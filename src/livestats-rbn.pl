@@ -69,10 +69,10 @@ $r->subscribe('raw',
         # at the end.
         my @parts = split(/\s+/, $msg);
         if (length($parts[2]) > 9) {
-            print "OLD: >$msg<\n";
+            #print "OLD: >$msg<\n";
             my $cut = substr($parts[2], 0, 9);
             $msg =~ s/$parts[2]/$cut/;
-            print "NEW: >$msg<\n";
+            #print "NEW: >$msg<\n";
         }
 
 		my $call = substr($msg, 26, 13);
@@ -110,7 +110,7 @@ $r->subscribe('raw',
             my $bm = 0x0000 | $bm_bands{$band} | $bm_conts{$cont};
 
             # get current data from redis.
-            my $dat = $r_data->get("RBNlive".$call);
+            my $dat = $r_data->get("RBNlive3".$call);
             my $uncomp;
             if (!$dat) {
                 $uncomp = "\x00"x876000;        # 25 years * 365 days * 24h * 4 bytes => OK until 2009+25 = 2034

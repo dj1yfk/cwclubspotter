@@ -32,7 +32,7 @@ my $dat;
 my @a;
 my $s;
 
-my $tpl = "\x00"x298032;		# completely empty template
+my $tpl = "\x00"x876000;		# completely empty template
 
 my $today = `date -d yesterday +%Y-%m-%d`;
 chomp($today);
@@ -70,7 +70,7 @@ foreach my $k (sort keys %d) {
 		my $one_year_ago = 4*(($first_hour + 24) - 365*24);
 		my $year_hours = 0;
 		for (my $i = $one_year_ago; $i < 4*($first_hour+24); $i = $i + 4) {
-			if (substr($uncomp, $i, 4) ne "\x00\x00\x00\x00") {
+			if (length($uncomp) >= $i+4 and substr($uncomp, $i, 4) ne "\x00\x00\x00\x00") {
 				$year_hours++;
 			}
 		}

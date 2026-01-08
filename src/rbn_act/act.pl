@@ -122,6 +122,7 @@ while (my $line = <>) {
 }
 
 my $updated = 0;
+my $format_change = 0;
 my $new = 0;
 my $total = 0;
 my $outstr = '';
@@ -153,10 +154,20 @@ foreach my $k (sort keys %d) {
 			$updated++;
 
 			$uncomp = Compress::Zlib::memGunzip($dat); 
-			my $uncomp_len = length($uncomp);
 
 			# remove old data
 			$dbh->do("delete from rbn_activity where callsign='$k';");
+
+            # ensure also old data will get updated to the new size (25 years)
+            my $up = 0;
+            while (length($uncomp) < length($tpl)) {
+                $uncomp .= "\x00\x00\x00\x00";
+                $up = 1;
+            }
+            if ($up) {
+                print "Upgraded $k to new format...\n";
+                $format_change++;
+            }
 
 		}
 		else {
@@ -194,7 +205,7 @@ foreach my $k (sort keys %d) {
 		$s->execute();
 }	
 
-print "Done. Total: $total, New: $new, Updated: $updated\n";
+print "Done. Total: $total, New: $new, Updated: $updated, Format changed: $format_change\n";
 print "Time: ".(time - $start_time)."\n";
 
 

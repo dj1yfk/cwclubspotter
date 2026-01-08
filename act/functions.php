@@ -83,7 +83,7 @@
         }
         #error_log("FKDEBUG6 done $c");
 
-        $redis->set("RBNcache".$c, serialize($arr), 300);
+        $redis->set("RBNcache".$c, serialize($arr), 10);
 
         return $arr;
     }

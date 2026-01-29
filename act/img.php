@@ -28,12 +28,18 @@ if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {
             error_log("RBNimg.php: $call: locking due to: $f (lock count: $lock_count)");
             sleep(1);
             $lock_count++;
-            if ($lock_count > 5) {
-                error_log("$cs: lock_count exceeds 5. Sending error.png");
-                $data = file_get_contents("/home/fabian/rbn.telegraphy.de/error.png");
-                header("Content-type: image/png");
-                echo $data;
-                exit();
+            if ($lock_count > 10) {
+                if (file_exists('/tmp/rbn2_cache/'.$filename.'-small.png')) {
+                    error_log("$call: lock_count exceeds 10. Serving old picture!");
+                    goto out;
+                }
+                else { 
+                    error_log("$call: lock_count exceeds 10. No old file. Sending error.png");
+                    $data = file_get_contents("/home/fabian/rbn.telegraphy.de/error.png");
+                    header("Content-type: image/png");
+                    echo $data;
+                    exit();
+                }
             }
         }
         
@@ -49,6 +55,7 @@ if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {
         error_log("RBNimg.php: $call (cached)");
     }
 
+out:
     $data = file_get_contents("/tmp/rbn2_cache/$filename-small.png");
     header("Content-type: image/png");
     echo $data;

@@ -96,8 +96,10 @@ As of November 2018, Fabian took over the maintenance, further development and h
 ?>
     (web), <?php system("netstat -tn |  grep -e ':70[70]0' | grep ESTAB | wc -l"); ?> (telnet)
 </p>
+
+<p>If you want to make a small contribution to the running costs of this service, please visit <a href="https://fkurz.net/ham/budget">my budget and donation information</a>.
 <p>
-Comments are welcome via email - 73 de Fabian, DJ5CW (ex DJ1YFK) &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;</p>
+Comments are welcome via email - 73 de Fabian, DJ5CW/SO5CW (ex DJ1YFK) &lt;<a href="mailto:fabian@fkurz.net">fabian@fkurz.net</a>&gt;</p>
 <br/>
 <a href="/">Back to bandmap page</a>
 

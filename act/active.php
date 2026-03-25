@@ -68,7 +68,7 @@
 
 			v.style.display = 'block';
 			v.innerHTML = '<span style="font-weight:bold;font-size:14px">RBN activity statistics for <?=$c?></span>';
-			l.innerHTML = '<code style="font-family:monospace">https://rbn.telegraphy.de/activity/</code> - Search for any callsign and create your own embeddable RBN widget! A free service by DJ5CW.';
+			l.innerHTML = '<code style="font-family:monospace">https://rbn.telegraphy.de/activity/</code> - Search for any callsign and create your own embeddable RBN widget! A free service by DJ5CW/SO5CW.';
 	}
 
 </script>

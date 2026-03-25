@@ -80,7 +80,7 @@ Award filters are not yet available. Any changes you make to your filters here o
 <h2>Embedding into your own website</h2>
 <p>It is possible to include a bandmap (possibly adjusted to your own needs) on your own website, e.g. a club website (example: <a href="https://www.uft.net/les-stations-uft-sur-lair/">UFT</a>). If you need this, feel free to contact Fabian, DJ5CW and discuss the technical details.</p>
 
-<h2>About</h2><p>This page was created by <a href="http://fkurz.net/">Fabian, DJ5CW</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
+<h2>About</h2><p>This page was created by <a href="http://fkurz.net/">Fabian, DJ5CW/SO5CW</a> and <a href="http://www.qrz.com/db/pa4n">Frank, PA4N</a>.<br>
 As of November 2018, Fabian took over the maintenance, further development and hosting of the CW Club Spotter. Adam, SQ9S takes care of the activity calendar. You can find the source code here: <a href="https://git.fkurz.net/dj1yfk/cwclubspotter/">https://git.fkurz.net/dj1yfk/cwclubspotter/</a></p>
 
 <p> Current users:

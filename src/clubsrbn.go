@@ -300,7 +300,7 @@ func outputClient(conn net.Conn, control <-chan string, login string) {
 	for {
 		select {
 		case cs := <-control:
-			log.Debugf("Control signal: >%s<\n", cs)
+			log.Debugf("Control signal: >%s< (user: >%s<)\n", cs, login)
 			if cs == "end" {
 				rediscontrol <- "die"
 				return
@@ -370,6 +370,7 @@ func skimmerNotOnList(spot string, list map[string]bool) bool {
 	spot = strings.Replace(spot, "DX de ", "", -1)
 	s := strings.Fields(spot)
 	skimmer := s[0]
+	skimmer = strings.Replace(skimmer, "-", "", -1)
 
 	if list[skimmer] {
 		return false

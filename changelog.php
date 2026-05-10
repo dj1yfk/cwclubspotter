@@ -16,6 +16,7 @@ foreach ($clubs as $c) {
 
 <table>
 <tr><th>Date</th><th>Change</th></tr>
+<tr><td>10-May-2026</td><td>Add names of CWops member to hover/mouseover - tnx W6TN</td></tr>
 <tr><td>24-Dec-2025</td><td>Add QRQ Crew as a new club (tnx K4MW)</td></tr>
 <tr><td>9-Dec-2025</td><td>Added FOCN (FOC Nominees) as a new "club"</td></tr>
 <tr><td>6-Apr-2025</td><td>Added new club: CFT (French Télégraphic Club) - tnx ON4LDL</td></tr>

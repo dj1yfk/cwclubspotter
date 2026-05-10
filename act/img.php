@@ -14,8 +14,6 @@ if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {
 
     $filename = preg_replace('/\//', '_', $call);
 
-    # error_log($filename);
-
     if (time()-filemtime('/tmp/rbn2_cache/'.$filename.'-small.png') > 1 * 3600) {   // 1h
         error_log("RBNimg.php: generating picture for $filename");
         if (!file_exists("/tmp/rbn2_cache")) {
@@ -28,7 +26,7 @@ if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {
             error_log("RBNimg.php: $call: locking due to: $f (lock count: $lock_count)");
             sleep(1);
             $lock_count++;
-            if ($lock_count > 10) {
+            if ($lock_count > 2) {
                 if (file_exists('/tmp/rbn2_cache/'.$filename.'-small.png')) {
                     error_log("$call: lock_count exceeds 10. Serving old picture!");
                     goto out;
@@ -42,13 +40,26 @@ if (preg_match('/^[a-z0-9\/ ]+$/i', $call)) {
                 }
             }
         }
-        
+
+        $load = sys_getloadavg();
+        if ($load[0] > 1.9) {
+            if (file_exists('/tmp/rbn2_cache/'.$filename.'-small.png')) {
+                error_log("RBNimg.php: $call - ABORTED - system load too high $load[0] - serving old picture");
+                goto out;
+            }
+            error_log("RBNimg.php: $call - ABORTED - system load too high $load[0]");
+            $data = file_get_contents("/home/fabian/rbn.telegraphy.de/error.png");
+            header("Content-type: image/png");
+            echo $data;
+            exit();
+        }
+
         file_put_contents("/tmp/rbn2_cache/lock", $call);
         system("xvfb-run -a --server-args=\"-screen 0, 1280x768x24\" wkhtmltoimage -q --width 870 --javascript-delay 500 https://rbn.telegraphy.de/activity_iframe/$call /tmp/rbn2_cache/$filename.png 2> /dev/null");
-        unlink("/tmp/rbn2_cache/lock");
 
         system("convert /tmp/rbn2_cache/$filename.png /tmp/rbn2_cache/$filename-small.png");
         system("rm -f /tmp/rbn2_cache/$filename.png");
+        unlink("/tmp/rbn2_cache/lock");
         error_log("RBNimg.php: $call");
     } 
     else {

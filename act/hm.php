@@ -2,6 +2,13 @@
     include_once("functions.php");
 	error_reporting(0);
 
+	$load = sys_getloadavg();
+	if ($load[0] > 9) {
+		error_log("hm.php: $call - ABORTED - system load too high $load[0]");
+		exit();
+	}
+
+
     # call can be a single call or space separated calls
 	$c = $_GET['call'];
 #    error_log("FKDEBUG0  HeatMap $c");

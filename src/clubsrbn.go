@@ -624,7 +624,7 @@ func readFullLine(conn net.Conn, allowspace bool, reporterror bool) (string, err
 		rxlen += n
 
 		if rxlen >= 256 {
-			log.Warningf("readFullLine: Overflow. Flushing input.")
+			log.Debugf("readFullLine: Overflow. Flushing input.")
 			return "", nil
 		}
 

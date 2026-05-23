@@ -11,7 +11,7 @@ use Redis;
 use JSON::PP;
 use REST::Client;
 
-my $r = Redis->new();
+my $r = Redis->new(server => 'redis.fkurz.net:6379');
 
 my %p = $r->hgetall("rbnpolygons");
 my %s = $r->hgetall("rbnskimmers");

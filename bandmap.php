@@ -14,7 +14,7 @@ header("Access-Control-Allow-Origin: *");
 # This code is in the public domain.
 
 $redis = new Redis();
-$redis->connect('127.0.0.1', 6379);
+$redis->connect('redis.fkurz.net', 6379);
 
 include_once("clubs.php");
 

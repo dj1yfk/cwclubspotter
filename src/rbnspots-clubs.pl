@@ -35,7 +35,7 @@ my %conts;
 my $line;
 
 
-my $r = Redis->new();
+my $r = Redis->new(server => 'redis.fkurz.net:6379');
 
 ################
 # for dxcc stuff

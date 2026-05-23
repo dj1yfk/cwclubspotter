@@ -399,7 +399,7 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 
 	ufilter.reload = time.Now()
 
-	c, _ := redis.Dial("tcp", "localhost:6379")
+	c, _ := redis.Dial("tcp", "redis.fkurz.net:6379")
 	defer c.Close()
 	ret, _ := c.Do("HGET", "rbnprefs", login)
 	block, _ := c.Do("HGET", "rbnblock", login)
@@ -533,7 +533,7 @@ func subscribeSpots(filter string, spots chan string, control chan string) {
 		pattern = "raw"
 	}
 
-	c, _ := redis.Dial("tcp", "localhost:6379")
+	c, _ := redis.Dial("tcp", "redis.fkurz.net:6379")
 	defer c.Close()
 	psc := redis.PubSubConn{c}
 	psc.Subscribe(pattern)

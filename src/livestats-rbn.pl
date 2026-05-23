@@ -58,8 +58,8 @@ my %bm_conts = ( 'OC' => 0x0400, 'AF' => 0x0800, 'SA' => 0x1000,
 my %dupe = ();
 
 
-my $r = Redis->new;
-my $r_data = Redis->new;
+my $r = Redis->new(server => 'redis.fkurz.net:6379');
+my $r_data = Redis->new(server => 'redis.fkurz.net:6379');
 
 $r->subscribe('raw',
 	my $callback = sub {

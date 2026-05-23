@@ -42,7 +42,7 @@ function skimmers_in_polygon ($poly) {
 function save_polygons ($c, $p) {
 
     $redis = new Redis();
-    $redis->connect('127.0.0.1', 6379);
+    $redis->connect('redis.fkurz.net', 6379);
 
     $ownCall = $c;
     $ownCall = preg_replace("/[^A-Z0-9\/\-]/", "", $ownCall);

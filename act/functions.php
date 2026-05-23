@@ -30,7 +30,7 @@
 
         # Do we have this data cached?
         $redis = new Redis();
-        $redis->connect('127.0.0.1', 6379);
+        $redis->connect('redis.fkurz.net', 6379);
         $rd = $redis->get("RBNcache".$c);
         if ($rd) {
             return unserialize($rd);

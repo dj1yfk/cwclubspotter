@@ -33,7 +33,7 @@
         $redis->connect('redis.fkurz.net', 6379);
         $rd = $redis->get("RBNcache".$c);
         if ($rd) {
-            return unserialize($rd);
+            return unserialize(gzdecode($rd));
         }
 
         $q = mysqli_query($db, "select data, wl, dxcc from rbn_activity where callsign='$c' and wl=1;");
@@ -83,7 +83,7 @@
         }
         #error_log("FKDEBUG6 done $c");
 
-        $redis->set("RBNcache".$c, serialize($arr), 10);
+        $redis->set("RBNcache".$c, gzencode(serialize($arr)), 10);
 
         return $arr;
     }

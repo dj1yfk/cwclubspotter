@@ -16,7 +16,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"github.com/op/go-logging"
 	"io/ioutil"
 	"net"
@@ -399,7 +399,11 @@ func reloadUserFilter(login string, ufilter *UFilter) {
 
 	ufilter.reload = time.Now()
 
-	c, _ := redis.Dial("tcp", "redis.fkurz.net:6379")
+	c, err := redis.Dial("tcp", "redis.fkurz.net:6379")
+	if err != nil {
+		log.Debugf("Cannot connect to Redis server. Retrying in 5 seconds.\n")
+		return
+	}
 	defer c.Close()
 	ret, _ := c.Do("HGET", "rbnprefs", login)
 	block, _ := c.Do("HGET", "rbnblock", login)
@@ -508,7 +512,7 @@ func isDupe(spot string, dedupehash map[string]time.Time) bool {
 // in: DX de GM6DX-#:    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
 // out:
 // CC11^7021.4^DL2IAD^ 4-May-2020^1352Z^CW    12 dB  23 WPM  CQ^GM6DX^^^DJ5CW^^^^^^^^^^
-//       freq    dxc     date       utc   rem    spotter   dxcc etc. optional
+// ..... freq    dxc     date       utc   rem    spotter   dxcc etc. optional
 func formatVe7cc(spot string) string {
 	//    DX de GM6DX-#:    7021.4  DL2IAD         CW    12 dB  23 WPM  CQ      1352Z
 	spot = strings.Replace(spot, "-#:", " ", -1)
@@ -533,7 +537,13 @@ func subscribeSpots(filter string, spots chan string, control chan string) {
 		pattern = "raw"
 	}
 
-	c, _ := redis.Dial("tcp", "redis.fkurz.net:6379")
+CONN_SUB:
+	c, err := redis.Dial("tcp", "redis.fkurz.net:6379")
+	if err != nil {
+		log.Debugf("Cannot connect to Redis server. Retrying in 5 seconds.\n")
+		time.Sleep(5 * time.Second)
+		goto CONN_SUB
+	}
 	defer c.Close()
 	psc := redis.PubSubConn{c}
 	psc.Subscribe(pattern)
@@ -553,7 +563,10 @@ func subscribeSpots(filter string, spots chan string, control chan string) {
 			case spots <- string(v.Data):
 			default:
 			}
-
+		case error:
+			log.Debugf("Error, lost Redis server. Retrying in 5 seconds.\n")
+			time.Sleep(5 * time.Second)
+			goto CONN_SUB
 		}
 	}
 

@@ -295,7 +295,7 @@ a skimmer spotted the station in the respective hour, for a maximum daily score 
 <p id='singleday'>Click a single day on the heatmap to see its details.</p>
 <div id="embed">
 <p>You can embed the statistics on your own website or profile on <a href="https://www.hamqth.com/">HamQTH</a>/QRZ.com by copying the following HTML snippet: (example: <a href="https://www.hamqth.com/dj5cw">DJ5CW</a> on HamQTH.com - <a href="http://rbn.telegraphy.de/activity/faq#embed">Click here for details.</a>)</p>
-<pre style="background-color:#eeeeef">
+<pre class="code">
 &lt;a href="https://rbn.telegraphy.de/activity/<?=$c;?>"&gt;&lt;img src="https://rbn.telegraphy.de/activity/image/<?=$c;?>"&gt;&lt;/a&gt;
 </pre>
 </div>

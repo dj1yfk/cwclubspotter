@@ -1,5 +1,13 @@
 <?
 
+    $load = sys_getloadavg();
+    if ($load[0] > 3) {
+        header("HTTP/1.1 503 Server busy");
+        echo "Cannot serve the requested data, because the server too busy. In almost all cases, this happens thanks to malicious \"AI\" scrapers. Please wait for some time.<br>";
+        echo "This is a good time to reflect on how much worse the whole AI shit has made our lifes.<br>";
+        exit(0);
+    }
+
     # $_GET['call'] can be a single call or multiple calls separated by "+"
 
     # user has JS disabled and ends up on ...?cl=CALL url...
@@ -14,7 +22,7 @@
 		return;
 	}
 
-    $iframe = array_key_exists('iframe', $_GET) ? '1' : '0';
+    $iframe = array_key_exists('iframe', $_GET) ? $_GET['iframe'] : '0';
 
 	# lowercase call? 301 to uppercase so we have
 	# ONE URL for every call
@@ -53,9 +61,13 @@
 
 	// Hide everything we don't need/want when embedding,
 	// and show "banner" link
-	function go_iframe () {
+	function go_iframe (mode) {
 			var eh = Array('head', 'buttons', 'form', 'explain', 'hover');
 			var v,l;
+
+            if (mode == 2) { 
+                window.matchMedia('(prefers-color-scheme: dark)');
+            }
 
 			for (var i = 0; i < eh.length; i++) {
                 if (document.getElementById(eh[i]) != null) {
@@ -317,7 +329,7 @@ a skimmer spotted the station in the respective hour, for a maximum daily score 
 <script>
 	document.getElementById('jsneeded').style.display = 'none';
     if (in_iframe() || <?=$iframe;?>) {
-			go_iframe();
+        go_iframe(<?=$iframe;?>);
 	}
 </script>
 <!-- Page rendered in  <? echo 1000*(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]);  ?> ms -->

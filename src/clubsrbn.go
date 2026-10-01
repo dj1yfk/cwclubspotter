@@ -243,7 +243,7 @@ func promptLogin(conn net.Conn) (login string) {
 		return ""
 	}
 
-	conn.Write([]byte("Welcome to the CW Clubs RBN (Ver. " + build + ")\r\nPlease enter your callsign: "))
+	conn.Write([]byte("Welcome to the CW Clubs RBN (Ver. " + build + ")\r\nlogin: "))
 
 	// early login already sent?
 	if login_before_prompt == false {

@@ -3,7 +3,7 @@
 	error_reporting(0);
 
 	$load = sys_getloadavg();
-	if ($load[0] > 9) {
+	if ($load[0] > 4) {
 		error_log("hm.php: $call - ABORTED - system load too high $load[0]");
 		exit();
 	}

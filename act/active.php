@@ -1,13 +1,5 @@
 <?
 
-    $load = sys_getloadavg();
-    if ($load[0] > 3) {
-        header("HTTP/1.1 503 Server busy");
-        echo "Cannot serve the requested data, because the server too busy. In almost all cases, this happens thanks to malicious \"AI\" scrapers. Please wait for some time.<br>";
-        echo "This is a good time to reflect on how much worse the whole AI shit has made our lifes.<br>";
-        exit(0);
-    }
-
     # $_GET['call'] can be a single call or multiple calls separated by "+"
 
     # user has JS disabled and ends up on ...?cl=CALL url...
@@ -21,6 +13,16 @@
 		echo "$c is not a proper callsign.\n";
 		return;
 	}
+
+    $load = sys_getloadavg();
+    if ($load[0] > 3) {
+        header("HTTP/1.1 503 Server busy");
+        echo "Cannot serve the requested data, because the server too busy. In almost all cases, this happens thanks to malicious \"AI\" scrapers. Please wait for some time.<br>";
+        echo "This is a good time to reflect on how much worse the whole AI shit has made our lifes.<br>";
+        error_log("active.php: $c - ABORTED - system load too high $load[0]");
+        exit(0);
+    }
+
 
     $iframe = array_key_exists('iframe', $_GET) ? $_GET['iframe'] : '0';
 

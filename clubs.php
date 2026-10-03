@@ -159,6 +159,6 @@ $clubname["QRQCREW"] = "QRQ Crew Club";
 $clubweb["QRQCREW"] = "https://www.qrqcrew.club/";
 
 $clubabbr["DOGDAY"] = "DOGDAY";
-$clubname["DOGDAY"] = "";
+$clubname["DOGDAY"] = "Dog Day Telegraphy Club";
 $clubweb["DOGDAY"] = "https://dogdaytelegraphy.org/";
 ?>

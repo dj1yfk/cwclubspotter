@@ -66,6 +66,11 @@ function print_stats($call, $start_ts, $days) {
 
 	$act['AS'] = 0; $act['EU'] = 0; $act['AF'] = 0; $act['NA'] = 0; $act['SA'] = 0; $act['OC'] = 0;
 
+	// initialize hract array
+	for ($i = 0; $i < 24; $i++) {
+		$hract[$i]['160'] = 0;
+	}
+
 	for ($i = $start_cell; $i < $stop_cell ; $i++) {
 			 if ($arr[$i]) {
 				$val = $arr[$i];
@@ -213,7 +218,6 @@ function hour_bar ($h, $a, $max, $height) {
 		}
 
 		# scaled bandwise markers
-
 		$ret = '';
 		ksort($a);
 		foreach ($a as $b => $c) {		# band -> count

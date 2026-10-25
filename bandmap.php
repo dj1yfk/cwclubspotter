@@ -219,7 +219,7 @@ else {
 $json_a = array();
 
 # Delete spots older than 60 minutes, or spots that were made (over 30 minutes) in the future
-mysqli_query($con, "set timezone = '+00:00'");
+#mysqli_query($con, "set timezone = '+00:00'");
 if (rand(0,10) < 1) {
     mysqli_query($con, "delete from spots where time < (UTC_TIMESTAMP() - INTERVAL 60 MINUTE) or time > (UTC_TIMESTAMP() + INTERVAL 30 MINUTE);");
 }

@@ -120,7 +120,7 @@
 	}
 
 	echo "{\n";
-	echo join($out, ",\n");
+	echo join(",\n", $out);
 	echo "}\n";
 
 #    error_log("FKDEBUG3  HeatMap $c");
